@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #0a1208; overflow: hidden; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #63d3ca; text-decoration: none; }
+    a:hover { color: #9df0e7; }
+    ::selection { background: rgba(95,208,200,0.30); color: #eafcfb; }
+    .pc-stage::-webkit-scrollbar { width: 0; height: 0; }
+    .pc-stage { scrollbar-width: none; -ms-overflow-style: none; }
+    @keyframes pc-rise { from { opacity: 0; transform: translateY(46px); } to { opacity: 1; transform: none; } }
+    @keyframes pc-fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pc-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
+    @keyframes pc-drift { 0% { transform: translate(0,0) rotate(0deg); } 100% { transform: translate(34px,-46px) rotate(14deg); } }
+    @keyframes pc-scrollcue { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(18px); opacity: 0; } }
+    @keyframes pc-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes pc-marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+    @keyframes pc-crawl { from { transform: translateX(-50%) rotateX(30deg) translateY(66%); } to { transform: translateX(-50%) rotateX(30deg) translateY(-148%); } }
+    @keyframes pc-crawl-title { 0%,100% { text-shadow: 0 0 30px rgba(244,209,61,.28); } 50% { text-shadow: 0 0 46px rgba(244,209,61,.5); } }
+    @font-face { font-family: 'Grenze Gotisch'; font-style: normal; font-weight: 400 900; font-display: swap; src: url('assets/fonts/grenze-gotisch.woff2') format('woff2'); }
+    @keyframes gw-badge-in { from { opacity: 0; transform: translateY(26px) scale(.96); } to { opacity: 1; transform: none; } }
+    @keyframes gw-coin-glint { 0%, 84% { transform: translateX(-160%) rotate(20deg); opacity: 0; } 89% { opacity: .55; } 100% { transform: translateX(320%) rotate(20deg); opacity: 0; } }
+    @keyframes gw-coin-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes gw-ablaze { 0% { color: #ff9a3c; text-shadow: 0 0 5px rgba(255,150,60,.7), 0 0 12px rgba(255,90,20,.4); } 100% { color: #ffd27a; text-shadow: 0 0 9px rgba(255,185,90,.95), 0 0 22px rgba(255,110,30,.6); } }
+    @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+  </style>
+</helmet>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+    <defs>
+      <linearGradient id="pcThumbG" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0e6f7a"></stop>
+        <stop offset="1" stop-color="#06232f"></stop>
+      </linearGradient>
+    </defs>
+    <rect width="512" height="512" fill="url(#pcThumbG)"></rect>
+    <path d="M256 150 C300 210, 340 252, 340 300 a84 84 0 1 1 -168 0 C172 252, 212 210, 256 150 Z" fill="#5fd0c8"></path>
+    <circle cx="226" cy="302" r="20" fill="#eafcfb" opacity="0.55"></circle>
+  </svg>
+</template>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="waterRipple" x="-12%" y="-12%" width="124%" height="124%">
+    <feTurbulence id="wr-turb" type="fractalNoise" baseFrequency="0.010 0.018" numOctaves="2" seed="7" result="n"></feTurbulence>
+    <feDisplacementMap id="wr-disp" in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="swampify" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.011 0.019" numOctaves="3" seed="11" result="warp"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="warp" scale="22" xChannelSelector="R" yChannelSelector="G" result="disp"></feDisplacementMap>
+    <feColorMatrix in="disp" type="matrix" values="0.38 0.34 0.06 0 0.015  0.27 0.56 0.10 0 0.045  0.06 0.22 0.16 0 0.005  0 0 0 1 0" result="tint"></feColorMatrix>
+    <feComponentTransfer in="tint" result="dim">
+      <feFuncR type="linear" slope="0.82" intercept="0.03"></feFuncR>
+      <feFuncG type="linear" slope="0.86" intercept="0.04"></feFuncG>
+      <feFuncB type="linear" slope="0.72" intercept="0.02"></feFuncB>
+    </feComponentTransfer>
+    <feTurbulence type="fractalNoise" baseFrequency="0.0045 0.008" numOctaves="4" seed="4" result="matN"></feTurbulence>
+    <feColorMatrix in="matN" type="matrix" values="0 0 0 0 0.216  0 0 0 0 0.278  0 0 0 0 0.078  1.5 0 0 0 -0.62" result="matCol"></feColorMatrix>
+    <feGaussianBlur in="matCol" stdDeviation="2.5" result="matBlur"></feGaussianBlur>
+    <feTurbulence type="fractalNoise" baseFrequency="0.05 0.065" numOctaves="2" seed="23" result="scumN"></feTurbulence>
+    <feColorMatrix in="scumN" type="matrix" values="0 0 0 0 0.60  0 0 0 0 0.63  0 0 0 0 0.27  0 1.3 0 0 -0.78" result="scumCol"></feColorMatrix>
+    <feGaussianBlur in="scumCol" stdDeviation="0.5" result="scumBlur"></feGaussianBlur>
+    <feMerge>
+      <feMergeNode in="dim"></feMergeNode>
+      <feMergeNode in="matBlur"></feMergeNode>
+      <feMergeNode in="scumBlur"></feMergeNode>
+    </feMerge>
+  </filter>
+</svg>
+
+<!-- ============ WATER BACKBONE — morphs swamp → crystal with scroll ============ -->
+<div style="position:fixed; inset:0; z-index:0; background:#0a1208; pointer-events:none;">
+  <x-import component-from-global-scope="water-scene" from="./WaterScene.js" hint-size="100%,100%"></x-import>
+  <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,20,27,0.52) 0%, rgba(4,20,27,0.08) 22%, rgba(4,20,27,0.05) 60%, rgba(4,20,27,0.44) 100%), radial-gradient(120% 90% at 50% 0%, rgba(6,35,47,0) 46%, rgba(4,18,25,0.5) 100%);"></div>
+  <div ref="{{ dirtyOverlayRef }}" style="position:absolute; inset:0; opacity:1; background:linear-gradient(180deg, rgba(10,16,4,0.55) 0%, rgba(10,16,4,0.12) 26%, rgba(8,14,4,0.10) 60%, rgba(8,14,4,0.50) 100%);"></div>
+  <div ref="{{ waterlineRef }}" style="position:absolute; top:0; left:0; right:0; height:90px; opacity:1; background:radial-gradient(220px 34px at 12% 0%, rgba(122,138,58,.34), transparent 75%), radial-gradient(300px 44px at 45% 0%, rgba(96,112,44,.30), transparent 75%), radial-gradient(200px 30px at 74% 0%, rgba(134,150,66,.30), transparent 75%), radial-gradient(260px 40px at 94% 0%, rgba(88,104,40,.28), transparent 75%), linear-gradient(180deg, rgba(52,64,22,.35), transparent);"></div>
+</div>
+
+<!-- ============ SCROLL STAGE ============ -->
+<div class="pc-stage" ref="{{ stageRef }}" style="position:fixed; inset:0; z-index:1; overflow-y:scroll; overflow-x:hidden;">
+  <div ref="{{ trackRef }}" style="position:relative; width:100%;">
+
+    <!-- ---------- HERO · the problem, in full swamp ---------- -->
+    <section id="care-hero" data-chapter="" data-screen-label="Hero" style="position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:clamp(90px,14vh,150px) clamp(22px,5vw,72px) clamp(60px,9vh,110px);">
+      
+      <div style="max-width:1180px; width:100%; margin:0 auto;">
+        <div style="display:inline-flex; align-items:center; gap:12px; padding:9px 16px; border:1px solid rgba(190,210,140,.30); border-radius:999px; background:rgba(14,22,6,.4); backdrop-filter:blur(6px); margin-bottom:clamp(22px,3.5vh,40px); animation:pc-rise 1s cubic-bezier(.2,.7,.2,1) both;">
+          <span style="width:7px; height:7px; border-radius:50%; background:#aebd6d; box-shadow:0 0 12px #aebd6d;"></span>
+          <span style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#dde8bc; font-weight:600;">Meridian · Pool Care &amp; Rescue</span>
+        </div>
+
+        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(52px,10.5vw,150px); line-height:.92; letter-spacing:-.03em; color:#f2fdfb; margin:0; text-shadow:0 8px 60px rgba(6,12,2,.6); animation:pc-rise 1.15s cubic-bezier(.2,.7,.2,1) .08s both;">
+          Green means stop.<br><span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.08em; letter-spacing:0; color:#a9efe6;">Clear means go.</span>
+        </h1>
+
+        <p style="max-width:600px; margin:clamp(24px,3.5vh,38px) 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.62; color:rgba(236,246,228,.82); animation:pc-rise 1.2s cubic-bezier(.2,.7,.2,1) .18s both;">Algae, cloud, and chemistry gone sideways, every pool drifts toward swamp          without steady hands. Scroll, and watch our team take over.</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:clamp(30px,4.5vh,46px); animation:pc-rise 1.25s cubic-bezier(.2,.7,.2,1) .28s both;">
+          <button data-target="care-contact" onClick="{{ navClick }}" style="cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:16px; letter-spacing:.01em; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:17px 30px; border-radius:999px; box-shadow:0 14px 40px rgba(30,180,170,.36); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:0 22px 54px rgba(30,180,170,.5);">Rescue my pool</button>
+          <button data-target="care-proof" onClick="{{ navClick }}" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:16px; color:#eafcfb; background:rgba(14,24,8,.42); border:1px solid rgba(200,220,150,.32); padding:17px 28px; border-radius:999px; backdrop-filter:blur(8px); transition:background .3s ease, transform .3s ease;" style-hover="background:rgba(20,34,12,.6); transform:translateY(-3px);">See the transformation</button>
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:clamp(20px,3vw,40px); margin-top:clamp(34px,5vh,58px); animation:pc-rise 1.3s cubic-bezier(.2,.7,.2,1) .4s both;">
+          <div style="display:flex; align-items:center; gap:11px;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:26px; color:#f2fdfb;">1,900+</span>
+            <span style="font-size:13px; line-height:1.3; color:rgba(232,242,224,.66);">pools<br>rescued</span>
+          </div>
+          <div style="width:1px; height:30px; background:rgba(200,220,150,.24);"></div>
+          <div style="display:flex; align-items:center; gap:11px;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:26px; color:#f2fdfb;">4 days</span>
+            <span style="font-size:13px; line-height:1.3; color:rgba(232,242,224,.66);">avg green<br>to clean</span>
+          </div>
+          <div style="width:1px; height:30px; background:rgba(200,220,150,.24);"></div>
+          <div style="display:flex; align-items:center; gap:11px;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:26px; color:#f2fdfb;">98%</span>
+            <span style="font-size:13px; line-height:1.3; color:rgba(232,242,224,.66);">stay year<br>over year</span>
+          </div>
+        </div>
+      </div>
+
+      <div ref="{{ cueRef }}" style="position:absolute; left:50%; bottom:26px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px;">
+        <span style="font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:rgba(226,240,214,.66);">Scroll to clean the pool</span>
+        <div style="position:relative; width:22px; height:36px; border:1.5px solid rgba(226,240,214,.5); border-radius:14px;">
+          <span style="position:absolute; left:50%; top:7px; transform:translateX(-50%); width:3px; height:7px; border-radius:2px; background:#cfe0a8; animation:pc-scrollcue 1.8s ease-in-out infinite;"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- TRUST BAR · moving credentials ---------- -->
+    <div aria-label="Credentials" style="position:relative; z-index:1; padding:clamp(16px,2.6vh,26px) 0; border-top:1px solid rgba(150,230,225,.12); border-bottom:1px solid rgba(150,230,225,.12); overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent); mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);">
+      <div style="display:flex; width:max-content; animation:pc-marquee 46s linear infinite; will-change:transform;">
+        <div style="display:flex; align-items:center; gap:clamp(24px,3.2vw,50px); padding-right:clamp(24px,3.2vw,50px);">
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">Licensed &amp; Insured</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">CPO-Certified Techs</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">Chemicals Included</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">Background-Checked Crew</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">4.9★ Google</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">No Contracts</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">Local &amp; Family-Run</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+        </div>
+        <div style="display:flex; align-items:center; gap:clamp(24px,3.2vw,50px); padding-right:clamp(24px,3.2vw,50px);" aria-hidden="true">
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">Licensed &amp; Insured</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">CPO-Certified Techs</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">Chemicals Included</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">Background-Checked Crew</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">4.9★ Google</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">No Contracts</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">Local &amp; Family-Run</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- PROBLEMS · open statements over the murk ---------- -->
+    <section id="care-problems" data-chapter="" data-screen-label="Problems" style="position:relative; padding:clamp(40px,8vh,110px) clamp(22px,5vw,72px);">
+      
+      <div style="max-width:1180px; margin:0 auto; position:relative;">
+        <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#c6d68e; font-weight:600; margin:0;">01 — Sound familiar?</p>
+
+        <div data-plx="0.05" style="min-height:38vh; display:flex; align-items:center;">
+          <div data-reveal="" style="max-width:820px;">
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(34px,5.4vw,74px); line-height:1.02; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 16px; text-wrap:balance;">Algae <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">never takes a week off.</span></h3>
+            <p style="font-size:clamp(15px,1.3vw,18px); line-height:1.62; color:rgba(236,246,228,.74); margin:0; max-width:430px;">One warm weekend is all a bloom needs. We test and treat before it starts — not after the water turns.</p>
+          </div>
+        </div>
+
+        <div data-plx="-0.05" style="min-height:38vh; display:flex; align-items:center; justify-content:flex-end;">
+          <div data-reveal="" style="max-width:820px; text-align:right;">
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(34px,5.4vw,74px); line-height:1.02; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 16px; text-wrap:balance;">Cloudy isn't a mystery. <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">It's chemistry.</span></h3>
+            <p style="font-size:clamp(15px,1.3vw,18px); line-height:1.62; color:rgba(236,246,228,.74); margin:0 0 0 auto; max-width:430px;">pH, alkalinity, chlorine, stabilizer — balanced every visit and logged to your phone, so you never guess.</p>
+          </div>
+        </div>
+
+        <div data-plx="0.07" style="min-height:38vh; display:flex; align-items:center;">
+          <div data-reveal="" style="max-width:820px;">
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(34px,5.4vw,74px); line-height:1.02; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 16px; text-wrap:balance;">Equipment quits <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">on the hottest day.</span></h3>
+            <p style="font-size:clamp(15px,1.3vw,18px); line-height:1.62; color:rgba(236,246,228,.74); margin:0; max-width:430px;">We hear the pump wobble before it fails — and fix it while it's still a small, cheap problem.</p>
+          </div>
+        </div>
+
+        <div data-plx="-0.06" style="min-height:38vh; display:flex; align-items:center; justify-content:flex-end;">
+          <div data-reveal="" style="max-width:820px; text-align:right;">
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(34px,5.4vw,74px); line-height:1.02; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 16px; text-wrap:balance;">DIY eats <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">your Saturdays.</span></h3>
+            <p style="font-size:clamp(15px,1.3vw,18px); line-height:1.62; color:rgba(236,246,228,.74); margin:0 0 0 auto; max-width:430px;">Two hours a week, fifty-two weeks a year — or none at all. Your call.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- THE CRAWL · what grows while you wait (Star Wars style) ---------- -->
+    <section id="care-crawl" data-chapter="" data-screen-label="The water" style="position:relative; min-height:200vh; overflow:hidden;">
+
+      <!-- faint glow at the vanishing point -->
+      <div aria-hidden="true" style="position:absolute; top:5%; left:50%; transform:translateX(-50%); width:min(660px,82vw); height:240px; background:radial-gradient(62% 100% at 50% 0%, rgba(244,209,61,.12), transparent 72%); pointer-events:none;"></div>
+      <!-- faint reading scrim — legibility band only, transparent edges -->
+      <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; pointer-events:none; background:radial-gradient(118% 40% at 50% 50%, rgba(4,12,7,.34), rgba(4,12,7,.13) 56%, transparent 78%);"></div>
+
+      <!-- section kicker -->
+      <p data-reveal="" style="position:absolute; top:clamp(16px,2.6vh,32px); left:0; right:0; z-index:3; text-align:center; margin:0; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#c6d68e; font-weight:600;">Meanwhile, in the water you didn't touch</p>
+
+      <!-- crawl stage -->
+      <div style="position:absolute; inset:0; z-index:2; perspective:520px; perspective-origin:50% 44%; overflow:hidden; -webkit-mask-image:linear-gradient(to top, transparent 2%, #000 16%, #000 64%, transparent 96%); mask-image:linear-gradient(to top, transparent 2%, #000 16%, #000 64%, transparent 96%);">
+        <div ref="{{ crawlRef }}" style="position:absolute; left:50%; bottom:0; width:97vw; transform-origin:50% 100%; transform:translateX(-50%) rotateX(30deg) translateY(66%); will-change:transform;">
+
+          <div style="text-align:center; margin-bottom:60px;">
+            <div style="font-family:'Manrope',sans-serif; font-weight:700; font-size:clamp(18px,2.4vw,32px); letter-spacing:.12em; text-transform:uppercase; color:#f4d13d; margin-bottom:26px; opacity:.92;">The DIY Chronicles</div>
+            <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(64px,11vw,150px); line-height:.94; letter-spacing:-.01em; color:#f4d13d; margin:0; filter:url(#waterRipple); animation:pc-crawl-title 4.5s ease-in-out infinite;">What grows<br>while you wait</h2>
+          </div>
+
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(30px,4.8vw,66px); line-height:1.4; letter-spacing:.004em; text-align:justify; color:#d8b552; text-shadow:0 0 20px rgba(200,150,26,.32);">
+            <p style="margin:0 0 1.05em;">Turn your back for one warm weekend, and the water begins to change. In the still, unattended deep end, an entire ecosystem stakes its claim.</p>
+            <p style="margin:0 0 1.05em;">First bloom the <strong style="font-weight:800; color:#ffe45e;">ALGAE</strong> — green algae, mustard algae, black algae, blue-green cyanobacteria, and the creeping pink slime that stains the tile line.</p>
+            <p style="margin:0 0 1.05em;">Then spread the <strong style="font-weight:800; color:#ffe45e;">MOLDS</strong> in the dark — white water mold, unfurling like wet tissue through the skimmer and the returns.</p>
+            <p style="margin:0 0 1.05em;">In their wake creep the <strong style="font-weight:800; color:#ffe45e;">BACTERIA</strong> — Pseudomonas aeruginosa, Legionella pneumophila, Escherichia coli, Shigella, and Campylobacter.</p>
+            <p style="margin:0 0 1.05em;">Deeper still wait the <strong style="font-weight:800; color:#ffe45e;">PARASITES</strong> — Cryptosporidium, Giardia, Acanthamoeba, and Naegleria fowleri, the brain-eating amoeba.</p>
+            <p style="margin:0 0 1.05em;">And drifting on every warm current, the <strong style="font-weight:800; color:#ffe45e;">VIRUSES</strong> — norovirus, adenovirus, hepatitis A, echovirus, and coxsackievirus.</p>
+            <p style="margin:1.5em 0 0; text-align:center; font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.18em; letter-spacing:0; color:#ffe45e;">This is the water you inherit the moment you look away.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- THE TURN · live clarity counter ---------- -->
+    <section id="care-turn" data-chapter="" data-screen-label="The turn" style="position:relative; min-height:112vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:clamp(60px,10vh,120px) clamp(22px,5vw,72px);">
+      <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 clamp(18px,3vh,30px);">02 — The turn</p>
+      <div ref="{{ turnPctRef }}" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(96px,19vw,270px); line-height:.9; letter-spacing:-.045em; color:#f2fdfb; text-shadow:0 10px 80px rgba(3,20,28,.6);">8%</div>
+      <div style="font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:rgba(214,240,236,.6); margin:clamp(14px,2.5vh,24px) 0 clamp(30px,5vh,52px);">water clarity — keep scrolling</div>
+      <h2 data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.6vw,58px); line-height:1.04; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 16px; text-wrap:balance;">This is <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">where we come in.</span></h2>
+      <p data-reveal="" data-delay="80" style="font-size:clamp(16px,1.4vw,19px); line-height:1.62; color:rgba(224,247,242,.78); margin:0; max-width:520px;">One crew. One visit a week. The whole ritual, every time — and the water never gets a vote.</p>
+    </section>
+
+    <!-- ---------- SERVICES · the ritual, open rows ---------- -->
+    <section id="care-services" data-chapter="" data-screen-label="Services" style="position:relative; padding:clamp(80px,12vh,160px) clamp(22px,5vw,72px);">
+            <div style="max-width:1180px; margin:0 auto; position:relative;">
+        <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">03 — Every visit</p>
+        <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,6vw,80px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 clamp(40px,6vh,70px);">The full ritual, <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">weekly.</span></h2>
+
+        <div data-reveal="" style="border-top:1px solid rgba(150,230,225,.18);">
+          <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, padding-left .35s ease;" style-hover="background:rgba(127,227,218,.05); padding-left:26px;">
+            <span style="flex:none; width:54px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#7fe3da;">01</span>
+            <span style="flex:1 1 300px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(24px,3vw,40px); letter-spacing:-.02em; color:#f2fdfb;">Skim · Brush · Vacuum</span>
+            <span style="flex:1 1 320px; max-width:460px; font-size:15.5px; line-height:1.6; color:rgba(224,247,242,.7);">Waterline to floor, tile line included. Photo-ready when we latch the gate behind us.</span>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, padding-left .35s ease;" style-hover="background:rgba(127,227,218,.05); padding-left:26px;">
+            <span style="flex:none; width:54px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#7fe3da;">02</span>
+            <span style="flex:1 1 300px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(24px,3vw,40px); letter-spacing:-.02em; color:#f2fdfb;">Balance the chemistry</span>
+            <span style="flex:1 1 320px; max-width:460px; font-size:15.5px; line-height:1.6; color:rgba(224,247,242,.7);">Lab-grade testing, dosed on the spot, chemicals included — full report to your phone before we leave.</span>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, padding-left .35s ease;" style-hover="background:rgba(127,227,218,.05); padding-left:26px;">
+            <span style="flex:none; width:54px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#7fe3da;"></span>
+            <span style="flex:1 1 300px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(24px,3vw,40px); letter-spacing:-.02em; color:#f2fdfb;">Watch the equipment</span>
+            <span style="flex:1 1 320px; max-width:460px; font-size:15.5px; line-height:1.6; color:rgba(224,247,242,.7);">Pump, filter, heater, salt cell — caught early, fixed fast. No July surprises.</span>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, padding-left .35s ease;" style-hover="background:rgba(127,227,218,.05); padding-left:26px;">
+            <span style="flex:none; width:54px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#7fe3da;">04</span>
+            <span style="flex:1 1 300px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(24px,3vw,40px); letter-spacing:-.02em; color:#f2fdfb;">Rescue the lost causes</span>
+            <span style="flex:1 1 320px; max-width:460px; font-size:15.5px; line-height:1.6; color:rgba(224,247,242,.7);">Most full-swamp pools back to swim-ready in 3–5 days — we save your water whenever we can, and most rescues need no drain. Then we keep it that way.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- PROOF · horizontal accordion of past rescues + review carousel ---------- -->
+    <section id="care-proof" data-chapter="" data-screen-label="Proof" style="position:relative; padding:clamp(80px,12vh,160px) clamp(22px,5vw,72px);">
+      <div style="max-width:1180px; margin:0 auto; position:relative;">
+        <div style="text-align:center; margin-bottom:clamp(36px,5vh,56px);">
+          <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">04 — Proof</p>
+          <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,6vw,80px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0;">Recent rescues.</h2>
+          <p data-reveal="" data-delay="110" style="font-size:15px; color:rgba(214,240,236,.6); margin:14px 0 0;">Hover or tap a job to open it — real backyards, real turnarounds.</p>
+        </div>
+
+        <div data-reveal="" style="display:flex; flex-direction:{{ jobsDir }}; gap:12px; width:100%; height:{{ jobsHeight }};">
+          <sc-for list="{{ jobs }}" as="job" hint-placeholder-count="5">
+            <div data-i="{{ job.i }}" onClick="{{ setActiveJob }}" onMouseEnter="{{ setActiveJob }}" style="position:relative; border-radius:16px; overflow:hidden; cursor:pointer; background:#0c1f12; flex:{{ job.flex }}; height:{{ job.height }}; min-width:0; transition:flex .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1);">
+              <div style="position:absolute; inset:0; background-image:{{ job.bgImage }}; background-size:cover; background-position:center; transform:{{ job.imgScale }}; filter:{{ job.imgFilter }}; transition:transform .8s cubic-bezier(.2,.7,.2,1), filter .6s ease;"></div>
+              <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.5) 0%, rgba(4,12,4,0) 34%, rgba(4,12,4,.16) 58%, rgba(4,12,4,.92) 100%); pointer-events:none;"></div>
+              <div style="position:absolute; top:16px; left:17px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; letter-spacing:.14em; color:#c6f2ec; opacity:.9; text-shadow:0 1px 8px rgba(3,10,3,.7);">{{ job.n }}</div>
+              <div style="position:absolute; left:0; right:0; bottom:0; padding:22px 12px; display:flex; justify-content:center; opacity:{{ job.collapsedOpacity }}; transition:opacity .35s ease; pointer-events:none;">
+                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; line-height:1.16; letter-spacing:.005em; color:#f2fdfb; text-align:center; text-wrap:balance; text-shadow:0 2px 14px rgba(3,10,3,.85);">{{ job.short }}</span>
+              </div>
+              <div style="position:absolute; left:0; right:0; bottom:0; padding:clamp(20px,2.4vw,30px); max-width:480px; opacity:{{ job.activeOpacity }}; transform:{{ job.activeShift }}; transition:opacity .55s ease .05s, transform .55s cubic-bezier(.2,.7,.2,1) .05s; pointer-events:{{ job.activePE }};">
+                <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,26px); letter-spacing:-.015em; color:#f2fdfb; margin-bottom:6px; text-shadow:0 2px 14px rgba(3,10,3,.75);">{{ job.title }}</div>
+                <div style="font-size:12.5px; letter-spacing:.06em; color:#aebd6d; font-weight:600; margin-bottom:10px;">{{ job.stat }}</div>
+                <p style="font-size:14px; line-height:1.55; color:rgba(234,250,246,.9); margin:0; text-shadow:0 1px 10px rgba(3,10,3,.6);">{{ job.blurb }}</p>
+              </div>
+              <div style="position:absolute; inset:0; border-radius:16px; border:1.5px solid rgba(127,227,218,{{ job.borderA }}); box-shadow:{{ job.glow }}; pointer-events:none; transition:border-color .55s ease, box-shadow .55s ease;"></div>
+            </div>
+          </sc-for>
+        </div>
+        <p data-reveal="" style="text-align:center; font-size:12.5px; color:rgba(214,240,236,.42); margin:18px 0 0;">Photography via Pexels &amp; Unsplash — drop your own before &amp; after photos into each panel.</p>
+
+        <div data-reveal="" style="position:relative; max-width:720px; margin:clamp(56px,9vh,90px) auto 0;">
+          <div style="overflow:hidden;">
+            <div ref="{{ carouselTrackRef }}" style="display:flex; transform:{{ carouselTransform }}; transition:transform .65s cubic-bezier(.4,0,.2,1);">
+              <sc-for list="{{ reviews }}" as="rev" hint-placeholder-count="4">
+                <blockquote style="flex:0 0 100%; min-width:0; margin:0; text-align:center; padding:0 8px;">
+                  <p style="font-family:'Bricolage Grotesque',sans-serif; font-weight:500; font-size:clamp(20px,2.4vw,30px); line-height:1.35; letter-spacing:-.015em; color:#eefbf8; margin:0 0 16px;">“{{ rev.quote }}”</p>
+                  <footer style="font-size:14px; color:rgba(214,240,236,.6);">— {{ rev.who }}</footer>
+                </blockquote>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:16px; margin-top:24px;">
+            <button onClick="{{ prevReview }}" aria-label="Previous review" style="cursor:pointer; width:38px; height:38px; border-radius:50%; background:rgba(8,20,6,.5); border:1px solid rgba(190,210,140,.3); color:#eafcfb; display:flex; align-items:center; justify-content:center; font-size:16px; backdrop-filter:blur(6px); transition:border-color .3s ease;" style-hover="border-color:rgba(127,227,218,.55);">‹</button>
+            <div style="display:flex; gap:8px;">
+              <sc-for list="{{ reviews }}" as="rev" hint-placeholder-count="4">
+                <button data-i="{{ rev.i }}" onClick="{{ goToReview }}" aria-label="Go to review" style="cursor:pointer; width:{{ rev.dotSize }}; height:8px; padding:0; border:none; border-radius:999px; background:{{ rev.dotColor }}; transition:width .35s ease, background .35s ease;"></button>
+              </sc-for>
+            </div>
+            <button onClick="{{ nextReview }}" aria-label="Next review" style="cursor:pointer; width:38px; height:38px; border-radius:50%; background:rgba(8,20,6,.5); border:1px solid rgba(190,210,140,.3); color:#eafcfb; display:flex; align-items:center; justify-content:center; font-size:16px; backdrop-filter:blur(6px); transition:border-color .3s ease;" style-hover="border-color:rgba(127,227,218,.55);">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- PROMISE + WHO ---------- -->
+    <section id="care-promise" data-chapter="" data-screen-label="Promise" style="position:relative; padding:clamp(70px,11vh,150px) clamp(22px,5vw,72px);">
+      <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr)); gap:clamp(32px,5vw,80px);">
+        <div data-reveal="">
+          <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">The Meridian promise</p>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4vw,54px); line-height:1.0; letter-spacing:-.02em; color:#f2fdfb; margin:0 0 20px; text-wrap:balance;">If it isn't right, <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">we make it right.</span></h3>
+          <p style="font-size:clamp(15px,1.4vw,18px); line-height:1.62; color:rgba(224,247,242,.76); margin:0; max-width:470px;">Tell us within 48 hours of a visit and we re-clean it free — no argument. Your water is balanced and logged before we latch the gate; that part we guarantee. Timelines on a rescue depend on the pool, so we quote it honestly after we see the water.</p>
+        </div>
+        <div data-reveal="" data-delay="90">
+          <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">Who's behind the truck</p>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4vw,54px); line-height:1.0; letter-spacing:-.02em; color:#f2fdfb; margin:0 0 20px; text-wrap:balance;">A local crew, <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">not a call center.</span></h3>
+          <p style="font-size:clamp(15px,1.4vw,18px); line-height:1.62; color:rgba(224,247,242,.76); margin:0; max-width:470px;">Meridian is family-run and Austin-based. Every tech is CPO-certified, background-checked, and works under our Texas license — bonded and insured. You get the same faces at your gate each week, not a rotating cast.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- PLANS ---------- -->
+    <section id="care-plans" data-chapter="" data-screen-label="Plans" style="position:relative; padding:clamp(80px,12vh,160px) clamp(22px,5vw,72px);">
+            <div style="max-width:1180px; margin:0 auto; position:relative;">
+        <div style="text-align:center; margin-bottom:clamp(40px,6vh,66px);">
+          <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">05 — Plans</p>
+          <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,6vw,80px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0;">Pick your <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">peace of mind.</span></h2>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:18px; align-items:stretch;">
+          <div data-reveal="" style="display:flex; flex-direction:column; padding:34px 30px; border-radius:24px; background:rgba(8,34,44,.5); backdrop-filter:blur(10px); border:1px solid rgba(150,230,225,.18);">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; color:#f2fdfb;">Essential</div>
+            <div style="display:flex; align-items:baseline; gap:6px; margin:14px 0 20px;"><span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:44px; color:#f2fdfb; letter-spacing:-.02em;">$149</span><span style="font-size:15px; color:rgba(214,240,236,.6);">/mo</span></div>
+            <div style="display:flex; flex-direction:column; font-size:14.5px; line-height:1.5; color:rgba(224,247,242,.78);">
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Weekly visit — 52 a year</span>
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Skim, brush &amp; vacuum</span>
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Chemicals included &amp; logged</span>
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Photo report to your phone</span>
+            </div>
+            <button data-target="care-contact" onClick="{{ navClick }}" style="margin-top:auto; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:#eafcfb; background:rgba(12,52,66,.5); border:1px solid rgba(150,230,225,.32); padding:14px; border-radius:999px; transition:background .3s ease;" style-hover="background:rgba(16,66,82,.7);">Start with Essential</button>
+          </div>
+
+          <div data-reveal="" data-delay="70" style="position:relative; display:flex; flex-direction:column; padding:34px 30px; border-radius:24px; background:rgba(12,48,60,.62); backdrop-filter:blur(12px); border:1.5px solid rgba(127,227,218,.55); box-shadow:0 24px 70px rgba(20,120,112,.22);">
+            <span style="position:absolute; top:-13px; left:30px; padding:6px 13px; border-radius:999px; background:linear-gradient(135deg,#8ef0e6,#37c7bf); color:#052026; font-size:12px; font-weight:700; letter-spacing:.06em;">MOST POPULAR</span>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; color:#f2fdfb;">Complete</div>
+            <div style="display:flex; align-items:baseline; gap:6px; margin:14px 0 20px;"><span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:44px; color:#f2fdfb; letter-spacing:-.02em;">$239</span><span style="font-size:15px; color:rgba(214,240,236,.6);">/mo</span></div>
+            <div style="display:flex; flex-direction:column; font-size:14.5px; line-height:1.5; color:rgba(224,247,242,.78);">
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Everything in Essential</span>
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Equipment care &amp; priority repairs</span>
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Quarterly filter deep-cleans</span>
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Same-week storm cleanups</span>
+            </div>
+            <button data-target="care-contact" onClick="{{ navClick }}" style="margin-top:auto; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:15px; border-radius:999px; box-shadow:0 12px 34px rgba(30,180,170,.34); transition:transform .25s ease;" style-hover="transform:translateY(-2px);">Go Complete</button>
+          </div>
+
+          <div data-reveal="" data-delay="140" style="display:flex; flex-direction:column; padding:34px 30px; border-radius:24px; background:rgba(8,34,44,.5); backdrop-filter:blur(10px); border:1px solid rgba(150,230,225,.18);">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; color:#f2fdfb;">The Rescue</div>
+            <div style="display:flex; align-items:baseline; gap:6px; margin:14px 0 20px;"><span style="font-size:15px; color:rgba(214,240,236,.6);">from</span><span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:44px; color:#f2fdfb; letter-spacing:-.02em;">$399</span><span style="font-size:15px; color:rgba(214,240,236,.6);">one-time</span></div>
+            <div style="display:flex; flex-direction:column; font-size:14.5px; line-height:1.5; color:rgba(224,247,242,.78);">
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Most green-to-clean in 3–5 days</span>
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Water saved whenever possible</span>
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Lab-tested water after</span>
+              <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Roll into any plan — or don't</span>
+            </div>
+            <button data-target="care-contact" onClick="{{ navClick }}" style="margin-top:auto; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:#eafcfb; background:rgba(12,52,66,.5); border:1px solid rgba(150,230,225,.32); padding:14px; border-radius:999px; transition:background .3s ease;" style-hover="background:rgba(16,66,82,.7);">Book a rescue</button>
+          </div>
+        </div>
+        <p data-reveal="" style="text-align:center; font-size:13.5px; color:rgba(214,240,236,.5); margin:26px 0 0;">No contracts. Chemicals included. Skip or cancel anytime.</p>
+      </div>
+    </section>
+
+    <!-- ---------- FAQ ---------- -->
+    <section id="care-faq" data-chapter="" data-screen-label="FAQ" style="position:relative; padding:clamp(70px,11vh,150px) clamp(22px,5vw,72px);">
+      <div style="max-width:900px; margin:0 auto;">
+        <div style="text-align:center; margin-bottom:clamp(30px,5vh,52px);">
+          <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">06 — Questions</p>
+          <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,72px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0;">Before you <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">book.</span></h2>
+        </div>
+        <div data-reveal="" style="border-top:1px solid rgba(150,230,225,.16);">
+          <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+            <div style="border-bottom:1px solid rgba(150,230,225,.14);">
+              <button onClick="{{ toggleFaq }}" data-i="{{ f.i }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
+                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.1vw,25px); letter-spacing:-.01em; color:#f2fdfb;">{{ f.q }}</span>
+                <span style="flex:none; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:300; color:#7fe3da; transform:{{ f.iconRot }}; transition:transform .4s cubic-bezier(.2,.7,.2,1);">+</span>
+              </button>
+              <div style="overflow:hidden; max-height:{{ f.maxH }}; opacity:{{ f.op }}; transition:max-height .5s cubic-bezier(.2,.7,.2,1), opacity .4s ease;">
+                <p style="margin:0 6px clamp(20px,2.6vh,26px); font-size:clamp(15px,1.4vw,17px); line-height:1.62; color:rgba(224,247,242,.74); max-width:660px;">{{ f.a }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- SERVICE AREA · moving ---------- -->
+    <div aria-label="Service area" style="position:relative; z-index:1; padding:clamp(26px,4.5vh,54px) 0;">
+      <p style="text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 clamp(16px,2.6vh,28px);">Where we run — Austin &amp; the Hill Country</p>
+      <div style="overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent); mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);">
+        <div style="display:flex; width:max-content; animation:pc-marquee-rev 60s linear infinite; will-change:transform;">
+          <div style="display:flex; align-items:center; gap:clamp(20px,2.8vw,44px); padding-right:clamp(20px,2.8vw,44px);">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Cedar Park</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Lakeway</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Dripping Springs</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Bee Cave</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Spicewood</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Westlake</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Steiner Ranch</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Lago Vista</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Round Rock</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+          </div>
+          <div style="display:flex; align-items:center; gap:clamp(20px,2.8vw,44px); padding-right:clamp(20px,2.8vw,44px);" aria-hidden="true">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Cedar Park</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Lakeway</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Dripping Springs</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Bee Cave</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Spicewood</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Westlake</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Steiner Ranch</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Lago Vista</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Round Rock</span>
+            <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- CONTACT + FOOTER ---------- -->
+    <section id="care-contact" data-chapter="" data-screen-label="Contact" style="position:relative; padding:clamp(80px,12vh,160px) clamp(22px,5vw,72px) 40px;">
+      <div style="max-width:720px; margin:0 auto; text-align:center;">
+        <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">Book a visit</p>
+        <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,6vw,80px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 16px;">Get your <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">Saturday back.</span></h2>
+        <p data-reveal="" data-delay="120" style="font-size:17px; line-height:1.6; color:rgba(214,240,236,.76); margin:0 0 clamp(34px,5vh,50px);">Tell us how the water looks today. A real water tech — not a call center — replies within one business day.</p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr)); gap:clamp(22px,3vw,40px); align-items:stretch; text-align:left;">
+          <figure data-reveal="" data-delay="80" style="margin:0; display:flex; flex-direction:column; justify-content:center; padding:clamp(26px,3vw,38px); border-radius:24px; background:rgba(8,34,44,.32); border:1px solid rgba(150,230,225,.14);">
+            <div aria-hidden="true" style="font-family:'Instrument Serif',serif; font-style:italic; font-size:60px; line-height:.55; color:rgba(127,227,218,.5); margin-bottom:14px;">“</div>
+            <blockquote style="margin:0; font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:clamp(22px,2.4vw,31px); line-height:1.3; color:#eefbf8;">They pulled our pool back from full swamp in four days — and it’s stayed glass ever since.</blockquote>
+            <figcaption style="margin-top:20px; font-family:'Manrope',sans-serif; font-size:13.5px; letter-spacing:.02em; color:rgba(214,240,236,.62);">The Hendersons · Rescue Nº 1,847</figcaption>
+          </figure>
+          <div data-reveal="" data-delay="120" style="padding:clamp(26px,3vw,38px); border-radius:24px; background:rgba(8,34,44,.55); backdrop-filter:blur(12px); border:1px solid rgba(150,230,225,.2); text-align:left;">
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center; padding:26px 6px;">
+              <div style="width:64px; height:64px; margin:0 auto 22px; border-radius:50%; background:rgba(127,227,218,.16); border:1px solid rgba(127,227,218,.5); display:flex; align-items:center; justify-content:center; font-size:28px; color:#7fe3da;">✓</div>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:28px; color:#f2fdfb; margin:0 0 12px;">Rescue inbound.</h3>
+              <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto; max-width:340px;">A water tech will call within one business day. Leave the gate unlocked — we'll handle the rest.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#7fe3da; font-weight:600; margin-bottom:14px;">How's the water today?</div>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
+                <button type="button" data-v="crystal" onClick="{{ setCond }}" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;" style-hover="border-color:rgba(127,227,218,.5);">Crystal — maintain it<sc-if value="{{ sel.condCrystal }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none;"></span></sc-if></button>
+                <button type="button" data-v="cloudy" onClick="{{ setCond }}" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;" style-hover="border-color:rgba(127,227,218,.5);">A little cloudy<sc-if value="{{ sel.condCloudy }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none;"></span></sc-if></button>
+                <button type="button" data-v="green" onClick="{{ setCond }}" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;" style-hover="border-color:rgba(127,227,218,.5);">Getting green<sc-if value="{{ sel.condGreen }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none;"></span></sc-if></button>
+                <button type="button" data-v="swamp" onClick="{{ setCond }}" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;" style-hover="border-color:rgba(127,227,218,.5);">Full swamp<sc-if value="{{ sel.condSwamp }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none;"></span></sc-if></button>
+              </div>
+              <form onSubmit="{{ submit }}" style="display:flex; flex-direction:column; gap:12px;">
+                <input required="" name="name" placeholder="First name" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;" style-focus="border-color:#7fe3da;">
+                <input required="" name="contact" placeholder="Phone or email" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;" style-focus="border-color:#7fe3da;">
+                <button type="submit" style="margin-top:4px; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:16px; border-radius:12px; box-shadow:0 12px 34px rgba(30,180,170,.34); transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-2px); box-shadow:0 18px 44px rgba(30,180,170,.5);">Book my first visit →</button>
+              </form>
+              <p style="font-size:12.5px; line-height:1.5; color:rgba(214,240,236,.5); margin:14px 0 0; text-align:center;">First clean free with any plan. No spam, ever.</p>
+            </div>
+          </sc-if>
+        </div>
+        </div>
+      </div>
+
+      <div style="max-width:1180px; margin:clamp(70px,10vh,120px) auto 0; padding-top:26px; border-top:1px solid rgba(150,230,225,.12); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px; font-size:13px; color:rgba(214,240,236,.44);">
+        <span>© 2026 Meridian Pool Care · Lic. #TX-PC-2201 · Bonded &amp; insured</span>
+        <span style="display:flex; flex-wrap:wrap; gap:8px 20px;"><a href="tel:+15125550143">(512) 555-0143</a><a href="mailto:care@meridianpools.com">care@meridianpools.com</a><span>Austin &amp; Hill Country</span></span>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav ref="{{ navRef }}" style="position:fixed; top:0; left:0; right:0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
+  <button data-target="care-hero" onClick="{{ navClick }}" style="cursor:pointer; background:none; border:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.01em; color:#f2fdfb; display:flex; align-items:baseline; gap:9px;">
+    <span style="width:9px; height:9px; border-radius:50%; background:#5fd0c8; box-shadow:0 0 12px #5fd0c8; align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:#7fe3da;">Pool Care</span>
+  </button>
+  <sc-if value="{{ showLinks }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
+      <button data-target="care-hero" onClick="{{ navClick }}" style="cursor:pointer; background:none; border:none; padding:0; font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:#7fe3da;">Home</button>
+      <a href="Services.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;" style-hover="color:#7fe3da;">Services</a>
+      <a href="Pricing.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;" style-hover="color:#7fe3da;">Pricing</a>
+      <a href="Our Work.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;" style-hover="color:#7fe3da;">Our Work</a>
+      <a href="About.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;" style-hover="color:#7fe3da;">About</a>
+      <a href="Pool School.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;" style-hover="color:#7fe3da;">Pool School</a>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ toggleMenu }}" aria-label="Menu" style="cursor:pointer; flex:none; width:38px; height:38px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); display:flex; align-items:center; justify-content:center; gap:4px; flex-direction:column;">
+      <span style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transform:{{ menuLine1 }}; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+      <span style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; opacity:{{ menuLineMidOp }}; transition:opacity .2s ease;"></span>
+      <span style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transform:{{ menuLine3 }}; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+    </button>
+  </sc-if>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMenu }}" style="position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
+    <div style="position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; display:flex; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
+      <button onClick="{{ goHomeAndClose }}" style="cursor:pointer; text-align:left; background:rgba(127,227,218,.08); border:none; display:block; width:100%; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:#7fe3da;">Home</button>
+      <a href="Services.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Services</a>
+      <a href="Pricing.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Pricing</a>
+      <a href="Our Work.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Our Work</a>
+      <a href="About.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">About</a>
+      <a href="Pool School.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Pool School</a>
+      <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
+      <button onClick="{{ goContactAndClose }}" style="cursor:pointer; border:none; display:block; width:100%; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf);">Rescue my pool</button>
+    </div>
+  </sc-if>
+  <button data-target="care-contact" onClick="{{ navClick }}" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:11px 20px; border-radius:999px; border:none; box-shadow:0 8px 24px rgba(30,180,170,.3);">Rescue my pool</button>
+</nav>
+
+
+  <!-- ============ CLAIM-THIS-SITE BADGE (Gaelworx) ============ -->
+  <sc-if value="{{ showBadge }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed; right:clamp(16px,3vw,28px); bottom:clamp(16px,3vw,28px); z-index:30; max-width:calc(100vw - 32px); animation:gw-badge-in .9s cubic-bezier(.2,.7,.2,1) 1.1s both;">
+      <a href="Get This Site.dc.html" style="position:relative; display:flex; align-items:center; padding:9px 16px 9px 9px; border-radius:999px; background:rgba(6,20,27,.72); backdrop-filter:blur(14px) saturate(120%); -webkit-backdrop-filter:blur(14px) saturate(120%); border:1px solid rgba(150,230,225,.22); box-shadow:0 16px 44px rgba(2,10,14,.55), inset 0 1px 0 rgba(255,255,255,.05); text-decoration:none; transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease; will-change:transform;" style-hover="transform:translateY(-3px); box-shadow:0 26px 62px rgba(2,10,14,.66); border-color:rgba(127,227,218,.5);">
+        <!-- content layer rides the water via the shared #waterRipple displacement filter -->
+        <span style="display:flex; align-items:center; gap:13px; filter:url(#waterRipple);">
+          <span style="position:relative; flex:none; width:46px; height:46px; border-radius:50%; overflow:hidden; border:1.5px solid rgba(214,150,86,.6); box-shadow:0 0 16px rgba(191,123,62,.42), inset 0 0 10px rgba(0,0,0,.45);">
+            <img src="assets/favicon.png" alt="Gaelworx" style="display:block; width:100%; height:100%; object-fit:cover; transform-origin:50% 50%; animation:gw-coin-spin 14s linear infinite;">
+            <span aria-hidden="true" style="position:absolute; top:-70%; left:0; width:36%; height:240%; background:linear-gradient(90deg, transparent, rgba(255,240,214,.55), transparent); animation:gw-coin-glint 7s ease-in-out infinite; pointer-events:none;"></span>
+          </span>
+          <span style="display:flex; flex-direction:column; line-height:1.16; padding-right:2px;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15.5px; letter-spacing:-.006em; color:#f2fdfb;">Claim this site</span>
+            <span style="display:flex; align-items:baseline; gap:5px; font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; color:rgba(214,240,236,.55);">by <span style="font-family:'Grenze Gotisch',serif; font-weight:700; text-transform:uppercase; letter-spacing:.04em; font-size:13px; color:#d99a5b;">G<span style="color:#ffb14d; text-shadow:0 0 7px rgba(255,150,60,.85), 0 0 16px rgba(255,90,20,.55); animation:gw-ablaze 1.6s ease-in-out infinite alternate;">ae</span>lworx</span></span>
+          </span>
+          <span style="flex:none; width:32px; height:32px; margin-left:2px; border-radius:50%; background:linear-gradient(135deg,#8ef0e6,#37c7bf); color:#052026; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; box-shadow:0 4px 14px rgba(30,180,170,.45);">→</span>
+        </span>
+      </a>
+    </div>
+  </sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;contamination&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Green algae&quot;,&quot;Mustard algae&quot;,&quot;Black algae&quot;,&quot;Cloudy&quot;,&quot;Tannin&quot;,&quot;Pollen&quot;,&quot;Pink slime&quot;,&quot;Oil sheen&quot;],&quot;default&quot;:&quot;Green algae&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Water&quot;},&quot;palette&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Lagoon&quot;,&quot;Sapphire&quot;,&quot;Aqua&quot;],&quot;default&quot;:&quot;Lagoon&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Water&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Bold&quot;,&quot;Balanced&quot;,&quot;Calm&quot;],&quot;default&quot;:&quot;Bold&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;showClaimBadge&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Claim badge&quot;}}">
+class Component extends DCLogic {
+  state = { submitted: false, condition: 'green', isNarrow: false, activeJob: 0, reviewIdx: 0, faqOpen: null, menuOpen: false };
+
+  PALETTES = {
+    Lagoon:   { deep: '#06232f', shallow: '#0e6f7a', foam: '#cdeee9', sun: '#5fd0c8' },
+    Sapphire: { deep: '#071d33', shallow: '#12518f', foam: '#cfe6f7', sun: '#5aa9e6' },
+    Aqua:     { deep: '#063138', shallow: '#1298a0', foam: '#ddf7f2', sun: '#74e4d8' },
+  };
+
+  // contamination presets: murk palette + layer weights [blobs, specks, film, turbidity] + iridescence
+  CONTAM = {
+    'Green algae':   { deep: '#141d0c', shallow: '#4a6120', foam: '#a8b86a', w: [1, 1, 1, 0.15], iri: 0 },
+    'Mustard algae': { deep: '#1e180a', shallow: '#70581f', foam: '#cdb35e', w: [0.55, 0.5, 0.6, 0.55], iri: 0 },
+    'Black algae':   { deep: '#0a1012', shallow: '#1d2c28', foam: '#4e625a', w: [1.3, 0.15, 0.3, 0.1], iri: 0 },
+    'Cloudy':        { deep: '#33454a', shallow: '#7c9598', foam: '#d7e4e2', w: [0.12, 0, 0.2, 1.15], iri: 0 },
+    'Tannin':        { deep: '#1c1208', shallow: '#59391a', foam: '#a97e48', w: [0.5, 0.7, 0.7, 0.7], iri: 0.12 },
+    'Pollen':        { deep: '#232710', shallow: '#6a6e28', foam: '#ddd063', w: [0.35, 1.6, 1.2, 0.4], iri: 0 },
+    'Pink slime':    { deep: '#241016', shallow: '#7c3a4c', foam: '#d99aa8', w: [0.85, 0.3, 1.1, 0.35], iri: 0.1 },
+    'Oil sheen':     { deep: '#10161c', shallow: '#2c3a40', foam: '#9fb4b8', w: [0.4, 0.2, 1.8, 0.3], iri: 1 },
+  };
+
+  // past rescues — horizontal accordion source data
+  JOBS = [
+    { n: '01', short: 'Cedar Park',       title: 'Cedar Park Green-to-Glass',      stat: 'Rescue Nº 1,847 · 4 days', blurb: 'Full swamp to swim-ready — no draining, no refill bill.',                    img: 'https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg?auto=compress&cs=tinysrgb&w=1400' },
+    { n: '02', short: 'Lakeway',          title: 'Lakeway Overnight Turnaround',    stat: 'Rescue Nº 1,802 · 3 days', blurb: 'Storm-dumped leaves and a dead pump, fixed before the weekend cookout.',      img: 'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1400' },
+    { n: '03', short: 'Dripping Springs', title: 'Dripping Springs Storm Recovery', stat: 'Rescue Nº 1,775 · 5 days', blurb: 'Flash-flood runoff turned this pool to mud. Five days later: glass.',          img: 'https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&w=1400&q=75' },
+    { n: '04', short: 'Bee Cave',         title: 'Bee Cave Mustard Bloom',          stat: 'Rescue Nº 1,690 · 4 days', blurb: 'Chlorine-resistant mustard algae, triple-shocked and gone for good.',         img: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1400&q=75' },
+    { n: '05', short: 'Spicewood',        title: 'Spicewood Vacant-Home Rescue',    stat: 'Rescue Nº 1,558 · 6 days', blurb: 'Eight months untouched — reclaimed without a single truck of fresh water.',  img: 'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1400' },
+  ];
+  REVIEWS = [
+    { quote: "They pulled our pool back from full swamp in four days — and it's stayed glass ever since.",                   who: 'The Hendersons · Rescue Nº 1,847' },
+    { quote: 'Weekly visits, one point of contact, and chemistry logged every time. We stopped thinking about the pool at all.', who: 'Dana & Marc R. · Complete Care since 2023' },
+    { quote: 'Mustard algae had beaten three other companies. Meridian triple-shocked it and it never came back.',            who: 'The Alvarados · Rescue Nº 1,690' },
+    { quote: "I got my Saturdays back. That's the whole review.",                                                             who: 'Priya K. · Essential since 2024' },
+  ];
+
+  FAQS = [
+    { q: 'How much does service cost?', a: 'Weekly plans start at $149/mo with all balancing chemicals and lab-grade testing included. One-time rescues start at $399, quoted after we see the water — no surprise add-ons.' },
+    { q: 'How often do you visit?', a: 'Weekly — 52 visits a year. Every visit is the full ritual: skim, brush, vacuum, balance, and an equipment check, logged to your phone.' },
+    { q: 'Do you service saltwater pools?', a: 'Yes — saltwater, chlorine, and mineral systems. We inspect and clean the salt cell as part of regular service.' },
+    { q: 'Are chemicals included?', a: 'Yes, on every plan. Balancing chemicals and testing are part of the price, so you never get a separate chemical bill.' },
+    { q: 'Am I locked into a contract?', a: 'No contracts. Skip or cancel anytime — we would rather earn the next visit than trap you in one.' },
+    { q: "What if I'm not happy with a visit?", a: 'Tell us within 48 hours and we re-clean it free. Balanced water on every plan is guaranteed before we leave.' },
+  ];
+
+  // clarity vs scroll progress: hold swampy through the problems, snap clean at the turn
+  CLARITY_K = [[0, 0.04], [0.12, 0.08], [0.36, 0.2], [0.40, 0.3], [0.52, 0.78], [0.66, 0.88], [0.82, 0.96], [1, 1]];
+
+  componentDidMount() {
+    this.P = window.__POOL = window.__POOL || {};
+    this.P.scroll = 0; this.P.scrollVel = 0; this.P.now = 0;
+    this.P.mouse = { x: 0.5, y: 0.5 };
+    this.P.ripples = this.P.ripples || [];
+    this.P.clarity = 0.04;
+    this._cl = 0.04; this._lastPct = -1; this._energy = 0; this._sc = 0;
+    this.reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.isTouch = matchMedia('(pointer: coarse)').matches;
+    this._mq = matchMedia('(max-width: 760px)');
+    if (this._mq.matches) this.setState({ isNarrow: true });
+    this._onMq = (e) => this.setState({ isNarrow: e.matches, menuOpen: false });
+    this._mq.addEventListener('change', this._onMq);
+    this.applyTweaks();
+    this._revTimer = setInterval(() => this._advanceReview(), 6000);
+    this._boot = requestAnimationFrame(() => this.initEngine());
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps && (prevProps.palette !== this.props.palette || prevProps.motion !== this.props.motion || prevProps.contamination !== this.props.contamination)) this.applyTweaks();
+    if (this.stage) {
+      this._debris = [...this.stage.querySelectorAll('[data-debris]')];
+      this._bubbles = [...this.stage.querySelectorAll('[data-bubble]')];
+    }
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this._boot); cancelAnimationFrame(this._raf);
+    clearInterval(this._revTimer);
+    if (this._off) this._off();
+    if (this._mq && this._onMq) this._mq.removeEventListener('change', this._onMq);
+  }
+
+  applyTweaks() {
+    const pal = this.PALETTES[this.props.palette] || this.PALETTES.Lagoon;
+    if (this.P) this.P.colors = pal;
+    if (this.P) this.P.murk = this.CONTAM[this.props.contamination] || this.CONTAM['Green algae'];
+    const m = this.props.motion || 'Bold';
+    this.cfg = m === 'Calm'
+      ? { ease: 0.055, wheel: 0.85, ripThrottle: 130, disp: 0, ambient: 5200 }
+      : m === 'Balanced'
+        ? { ease: 0.075, wheel: 0.95, ripThrottle: 70, disp: 0.35, ambient: 3400 }
+        : { ease: 0.09, wheel: 1.0, ripThrottle: 45, disp: 0.6, ambient: 2300 };
+    if (this.reduce) { this.cfg.disp = 0; this.cfg.ease = 1; }
+  }
+
+  initEngine() {
+    const stage = this.stage, track = this.track;
+    if (!stage || !track) { this._boot = requestAnimationFrame(() => this.initEngine()); return; }
+    this.current = stage.scrollTop || 0; this.target = this.current; this.last = this.current;
+    this.hijack = false;
+    const max = () => Math.max(1, track.scrollHeight - stage.clientHeight);
+    this.maxScroll = max;
+
+    const onWheel = (e) => {
+      if (this.isTouch) return;
+      e.preventDefault();
+      this.hijack = true;
+      this.target = Math.max(0, Math.min(max(), this.target + e.deltaY * this.cfg.wheel));
+    };
+    stage.addEventListener('wheel', onWheel, { passive: false });
+    const onTouch = () => { this.hijack = false; };
+    stage.addEventListener('touchstart', onTouch, { passive: true });
+
+    const onKey = (e) => {
+      const vh = stage.clientHeight;
+      let d = 0;
+      if (e.key === 'ArrowDown') d = 90; else if (e.key === 'ArrowUp') d = -90;
+      else if (e.key === 'PageDown' || e.key === ' ') d = vh * 0.9;
+      else if (e.key === 'PageUp') d = -vh * 0.9;
+      else if (e.key === 'Home') { this.hijack = true; this.target = 0; return; }
+      else if (e.key === 'End') { this.hijack = true; this.target = max(); return; }
+      if (d) { this.hijack = true; this.target = Math.max(0, Math.min(max(), this.target + d)); if (e.key === ' ') e.preventDefault(); }
+    };
+    window.addEventListener('keydown', onKey);
+
+    let lastRip = 0;
+    const onMove = (e) => {
+      const x = e.clientX / window.innerWidth, y = 1 - e.clientY / window.innerHeight;
+      this.P.mouse = { x, y };
+      const now = performance.now();
+      if (now - lastRip < this.cfg.ripThrottle) return;
+      lastRip = now;
+      this.addRipple(x, y, 0.5);
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    const onDown = (e) => { this.addRipple(e.clientX / window.innerWidth, 1 - e.clientY / window.innerHeight, 1.7); };
+    window.addEventListener('pointerdown', onDown, { passive: true });
+
+    this._amb = setInterval(() => {
+      this.addRipple(0.15 + Math.random() * 0.7, 0.15 + Math.random() * 0.7, 0.45 + Math.random() * 0.35);
+    }, this.cfg.ambient);
+
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach((en) => {
+        if (en.isIntersecting) { const el = en.target; el.style.opacity = '1'; el.style.transform = 'none'; io.unobserve(el); }
+      });
+    }, { root: stage, threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    [...stage.querySelectorAll('[data-reveal]')].forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity .95s cubic-bezier(.2,.7,.2,1), transform .95s cubic-bezier(.2,.7,.2,1)';
+      el.style.transitionDelay = (el.dataset.delay || 0) + 'ms';
+      el.style.willChange = 'opacity, transform';
+      io.observe(el);
+    });
+
+    this.turb = document.getElementById('wr-turb');
+    this.disp = document.getElementById('wr-disp');
+
+    // parallax + particle caches
+    this._debris = [...stage.querySelectorAll('[data-debris]')];
+    this._bubbles = [...stage.querySelectorAll('[data-bubble]')];
+    this.crawlSection = stage.querySelector('#care-crawl');
+    this._plx = [...stage.querySelectorAll('[data-plx]')].map((el) => ({ el, sp: parseFloat(el.dataset.plx) || 0, top: 0, h: 1 }));
+    const recalc = () => {
+      this._plx.forEach((p) => {
+        p.el.style.transform = 'none';
+        const r = p.el.getBoundingClientRect();
+        p.top = r.top + stage.scrollTop; p.h = r.height || 1;
+      });
+    };
+    recalc(); this.buildClarity();
+    setTimeout(() => { recalc(); this.buildClarity(); }, 900);
+    setTimeout(() => { recalc(); this.buildClarity(); }, 2500);
+    const onResize = () => { this.target = Math.max(0, Math.min(max(), this.target)); recalc(); this.buildClarity(); };
+    window.addEventListener('resize', onResize);
+
+    this._off = () => {
+      stage.removeEventListener('wheel', onWheel);
+      stage.removeEventListener('touchstart', onTouch);
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerdown', onDown);
+      window.removeEventListener('resize', onResize);
+      clearInterval(this._amb);
+      io.disconnect();
+    };
+
+    const loop = () => { this.tick(); this._raf = requestAnimationFrame(loop); };
+    loop();
+  }
+
+  buildClarity() {
+    const stage = this.stage, track = this.track;
+    if (!stage || !track) return;
+    const max = Math.max(1, track.scrollHeight - stage.clientHeight);
+    const frac = (id) => { const el = stage.querySelector('#' + id); return el ? Math.min(1, Math.max(0, el.offsetTop / max)) : null; };
+    const fP = frac('care-problems'), fT = frac('care-turn'), fS = frac('care-services'), fPr = frac('care-proof');
+    if (fT == null || fS == null || fS <= fT) return;
+    const K = [
+      [0, 0.04],
+      [Math.max(0.03, fP == null ? 0.08 : fP), 0.08],
+      [Math.max(0.05, fT * 0.985), 0.15],
+      [fT + (fS - fT) * 0.5, 0.8],
+      [fS, 0.9],
+      [Math.min(0.985, fPr == null ? fS + 0.08 : fPr), 0.96],
+      [1, 1],
+    ];
+    for (let i = 1; i < K.length; i++) if (K[i][0] <= K[i - 1][0]) K[i][0] = Math.min(1, K[i - 1][0] + 0.01);
+    this.CLARITY_K = K;
+  }
+
+  clarityAt(s) {
+    const K = this.CLARITY_K;
+    if (s <= K[0][0]) return K[0][1];
+    for (let i = 1; i < K.length; i++) {
+      if (s <= K[i][0]) {
+        const [x0, y0] = K[i - 1], [x1, y1] = K[i];
+        const t = (s - x0) / (x1 - x0);
+        return y0 + (y1 - y0) * t;
+      }
+    }
+    return K[K.length - 1][1];
+  }
+
+  hexLerp(a, b, t) {
+    const pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16);
+    const r = Math.round(((pa >> 16) & 255) + (((pb >> 16) & 255) - ((pa >> 16) & 255)) * t);
+    const g = Math.round(((pa >> 8) & 255) + (((pb >> 8) & 255) - ((pa >> 8) & 255)) * t);
+    const bl = Math.round((pa & 255) + ((pb & 255) - (pa & 255)) * t);
+    return 'rgb(' + r + ',' + g + ',' + bl + ')';
+  }
+
+  tick() {
+    const stage = this.stage; if (!stage) return;
+    if (this.hijack) {
+      // scroll fluidity follows the water: heavier in the swamp, looser once clear
+      this.current += (this.target - this.current) * this.cfg.ease * (0.55 + 0.45 * (this._cl || 0));
+      if (Math.abs(this.target - this.current) < 0.5) this.current = this.target;
+      stage.scrollTop = this.current;
+    } else {
+      this.current = stage.scrollTop; this.target = this.current;
+    }
+    const max = this.maxScroll();
+    const vel = this.current - this.last; this.last = this.current;
+    const P = this.P;
+    P.scroll = Math.max(0, Math.min(1, this.current / max));
+    P.scrollVel = vel / Math.max(stage.clientHeight, 1);
+    if (P.ripples && P.ripples.length) P.ripples = P.ripples.filter((r) => (P.now - r.t) < 6);
+
+    // ---- clarity morph ----
+    const raw = this.clarityAt(P.scroll);
+    P.clarity = raw;
+    this._cl += (raw - this._cl) * 0.09;
+    const cl = this._cl;
+    const pct = Math.round(cl * 100);
+    if (pct !== this._lastPct) {
+      this._lastPct = pct;
+      const col = this.hexLerp('#aebd6d', '#5fd0c8', cl);
+      if (this.hudPct) { this.hudPct.textContent = pct + '%'; this.hudPct.style.color = col; }
+      if (this.hudFill) { this.hudFill.style.height = pct + '%'; this.hudFill.style.background = col; }
+      if (this.hudWord) this.hudWord.textContent = pct < 22 ? 'Swamp' : pct < 48 ? 'Murky' : pct < 78 ? 'Clearing' : 'Crystal';
+      if (this.turnPct) this.turnPct.textContent = pct + '%';
+    }
+    if (this.dirtyOverlay) this.dirtyOverlay.style.opacity = (1 - cl).toFixed(3);
+    if (this.waterline) this.waterline.style.opacity = (1 - cl).toFixed(3);
+    if (this.cue) this.cue.style.opacity = Math.max(0, 1 - this.current / 320).toFixed(3);
+
+    const dOp = 1 - cl, bOp = Math.max(0, (cl - 0.5) / 0.5);
+    if (this._debris) this._debris.forEach((el) => { el.style.opacity = dOp.toFixed(3); });
+    if (this._bubbles) this._bubbles.forEach((el) => { el.style.opacity = bOp.toFixed(3); });
+
+    // ---- parallax ----
+    if (this._plx && !this.reduce) {
+      const center = this.current + stage.clientHeight * 0.5;
+      this._plx.forEach((p) => {
+        const dy = (center - (p.top + p.h / 2)) * p.sp;
+        p.el.style.transform = 'translate3d(0,' + dy.toFixed(1) + 'px,0)';
+      });
+    }
+
+    // scroll-locked Star Wars crawl — pinned with holds at both ends, mapped to the section passing through
+    if (this.crawl && this.crawlSection) {
+      const r = this.crawlSection.getBoundingClientRect();
+      const vh = stage.clientHeight || 1;
+      let q = (vh - r.top) / (vh + r.height);
+      q = q < 0 ? 0 : q > 1 ? 1 : q;
+      const H = this.crawl.offsetHeight || 1;
+      const tyIn = ((H - 0.42 * vh) / H) * 100;   // title lands low in frame — big, near the viewer
+      const tyOut = (-0.48 * vh / H) * 100;        // closing line rests mid-frame
+      const tyStart = 102, tyEnd = tyOut - 45;     // start fully below the fold; exit recedes away
+      const ss = (t) => { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * t * (t * (t * 6 - 15) + 10); };
+      let ty;
+      if (q < 0.10) ty = tyStart + (tyIn - tyStart) * ss(q / 0.10);          // enter
+      else if (q < 0.24) ty = tyIn;                                          // hold — title landed
+      else if (q < 0.72) ty = tyIn + (tyOut - tyIn) * ((q - 0.24) / 0.48);   // travel through the list
+      else if (q < 0.86) ty = tyOut;                                         // hold — closing line rests
+      else ty = tyOut + (tyEnd - tyOut) * ss((q - 0.86) / 0.14);             // exit into the turn
+      const tilt = this.reduce ? 0 : 30;
+      this.crawl.style.transform = 'translateX(-50%) rotateX(' + tilt + 'deg) translateY(' + ty.toFixed(2) + '%)';
+      if (!this._crawlInit) { this._crawlInit = true; if (this.reduce) { const t = this.crawl.querySelector('h2'); if (t) t.style.filter = 'none'; } }
+    }
+
+    if (this.nav) {
+      const solid = this.current > 60;
+      this.nav.style.background = solid ? 'rgba(4,20,27,0.72)' : 'rgba(4,20,27,0)';
+      this.nav.style.borderBottomColor = solid ? 'rgba(150,230,225,0.14)' : 'rgba(150,230,225,0)';
+      this.nav.style.backdropFilter = solid ? 'blur(14px) saturate(120%)' : 'none';
+      this.nav.style.webkitBackdropFilter = this.nav.style.backdropFilter;
+    }
+
+    if (this.turb && this.disp && this.cfg.disp > 0) {
+      const t = P.now || (performance.now() / 1000);
+      // ripple energy — real-time ages so surges ebb even in slow swamp water
+      let en = 0;
+      const rn = performance.now() / 1000;
+      const rl = P.ripples || [];
+      for (let i = 0; i < rl.length; i++) {
+        const age = rn - (rl[i].rt == null ? rn : rl[i].rt);
+        if (age >= 0 && age < 3) {
+          const s = rl[i].s == null ? 1 : rl[i].s;
+          en += (s < 1 ? s * 0.5 : s) * Math.exp(-age * 1.6) * Math.min(1, age * 8);
+        }
+      }
+      en = 2.6 * en / (1.6 + en); // soft knee — rest sits low, clicks surge visibly
+      this._energy += (en - this._energy) * 0.14;
+      const bx = (0.010 + (0.0045 + 0.002 * this._energy) * Math.sin(t * 0.85)).toFixed(4);
+      const by = (0.018 + (0.007 + 0.0032 * this._energy) * Math.cos(t * 0.7)).toFixed(4);
+      this.turb.setAttribute('baseFrequency', bx + ' ' + by);
+      const target = Math.min(13, ((2.6 + Math.abs(vel) * 0.8 + this._energy * 3.4) * this.cfg.disp + 1.8) * (0.4 + 0.6 * this._cl));
+      this._sc += (target - this._sc) * 0.16;
+      this.disp.setAttribute('scale', this._sc.toFixed(2));
+    }
+  }
+
+  addRipple(x, y, s) {
+    const P = this.P; if (!P) return;
+    P.ripples = P.ripples || [];
+    P.ripples.push({ x, y, t: P.now || 0, rt: performance.now() / 1000, s: s == null ? 1 : s });
+    if (P.ripples.length > 12) P.ripples.shift();
+  }
+  burst() {
+    for (let i = 0; i < 3; i++) this.addRipple(0.5 + (Math.random() - 0.5) * 0.1, 0.42 + (Math.random() - 0.5) * 0.1, 1.3);
+  }
+  goTo(id) {
+    const el = this.stage && this.stage.querySelector('#' + id);
+    if (!el) return;
+    this.hijack = true;
+    this.target = Math.max(0, Math.min(this.maxScroll(), el.offsetTop));
+  }
+
+  _advanceReview() { this.setState((s) => ({ reviewIdx: (s.reviewIdx + 1) % this.REVIEWS.length })); }
+  _retreatReview() { this.setState((s) => ({ reviewIdx: (s.reviewIdx - 1 + this.REVIEWS.length) % this.REVIEWS.length })); }
+  _restartReviewTimer() { clearInterval(this._revTimer); this._revTimer = setInterval(() => this._advanceReview(), 6000); }
+
+  renderVals() {
+    const s = this.state;
+    return {
+      stageRef: (el) => { this.stage = el; },
+      trackRef: (el) => { this.track = el; },
+      navRef: (el) => { this.nav = el; },
+      cueRef: (el) => { this.cue = el; },
+      dirtyOverlayRef: (el) => { this.dirtyOverlay = el; },
+      waterlineRef: (el) => { this.waterline = el; },
+      turnPctRef: (el) => { this.turnPct = el; },
+      carouselTrackRef: (el) => { this.carouselTrack = el; },
+      crawlRef: (el) => { this.crawl = el; },
+
+      showLinks: !s.isNarrow,
+      isNarrow: s.isNarrow,
+      menuOpen: s.menuOpen,
+      toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      goHomeAndClose: () => { this.goTo('care-hero'); this.setState({ menuOpen: false }); },
+      goContactAndClose: () => { this.goTo('care-contact'); this.setState({ menuOpen: false }); },
+      menuLine1: s.menuOpen ? 'translateY(5.5px) rotate(45deg)' : 'none',
+      menuLineMidOp: s.menuOpen ? 0 : 1,
+      menuLine3: s.menuOpen ? 'translateY(-5.5px) rotate(-45deg)' : 'none',
+      showBadge: (this.props.showClaimBadge ?? true),
+      submitted: s.submitted,
+      notSubmitted: !s.submitted,
+      sel: {
+        condCrystal: s.condition === 'crystal',
+        condCloudy: s.condition === 'cloudy',
+        condGreen: s.condition === 'green',
+        condSwamp: s.condition === 'swamp',
+      },
+
+      jobsDir: s.isNarrow ? 'column' : 'row',
+      jobsHeight: s.isNarrow ? 'auto' : 'clamp(420px,56vh,540px)',
+      jobs: this.JOBS.map((j, i) => {
+        const active = s.activeJob === i;
+        return {
+          n: j.n, short: j.short, title: j.title, stat: j.stat, blurb: j.blurb, i,
+          bgImage: "url('" + j.img + "')",
+          flex: s.isNarrow ? '0 0 auto' : (active ? '3.6 1 0%' : '1 1 0%'),
+          height: s.isNarrow ? (active ? 'clamp(260px,46vh,360px)' : '76px') : '100%',
+          imgScale: active ? 'scale(1.03)' : 'scale(1.08)',
+          imgFilter: active ? 'brightness(1) saturate(1.05)' : 'brightness(.5) saturate(.85)',
+          collapsedOpacity: active ? '0' : '1',
+          activeOpacity: active ? '1' : '0',
+          activePE: active ? 'auto' : 'none',
+          activeShift: active ? 'translateY(0)' : 'translateY(14px)',
+          borderA: active ? '.8' : '0',
+          glow: active ? '0 20px 54px rgba(6,50,40,.45), inset 0 0 40px rgba(127,227,218,.12)' : 'none',
+        };
+      }),
+      setActiveJob: (e) => { const i = +e.currentTarget.dataset.i; if (i !== this.state.activeJob) this.setState({ activeJob: i }); },
+
+      reviews: this.REVIEWS.map((r, i) => ({
+        quote: r.quote, who: r.who, i,
+        dotColor: s.reviewIdx === i ? '#7fe3da' : 'rgba(220,245,240,.25)',
+        dotSize: s.reviewIdx === i ? '22px' : '8px',
+      })),
+      carouselTransform: 'translateX(-' + (s.reviewIdx * 100) + '%)',
+      prevReview: () => { this._retreatReview(); this._restartReviewTimer(); },
+      nextReview: () => { this._advanceReview(); this._restartReviewTimer(); },
+      goToReview: (e) => { const i = +e.currentTarget.dataset.i; this.setState({ reviewIdx: i }); this._restartReviewTimer(); },
+
+      faqs: this.FAQS.map((f, i) => {
+        const open = s.faqOpen === i;
+        return { q: f.q, a: f.a, i, iconRot: open ? 'rotate(45deg)' : 'rotate(0deg)', maxH: open ? '280px' : '0px', op: open ? '1' : '0' };
+      }),
+      toggleFaq: (e) => { const i = +e.currentTarget.dataset.i; this.setState((st) => ({ faqOpen: st.faqOpen === i ? null : i })); },
+
+      setCond: (e) => { this.setState({ condition: e.currentTarget.dataset.v }); this.burst(); },
+      navClick: (e) => this.goTo(e.currentTarget.dataset.target),
+      submit: (e) => { e.preventDefault(); this.setState({ submitted: true }); this.burst(); },
+    };
+  }
+}
+</script>
+</body>
+</html>

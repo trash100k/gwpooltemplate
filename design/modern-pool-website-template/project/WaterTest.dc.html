@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    html, body { margin: 0; height: 100%; background: #06222e; }
+  </style>
+</helmet>
+<div style="position:fixed; inset:0; background:#06222e;">
+  <x-import component-from-global-scope="water-scene" from="./WaterScene.js" hint-size="100%,100%"></x-import>
+</div>
+<div style="position:fixed; left:40px; top:40px; color:#eafcfb; font-family:sans-serif; font-size:14px; letter-spacing:.08em; text-transform:uppercase; z-index:2;">R3F water smoke test</div>
+</x-dc>
+</body>
+</html>

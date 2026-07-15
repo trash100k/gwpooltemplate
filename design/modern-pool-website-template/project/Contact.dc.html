@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; padding: 0; background: #04121a; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: #63d3ca; text-decoration: none; }
+    a:hover { color: #9df0e7; }
+    ::selection { background: rgba(95,208,200,0.30); color: #eafcfb; }
+    input::placeholder, textarea::placeholder { color: rgba(214,240,236,.4); }
+    @keyframes sv-floatA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px,-30px); } }
+    @keyframes sv-floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-34px,26px); } }
+    @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+  </style>
+</helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="waterRipple" x="-12%" y="-12%" width="124%" height="124%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.010 0.018" numOctaves="2" seed="7" result="n" />
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
+
+<div ref="{{ rootRef }}" style="position:relative;">
+
+  <!-- ============ BACKGROUND ============ -->
+  <div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(120% 80% at 50% -10%, rgba(20,120,120,.26), transparent 55%), radial-gradient(90% 70% at 88% 112%, rgba(10,72,82,.34), transparent 60%), linear-gradient(180deg,#07171e 0%,#04121a 58%,#061a20 100%);">
+    <div style="position:absolute; top:8%; left:-6%; width:46vw; height:46vw; max-width:640px; max-height:640px; border-radius:50%; background:radial-gradient(circle, rgba(95,208,200,.16), transparent 68%); filter:blur(20px); animation:sv-floatA 22s ease-in-out infinite;"></div>
+    <div style="position:absolute; bottom:2%; right:-8%; width:52vw; height:52vw; max-width:720px; max-height:720px; border-radius:50%; background:radial-gradient(circle, rgba(55,199,191,.12), transparent 66%); filter:blur(22px); animation:sv-floatB 27s ease-in-out infinite;"></div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <nav ref="{{ navRef }}" style="position:fixed; top:0; left:0; right:0; z-index:20; border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
+    <div style="max-width:1180px; margin:0 auto; padding:15px clamp(22px,5vw,72px); display:flex; align-items:center; justify-content:space-between; gap:20px;">
+      <a href="Meridian Pool Care.dc.html" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; letter-spacing:-.01em; color:#f2fdfb; display:flex; align-items:baseline; gap:9px;">
+        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,#5fd0c8); box-shadow:0 0 12px var(--accent,#5fd0c8); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent2,#7fe3da);">Pool Care</span>
+      </a>
+      <sc-if value="{{ showLinks }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
+          <a href="Meridian Pool Care.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">Home</a>
+          <a href="Services.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">Services</a>
+          <a href="Pricing.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">Pricing</a>
+          <a href="Our Work.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">Our Work</a>
+          <a href="About.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">About</a>
+          <a href="Pool School.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">Pool School</a>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" style="cursor:pointer; flex:none; width:38px; height:38px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); display:flex; align-items:center; justify-content:center; gap:4px; flex-direction:column;">
+          <span style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transform:{{ menuLine1 }}; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+          <span style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; opacity:{{ menuLineMidOp }}; transition:opacity .2s ease;"></span>
+          <span style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transform:{{ menuLine3 }}; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+        </button>
+      </sc-if>
+      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeMenu }}" style="position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
+        <div style="position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; display:flex; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
+          <a href="Meridian Pool Care.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Home</a>
+          <a href="Services.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Services</a>
+          <a href="Pricing.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Pricing</a>
+          <a href="Our Work.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Our Work</a>
+          <a href="About.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">About</a>
+          <a href="Pool School.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Pool School</a>
+          <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
+          <a href="#book" onClick="{{ closeMenu }}" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf);">Book a visit</a>
+        </div>
+      </sc-if>
+      <a href="#book" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:11px 20px; border-radius:999px; box-shadow:0 8px 24px rgba(30,180,170,.3);" style-hover="color:#052026;">Book a visit</a>
+    </div>
+  </nav>
+
+  <!-- ============ CONTENT ============ -->
+  <main style="position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 clamp(22px,5vw,72px) clamp(60px,10vh,120px);">
+
+    <!-- HERO -->
+    <section id="top" data-screen-label="Contact hero" style="padding:clamp(118px,20vh,196px) 0 clamp(30px,5vh,56px);">
+      <div data-reveal>
+        <div style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
+          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,#5fd0c8); box-shadow:0 0 12px var(--accent,#5fd0c8);"></span>
+          <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#dbeef0; font-weight:600;">Contact &amp; Booking</span>
+        </div>
+        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:#f2fdfb; margin:0; text-wrap:balance;">Get your<br />Saturday back.</h1>
+        <p style="max-width:600px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">Tell us how the water looks today. A real water tech — not a call center — replies within one business day.</p>
+      </div>
+    </section>
+
+    <!-- FORM + INFO -->
+    <section id="book" data-screen-label="Booking form" style="scroll-margin-top:92px;">
+      <div data-reveal style="display:grid; grid-template-columns:{{ gridCols }}; gap:18px; align-items:start;">
+
+        <!-- FORM CARD -->
+        <div style="padding:clamp(26px,3vw,40px); border-radius:24px; background:rgba(8,34,44,.55); backdrop-filter:blur(12px); border:1px solid rgba(150,230,225,.2);">
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center; padding:40px 6px;">
+              <div style="width:64px; height:64px; margin:0 auto 22px; border-radius:50%; background:rgba(127,227,218,.16); border:1px solid rgba(127,227,218,.5); display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--accent,#5fd0c8);">✓</div>
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:30px; color:#f2fdfb; margin:0 0 12px;">Rescue inbound.</h3>
+              <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto; max-width:360px;">A water tech will call within one business day. Leave the gate unlocked — we'll handle the rest.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin-bottom:14px;">How's the water today?</div>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
+                <sc-for list="{{ conditions }}" as="c" hint-placeholder-count="4">
+                  <button type="button" data-v="{{ c.v }}" onClick="{{ setCond }}" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;" style-hover="border-color:rgba(127,227,218,.5);">{{ c.label }}<sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></sc-if></button>
+                </sc-for>
+              </div>
+
+              <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin-bottom:14px;">What do you need?</div>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
+                <sc-for list="{{ servicesList }}" as="sv" hint-placeholder-count="4">
+                  <button type="button" data-v="{{ sv.v }}" onClick="{{ setService }}" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;" style-hover="border-color:rgba(127,227,218,.5);">{{ sv.label }}<sc-if value="{{ sv.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></sc-if></button>
+                </sc-for>
+              </div>
+
+              <form onSubmit="{{ submit }}" style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                  <input required name="name" placeholder="First name" style="flex:1 1 160px; min-width:0; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;" style-focus="border-color:var(--accent,#5fd0c8);" />
+                  <input required name="contact" placeholder="Phone or email" style="flex:1 1 160px; min-width:0; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;" style-focus="border-color:var(--accent,#5fd0c8);" />
+                </div>
+                <input name="address" placeholder="Street & ZIP (for a same-day quote)" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;" style-focus="border-color:var(--accent,#5fd0c8);" />
+                <textarea name="message" rows="3" placeholder="Anything we should know? (gate code, pump noise, last time it was cleaned…)" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none; resize:vertical;" style-focus="border-color:var(--accent,#5fd0c8);"></textarea>
+                <button type="submit" style="margin-top:4px; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:16px; border-radius:12px; box-shadow:0 12px 34px rgba(30,180,170,.34); transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-2px); box-shadow:0 18px 44px rgba(30,180,170,.5);">Book my first visit →</button>
+              </form>
+              <p style="font-size:12.5px; line-height:1.5; color:rgba(214,240,236,.5); margin:14px 0 0; text-align:center;">First clean free with any plan. No spam, ever.</p>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- INFO CARD -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="padding:28px 28px 30px; border-radius:24px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px);">
+            <div style="font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:rgba(214,240,236,.55); font-weight:600; margin-bottom:16px;">Reach a human</div>
+            <a href="tel:+15125550143" style="display:block; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,3vw,34px); letter-spacing:-.01em; color:#f2fdfb; margin-bottom:8px;" style-hover="color:var(--accent2,#7fe3da);">(512) 555-0143</a>
+            <a href="mailto:care@meridianpools.com" style="font-size:15px; color:var(--accent2,#7fe3da);">care@meridianpools.com</a>
+            <div style="margin-top:22px; padding-top:20px; border-top:1px solid rgba(150,230,225,.14); display:flex; flex-direction:column; gap:11px;">
+              <sc-for list="{{ hours }}" as="h" hint-placeholder-count="4">
+                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; font-size:14.5px;">
+                  <span style="color:rgba(224,247,242,.7);">{{ h.day }}</span>
+                  <span style="color:#f2fdfb; font-weight:600; text-align:right;">{{ h.time }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="padding:28px 28px 30px; border-radius:24px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px);">
+            <div style="font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:rgba(214,240,236,.55); font-weight:600; margin-bottom:16px;">Where we work</div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+              <sc-for list="{{ areas }}" as="a" hint-placeholder-count="8">
+                <span style="padding:7px 13px; border-radius:999px; background:rgba(10,44,56,.5); border:1px solid rgba(150,230,225,.18); font-size:13px; color:rgba(232,244,240,.85);">{{ a }}</span>
+              </sc-for>
+            </div>
+            <p style="font-size:13.5px; line-height:1.55; color:rgba(214,240,236,.6); margin:16px 0 0;">Just outside the list? Call us — we add routes every season.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAP -->
+    <sc-if value="{{ showMap }}" hint-placeholder-val="{{ true }}">
+      <section data-reveal data-screen-label="Service map" style="padding-top:clamp(40px,7vh,80px);">
+        <div style="position:relative; border-radius:24px; overflow:hidden; border:1px solid rgba(150,230,225,.2); box-shadow:0 26px 64px rgba(3,16,20,.5);">
+          <iframe title="Meridian Pool Care service area — Austin, TX" src="https://maps.google.com/maps?q=Austin,TX&z=10&output=embed" loading="lazy" style="display:block; width:100%; height:clamp(320px,48vh,480px); border:0; filter:invert(0.92) hue-rotate(185deg) saturate(0.75) brightness(0.92) contrast(1.05);"></iframe>
+          <div style="position:absolute; top:16px; left:16px; padding:9px 15px; border-radius:12px; background:rgba(6,24,30,.72); border:1px solid rgba(127,227,218,.32); backdrop-filter:blur(8px); pointer-events:none;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:#f2fdfb;">Austin &amp; Hill Country</div>
+            <div style="font-size:12px; color:rgba(214,240,236,.66); margin-top:2px;">Serving a ~35-mile radius</div>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- WHAT TO EXPECT -->
+    <section data-reveal data-screen-label="What to expect" style="padding-top:clamp(48px,8vh,90px);">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
+          <div style="padding:26px 26px 28px; border-radius:20px; background:rgba(8,32,40,.42); border:1px solid rgba(150,230,225,.14);">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,#5fd0c8); margin-bottom:12px;">{{ st.n }}</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:#f2fdfb; margin-bottom:8px; letter-spacing:-.01em;">{{ st.t }}</div>
+            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">{{ st.d }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div style="margin-top:clamp(56px,9vh,110px); padding-top:26px; border-top:1px solid rgba(150,230,225,.12); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px; font-size:13px; color:rgba(214,240,236,.44);">
+      <span>© 2026 Meridian Pool Care · Lic. #TX-PC-2201 · Bonded &amp; insured</span>
+      <span style="display:flex; flex-wrap:wrap; gap:8px 20px;"><a href="tel:+15125550143">(512) 555-0143</a><a href="mailto:care@meridianpools.com">care@meridianpools.com</a><span>Austin &amp; Hill Country</span></span>
+    </div>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;palette&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Lagoon&quot;,&quot;Aqua&quot;,&quot;Sapphire&quot;],&quot;default&quot;:&quot;Lagoon&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;showMap&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;defaultService&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;weekly&quot;,&quot;rescue&quot;,&quot;repair&quot;,&quot;question&quot;],&quot;default&quot;:&quot;weekly&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Form&quot;}}">
+class Component extends DCLogic {
+  state = { isNarrow: false, submitted: false, condition: 'green', service: 'weekly', menuOpen: false };
+
+  PAL = {
+    Lagoon:   { a: '#5fd0c8', b: '#7fe3da' },
+    Aqua:     { a: '#74e4d8', b: '#9df0e7' },
+    Sapphire: { a: '#5aa9e6', b: '#8fc7f2' },
+  };
+
+  CONDITIONS = [
+    { v: 'crystal', label: 'Crystal — maintain it' },
+    { v: 'cloudy', label: 'A little cloudy' },
+    { v: 'green', label: 'Getting green' },
+    { v: 'swamp', label: 'Full swamp' },
+  ];
+  SERVICES = [
+    { v: 'weekly', label: 'Weekly plan' },
+    { v: 'rescue', label: 'One-time rescue' },
+    { v: 'repair', label: 'Equipment repair' },
+    { v: 'question', label: 'Just a question' },
+  ];
+  HOURS = [
+    { day: 'Monday – Friday', time: '7:00a – 6:00p' },
+    { day: 'Saturday', time: '8:00a – 2:00p' },
+    { day: 'Sunday', time: 'Emergencies only' },
+    { day: 'Reply time', time: 'Within 1 business day' },
+  ];
+  AREAS = ['Austin', 'Cedar Park', 'Lakeway', 'Bee Cave', 'Dripping Springs', 'Spicewood', 'Lago Vista', 'Round Rock'];
+  STEPS = [
+    { n: '01', t: 'You reach out', d: 'Send a photo or just describe the water. Takes two minutes.' },
+    { n: '02', t: 'We assess', d: 'A real tech reads it, quotes it, and books a day that works.' },
+    { n: '03', t: 'Water clears', d: 'We show up, do the whole ritual, and text you the proof.' },
+  ];
+
+  componentDidMount() {
+    this._mq = matchMedia('(max-width: 860px)');
+    this.setState({ isNarrow: this._mq.matches });
+    this._onMq = (e) => this.setState({ isNarrow: e.matches, menuOpen: false });
+    this._mq.addEventListener('change', this._onMq);
+    this.applyAccent();
+    if (this.props.defaultService) this.setState({ service: this.props.defaultService });
+    this._onScroll = () => this.onScroll();
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this.onScroll();
+    this._raf = requestAnimationFrame(() => this.initReveal());
+  }
+  componentDidUpdate(prev) {
+    if (prev && prev.palette !== this.props.palette) this.applyAccent();
+    if (prev && prev.defaultService !== this.props.defaultService && this.props.defaultService) {
+      this.setState({ service: this.props.defaultService });
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    if (this._mq && this._onMq) this._mq.removeEventListener('change', this._onMq);
+    if (this._io) this._io.disconnect();
+    cancelAnimationFrame(this._raf);
+  }
+
+  applyAccent() {
+    const p = this.PAL[this.props.palette] || this.PAL.Lagoon;
+    if (this.root) {
+      this.root.style.setProperty('--accent', p.a);
+      this.root.style.setProperty('--accent2', p.b);
+    }
+  }
+
+  onScroll() {
+    if (!this.nav) return;
+    const solid = window.scrollY > 40;
+    this.nav.style.background = solid ? 'rgba(4,20,27,0.72)' : 'rgba(4,20,27,0)';
+    this.nav.style.borderBottomColor = solid ? 'rgba(150,230,225,0.14)' : 'rgba(150,230,225,0)';
+    this.nav.style.backdropFilter = solid ? 'blur(14px) saturate(120%)' : 'none';
+    this.nav.style.webkitBackdropFilter = this.nav.style.backdropFilter;
+  }
+
+  initReveal() {
+    if (!this.root) { this._raf = requestAnimationFrame(() => this.initReveal()); return; }
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach((en) => {
+        if (en.isIntersecting) { en.target.style.opacity = '1'; en.target.style.transform = 'none'; io.unobserve(en.target); }
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' });
+    this._io = io;
+    [...this.root.querySelectorAll('[data-reveal]')].forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)';
+      el.style.transitionDelay = (el.dataset.delay || 0) + 'ms';
+      el.style.willChange = 'opacity, transform';
+      io.observe(el);
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    return {
+      rootRef: (el) => { this.root = el; if (el) this.applyAccent(); },
+      navRef: (el) => { this.nav = el; },
+      showLinks: !s.isNarrow,
+      isNarrow: s.isNarrow,
+      menuOpen: s.menuOpen,
+      toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      menuLine1: s.menuOpen ? 'translateY(5.5px) rotate(45deg)' : 'none',
+      menuLineMidOp: s.menuOpen ? 0 : 1,
+      menuLine3: s.menuOpen ? 'translateY(-5.5px) rotate(-45deg)' : 'none',
+      showMap: this.props.showMap ?? true,
+      gridCols: s.isNarrow ? '1fr' : '1.15fr .85fr',
+
+      submitted: s.submitted,
+      notSubmitted: !s.submitted,
+      conditions: this.CONDITIONS.map((c) => ({ v: c.v, label: c.label, on: s.condition === c.v })),
+      servicesList: this.SERVICES.map((c) => ({ v: c.v, label: c.label, on: s.service === c.v })),
+      hours: this.HOURS.map((h) => ({ day: h.day, time: h.time })),
+      areas: this.AREAS.slice(),
+      steps: this.STEPS.map((x) => ({ n: x.n, t: x.t, d: x.d })),
+
+      setCond: (e) => this.setState({ condition: e.currentTarget.dataset.v }),
+      setService: (e) => this.setState({ service: e.currentTarget.dataset.v }),
+      submit: (e) => { e.preventDefault(); this.setState({ submitted: true }); },
+    };
+  }
+}
+</script>
+</body>
+</html>
