@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; padding: 0; background: #04121a; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: #63d3ca; text-decoration: none; }
+    a:hover { color: #9df0e7; }
+    ::selection { background: rgba(95,208,200,0.30); color: #eafcfb; }
+    @keyframes sv-floatA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px,-30px); } }
+    @keyframes sv-floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-34px,26px); } }
+    @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+  </style>
+</helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="waterRipple" x="-12%" y="-12%" width="124%" height="124%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.010 0.018" numOctaves="2" seed="7" result="n" />
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
+
+<div ref="{{ rootRef }}" style="position:relative;">
+
+  <!-- ============ BACKGROUND ============ -->
+  <div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(120% 80% at 50% -10%, rgba(20,120,120,.26), transparent 55%), radial-gradient(90% 70% at 88% 112%, rgba(10,72,82,.34), transparent 60%), linear-gradient(180deg,#07171e 0%,#04121a 58%,#061a20 100%);">
+    <div style="position:absolute; top:8%; left:-6%; width:46vw; height:46vw; max-width:640px; max-height:640px; border-radius:50%; background:radial-gradient(circle, rgba(95,208,200,.16), transparent 68%); filter:blur(20px); animation:sv-floatA 22s ease-in-out infinite;"></div>
+    <div style="position:absolute; bottom:2%; right:-8%; width:52vw; height:52vw; max-width:720px; max-height:720px; border-radius:50%; background:radial-gradient(circle, rgba(55,199,191,.12), transparent 66%); filter:blur(22px); animation:sv-floatB 27s ease-in-out infinite;"></div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <nav ref="{{ navRef }}" style="position:fixed; top:0; left:0; right:0; z-index:20; border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
+    <div style="max-width:1180px; margin:0 auto; padding:15px clamp(22px,5vw,72px); display:flex; align-items:center; justify-content:space-between; gap:20px;">
+      <a href="Meridian Pool Care.dc.html" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; letter-spacing:-.01em; color:#f2fdfb; display:flex; align-items:baseline; gap:9px;">
+        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,#5fd0c8); box-shadow:0 0 12px var(--accent,#5fd0c8); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent2,#7fe3da);">Pool Care</span>
+      </a>
+      <sc-if value="{{ showLinks }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
+          <a href="Meridian Pool Care.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">Home</a>
+          <a href="Services.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">Services</a>
+          <a href="Pricing.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">Pricing</a>
+          <a href="Our Work.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">Our Work</a>
+          <a href="About.dc.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);" style-hover="color:var(--accent2,#7fe3da);">About</a>
+          <a href="#top" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:var(--accent2,#7fe3da);">Pool School</a>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isNarrow }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" style="cursor:pointer; flex:none; width:38px; height:38px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); display:flex; align-items:center; justify-content:center; gap:4px; flex-direction:column;">
+          <span style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transform:{{ menuLine1 }}; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+          <span style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; opacity:{{ menuLineMidOp }}; transition:opacity .2s ease;"></span>
+          <span style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transform:{{ menuLine3 }}; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+        </button>
+      </sc-if>
+      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeMenu }}" style="position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
+        <div style="position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; display:flex; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
+          <a href="Meridian Pool Care.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Home</a>
+          <a href="Services.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Services</a>
+          <a href="Pricing.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Pricing</a>
+          <a href="Our Work.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">Our Work</a>
+          <a href="About.dc.html" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);" style-hover="background:rgba(127,227,218,.1);">About</a>
+          <a href="#top" onClick="{{ closeMenu }}" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--accent2,#7fe3da); background:rgba(127,227,218,.08);">Pool School</a>
+          <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
+          <a href="Contact.dc.html" onClick="{{ closeMenu }}" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf);">Rescue my pool</a>
+        </div>
+      </sc-if>
+      <a href="Contact.dc.html" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:11px 20px; border-radius:999px; box-shadow:0 8px 24px rgba(30,180,170,.3);" style-hover="color:#052026;">Rescue my pool</a>
+    </div>
+  </nav>
+
+  <!-- ============ CONTENT ============ -->
+  <main style="position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 clamp(22px,5vw,72px) clamp(60px,10vh,120px);">
+
+    <!-- HERO -->
+    <section id="top" data-screen-label="Pool School hero" style="padding:clamp(118px,20vh,196px) 0 clamp(30px,5vh,56px);">
+      <div data-reveal>
+        <div style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
+          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,#5fd0c8); box-shadow:0 0 12px var(--accent,#5fd0c8);"></span>
+          <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#dbeef0; font-weight:600;">Pool School</span>
+        </div>
+        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:#f2fdfb; margin:0; text-wrap:balance;">Know your water.</h1>
+        <p style="max-width:620px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">The stuff we wish every owner knew — why pools turn, what the numbers mean, and how to read the water before it reads you. Free, no strings.</p>
+      </div>
+    </section>
+
+    <!-- TOPICS -->
+    <section data-screen-label="Topics" style="padding-top:clamp(20px,4vh,44px);">
+      <div data-reveal style="margin-bottom:clamp(28px,4.5vh,44px);">
+        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin:0 0 16px;">The basics</p>
+        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:#f2fdfb; margin:0;">Six things to understand.</h2>
+      </div>
+      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;">
+        <sc-for list="{{ topics }}" as="t" hint-placeholder-count="6">
+          <div style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;" style-hover="border-color:rgba(127,227,218,.4); transform:translateY(-4px);">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--accent,#5fd0c8); margin-bottom:14px;">{{ t.n }}</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; letter-spacing:-.015em; color:#f2fdfb; margin-bottom:10px; text-wrap:balance;">{{ t.q }}</div>
+            <p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">{{ t.a }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- CHEMISTRY REFERENCE -->
+    <sc-if value="{{ showChemistry }}" hint-placeholder-val="{{ true }}">
+      <section data-screen-label="Chemistry reference" style="padding-top:clamp(64px,11vh,130px);">
+        <div data-reveal style="margin-bottom:clamp(24px,4vh,40px);">
+          <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin:0 0 16px;">Cheat sheet</p>
+          <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 12px;">Ideal water, by the number.</h2>
+          <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.7); margin:0; max-width:560px;">Tape this to the pump shed. Hit these ranges and algae never gets a foothold.</p>
+        </div>
+        <div data-reveal style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
+          <div style="min-width:560px; border:1px solid rgba(150,230,225,.16); border-radius:20px; overflow:hidden; background:rgba(6,24,30,.4); backdrop-filter:blur(8px);">
+            <div style="display:grid; grid-template-columns:1.3fr 1fr 1.6fr;">
+              <div style="padding:18px 22px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(214,240,236,.5); font-weight:600;">Measure</div>
+              <div style="padding:18px 14px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(214,240,236,.5); font-weight:600; text-align:center;">Ideal range</div>
+              <div style="padding:18px 22px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(214,240,236,.5); font-weight:600;">Why it matters</div>
+            </div>
+            <sc-for list="{{ chem }}" as="c" hint-placeholder-count="6">
+              <div style="display:grid; grid-template-columns:1.3fr 1fr 1.6fr; border-top:1px solid rgba(150,230,225,.1);">
+                <div style="padding:16px 22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15.5px; color:#f2fdfb;">{{ c.name }}</div>
+                <div style="padding:16px 14px; text-align:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15.5px; color:var(--accent2,#7fe3da);">{{ c.range }}</div>
+                <div style="padding:16px 22px; font-size:14px; line-height:1.45; color:rgba(224,247,242,.72);">{{ c.why }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- SEASONAL GUIDE -->
+    <sc-if value="{{ showSeasons }}" hint-placeholder-val="{{ true }}">
+      <section data-screen-label="Seasonal guide" style="padding-top:clamp(64px,11vh,130px);">
+        <div data-reveal style="margin-bottom:clamp(28px,4.5vh,44px);">
+          <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin:0 0 16px;">The Texas calendar</p>
+          <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 12px;">Your year in water.</h2>
+          <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.7); margin:0; max-width:560px;">Hill Country pools rarely fully close — but each season changes the job. Here's the rhythm.</p>
+        </div>
+        <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
+          <sc-for list="{{ seasons }}" as="s" hint-placeholder-count="4">
+            <div style="display:flex; flex-direction:column; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:14px;">
+                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; color:#f2fdfb;">{{ s.name }}</span>
+                <span style="font-size:12px; color:var(--accent,#5fd0c8); font-weight:600;">{{ s.months }}</span>
+              </div>
+              <div style="display:flex; flex-direction:column;">
+                <sc-for list="{{ s.tasks }}" as="task" hint-placeholder-count="3">
+                  <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,#5fd0c8); font-weight:700;">·</span>{{ task }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- FAQ -->
+    <section data-screen-label="Owner FAQ" style="padding-top:clamp(64px,11vh,130px);">
+      <div data-reveal style="text-align:center; margin-bottom:clamp(30px,5vh,50px);">
+        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin:0 0 16px;">Owner questions</p>
+        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:#f2fdfb; margin:0;">The ones we hear most.</h2>
+      </div>
+      <div data-reveal style="max-width:800px; margin:0 auto;">
+        <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
+          <div style="border-top:1px solid rgba(150,230,225,.14);">
+            <button data-i="{{ q.i }}" onClick="{{ toggleFaq }}" style="cursor:pointer; width:100%; text-align:left; background:none; border:none; padding:22px 4px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
+              <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2vw,22px); color:#f2fdfb;">{{ q.q }}</span>
+              <span style="flex:none; font-size:22px; line-height:1; color:var(--accent,#5fd0c8); transform:{{ q.iconRotate }}; transition:transform .3s ease;">+</span>
+            </button>
+            <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:15.5px; line-height:1.62; color:rgba(224,247,242,.74); margin:0; padding:0 4px 24px; max-width:680px;">{{ q.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section data-reveal data-screen-label="Pool School CTA" style="margin-top:clamp(60px,10vh,120px); padding:clamp(40px,6vw,66px); border-radius:28px; background:linear-gradient(135deg, rgba(12,52,66,.62), rgba(8,30,38,.5)); border:1px solid rgba(127,227,218,.3); text-align:center; backdrop-filter:blur(10px);">
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,4vw,52px); line-height:1.02; letter-spacing:-.02em; color:#f2fdfb; margin:0 0 14px; text-wrap:balance;">Rather not think about any of this?</h2>
+      <p style="font-size:17px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto 30px; max-width:520px;">That's the whole point of a plan. We hold the numbers, you enjoy the water.</p>
+      <a href="Pricing.dc.html" style="display:inline-block; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:16px 30px; border-radius:999px; box-shadow:0 14px 40px rgba(30,180,170,.36); transition:transform .3s ease;" style-hover="transform:translateY(-3px); color:#052026;">See the plans →</a>
+    </section>
+
+    <!-- FOOTER -->
+    <div style="margin-top:clamp(56px,9vh,110px); padding-top:26px; border-top:1px solid rgba(150,230,225,.12); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px; font-size:13px; color:rgba(214,240,236,.44);">
+      <span>© 2026 Meridian Pool Care · Lic. #TX-PC-2201 · Bonded &amp; insured</span>
+      <span style="display:flex; flex-wrap:wrap; gap:8px 20px;"><a href="tel:+15125550143">(512) 555-0143</a><a href="mailto:care@meridianpools.com">care@meridianpools.com</a><span>Austin &amp; Hill Country</span></span>
+    </div>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;palette&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Lagoon&quot;,&quot;Aqua&quot;,&quot;Sapphire&quot;],&quot;default&quot;:&quot;Lagoon&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;showChemistry&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;showSeasons&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;}}">
+class Component extends DCLogic {
+  state = { isNarrow: false, openFaq: 0, menuOpen: false };
+
+  PAL = {
+    Lagoon:   { a: '#5fd0c8', b: '#7fe3da' },
+    Aqua:     { a: '#74e4d8', b: '#9df0e7' },
+    Sapphire: { a: '#5aa9e6', b: '#8fc7f2' },
+  };
+
+  TOPICS = [
+    { n: '01', q: 'Why is my pool green?', a: 'Algae. It blooms the moment chlorine drops and the water warms — one hot weekend with a low sanitizer is all it takes. The fix is almost never draining: shock hard, run the filter, and brush.' },
+    { n: '02', q: 'Cloudy, but not green?', a: 'That is chemistry, not algae. Usually high pH, or particles too fine for the filter to grab. Balance the water, add a clarifier, and let the pump turn it over.' },
+    { n: '03', q: 'How often should I test?', a: 'Twice a week in summer, weekly the rest of the year. Heat, rain, and swimmers all move the numbers fast. (On a plan, we test every visit and log it.)' },
+    { n: '04', q: 'Is it safe to swim after a storm?', a: 'Test first. Runoff dilutes chlorine and dumps in contaminants and phosphates — prime algae food. Rebalance before anyone gets in.' },
+    { n: '05', q: 'Salt vs. chlorine?', a: 'A salt pool still sanitizes with chlorine — it just generates its own from salt instead of you adding it. Softer feel, less handling, same chemistry underneath.' },
+    { n: '06', q: 'How long should the pump run?', a: 'Long enough to turn the whole pool over once a day — about 8 to 12 hours in summer heat. Circulation is what keeps chlorine working and algae from settling.' },
+  ];
+
+  CHEM = [
+    { name: 'pH', range: '7.4 – 7.6', why: 'Swimmer comfort and keeps chlorine effective.' },
+    { name: 'Free chlorine', range: '1 – 3 ppm', why: 'Your active sanitizer. Below 1 and algae wins.' },
+    { name: 'Total alkalinity', range: '80 – 120 ppm', why: 'Buffers pH so it stops bouncing around.' },
+    { name: 'Cyanuric acid', range: '30 – 50 ppm', why: 'Sunscreen for chlorine — too little and the sun burns it off.' },
+    { name: 'Calcium hardness', range: '200 – 400 ppm', why: 'Protects plaster, tile grout, and equipment.' },
+    { name: 'Salt (SWG pools)', range: '2,700 – 3,400 ppm', why: 'Feeds the salt chlorinator cell.' },
+  ];
+
+  SEASONS = [
+    { name: 'Spring', months: 'Mar – Apr', tasks: ['Uncover and shock early', 'Rebalance after winter', 'Ramp pump hours back up', 'First blooms start with warm weeks'] },
+    { name: 'Summer', months: 'May – Sep', tasks: ['Peak season — test 2×/week', 'Watch CYA and chlorine', 'Brush walls weekly', 'Longest pump runs of the year'] },
+    { name: 'Fall', months: 'Oct – Nov', tasks: ['Stay ahead of falling leaves', 'Deep-clean the filter', 'Ease back on chlorine', 'Keep water circulating'] },
+    { name: 'Winter', months: 'Dec – Feb', tasks: ['Mild TX — keep it running', 'Lower chlorine, keep testing', 'Run pump through freeze nights', 'Protect exposed plumbing'] },
+  ];
+
+  FAQS = [
+    { q: 'Why does my pool go green so fast?', a: 'Warm water plus a dip in chlorine is all algae needs, and it multiplies overnight. Stabilizer (CYA) that is too low lets the sun burn your chlorine off by mid-afternoon — so it looks fine at 9am and blooms by dinner.' },
+    { q: 'Is a green pool ruined?', a: 'Almost never. Even full-swamp pools come back without draining — it just takes shock dosed for the algae type, a clean filter, and a few days of running. Draining should be a last resort, not a first quote.' },
+    { q: 'How long after shocking can we swim?', a: 'Wait until free chlorine falls back to 1–3 ppm — usually 8 to 24 hours depending on the dose. Test before anyone gets in; swimming in freshly shocked water is hard on skin, eyes, and swimsuits.' },
+    { q: 'Why is my water cloudy right after I balanced it?', a: 'Fresh chemicals need to circulate and the filter needs time to catch the fine stuff. Give it a full turnover cycle. If it is still hazy after a day, your filter may need a clean or the pH is running high.' },
+    { q: 'Do I really need to brush?', a: 'Yes. Brushing lifts the film algae clings to and pushes debris toward the drains where the filter can grab it. Skipping it is the number-one reason a "clean-looking" pool blooms in the same spot every time.' },
+    { q: 'What makes swimmers\u2019 eyes sting?', a: 'Not "too much chlorine" — usually the opposite. Sting and that strong pool smell come from chloramines (used-up chlorine) and off-balance pH. The fix is more fresh chlorine and correct pH, not less.' },
+  ];
+
+  componentDidMount() {
+    this._mq = matchMedia('(max-width: 860px)');
+    this.setState({ isNarrow: this._mq.matches });
+    this._onMq = (e) => this.setState({ isNarrow: e.matches, menuOpen: false });
+    this._mq.addEventListener('change', this._onMq);
+    this.applyAccent();
+    this._onScroll = () => this.onScroll();
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this.onScroll();
+    this._raf = requestAnimationFrame(() => this.initReveal());
+  }
+  componentDidUpdate(prev) {
+    if (prev && prev.palette !== this.props.palette) this.applyAccent();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    if (this._mq && this._onMq) this._mq.removeEventListener('change', this._onMq);
+    if (this._io) this._io.disconnect();
+    cancelAnimationFrame(this._raf);
+  }
+
+  applyAccent() {
+    const p = this.PAL[this.props.palette] || this.PAL.Lagoon;
+    if (this.root) {
+      this.root.style.setProperty('--accent', p.a);
+      this.root.style.setProperty('--accent2', p.b);
+    }
+  }
+
+  onScroll() {
+    if (!this.nav) return;
+    const solid = window.scrollY > 40;
+    this.nav.style.background = solid ? 'rgba(4,20,27,0.72)' : 'rgba(4,20,27,0)';
+    this.nav.style.borderBottomColor = solid ? 'rgba(150,230,225,0.14)' : 'rgba(150,230,225,0)';
+    this.nav.style.backdropFilter = solid ? 'blur(14px) saturate(120%)' : 'none';
+    this.nav.style.webkitBackdropFilter = this.nav.style.backdropFilter;
+  }
+
+  initReveal() {
+    if (!this.root) { this._raf = requestAnimationFrame(() => this.initReveal()); return; }
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach((en) => {
+        if (en.isIntersecting) { en.target.style.opacity = '1'; en.target.style.transform = 'none'; io.unobserve(en.target); }
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' });
+    this._io = io;
+    [...this.root.querySelectorAll('[data-reveal]')].forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)';
+      el.style.transitionDelay = (el.dataset.delay || 0) + 'ms';
+      el.style.willChange = 'opacity, transform';
+      io.observe(el);
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    return {
+      rootRef: (el) => { this.root = el; if (el) this.applyAccent(); },
+      navRef: (el) => { this.nav = el; },
+      showLinks: !s.isNarrow,
+      isNarrow: s.isNarrow,
+      menuOpen: s.menuOpen,
+      toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      menuLine1: s.menuOpen ? 'translateY(5.5px) rotate(45deg)' : 'none',
+      menuLineMidOp: s.menuOpen ? 0 : 1,
+      menuLine3: s.menuOpen ? 'translateY(-5.5px) rotate(-45deg)' : 'none',
+      showChemistry: this.props.showChemistry ?? true,
+      showSeasons: this.props.showSeasons ?? true,
+
+      topics: this.TOPICS.map((t) => ({ n: t.n, q: t.q, a: t.a })),
+      chem: this.CHEM.map((c) => ({ name: c.name, range: c.range, why: c.why })),
+      seasons: this.SEASONS.map((x) => ({ name: x.name, months: x.months, tasks: x.tasks.slice() })),
+
+      faqs: this.FAQS.map((f, i) => ({
+        q: f.q, a: f.a, i, open: s.openFaq === i,
+        iconRotate: s.openFaq === i ? 'rotate(45deg)' : 'rotate(0deg)',
+      })),
+      toggleFaq: (e) => {
+        const i = +e.currentTarget.dataset.i;
+        this.setState((st) => ({ openFaq: st.openFaq === i ? -1 : i }));
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="About Meridian Pool Care — Austin pool maintenance and rescue services led by certified technicians.">
+<title>About — Meridian Pool Care</title>
+<link rel="icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: #04121a; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: #63d3ca; text-decoration: none; }
+  a:hover { color: #9df0e7; }
+  ::selection { background: rgba(95,208,200,0.30); color: #eafcfb; }
+  @keyframes sv-floatA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px,-30px); } }
+  @keyframes sv-floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-34px,26px); } }
+  @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+
+  /* Hover styles for nav links */
+  .nav-link:hover { color: var(--accent2, #7fe3da); }
+
+  /* Hover styles for mobile menu links */
+  .mobile-menu-link:hover { background: rgba(127,227,218,.1); }
+
+  /* Hover style for CTA button */
+  .cta-button:hover { transform: translateY(-3px); color: #052026; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="waterRipple" x="-12%" y="-12%" width="124%" height="124%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.010 0.018" numOctaves="2" seed="7" result="n" />
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
+
+<div id="root" style="position:relative;">
+
+  <!-- ============ BACKGROUND ============ -->
+  <div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(120% 80% at 50% -10%, rgba(20,120,120,.26), transparent 55%), radial-gradient(90% 70% at 88% 112%, rgba(10,72,82,.34), transparent 60%), linear-gradient(180deg,#07171e 0%,#04121a 58%,#061a20 100%);">
+    <div style="position:absolute; top:8%; left:-6%; width:46vw; height:46vw; max-width:640px; max-height:640px; border-radius:50%; background:radial-gradient(circle, rgba(95,208,200,.16), transparent 68%); filter:blur(20px); animation:sv-floatA 22s ease-in-out infinite;"></div>
+    <div style="position:absolute; bottom:2%; right:-8%; width:52vw; height:52vw; max-width:720px; max-height:720px; border-radius:50%; background:radial-gradient(circle, rgba(55,199,191,.12), transparent 66%); filter:blur(22px); animation:sv-floatB 27s ease-in-out infinite;"></div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <nav id="nav" style="position:fixed; top:0; left:0; right:0; z-index:20; border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
+    <div style="max-width:1180px; margin:0 auto; padding:15px clamp(22px,5vw,72px); display:flex; align-items:center; justify-content:space-between; gap:20px;">
+      <a href="index.html" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; letter-spacing:-.01em; color:#f2fdfb; display:flex; align-items:baseline; gap:9px;">
+        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,#5fd0c8); box-shadow:0 0 12px var(--accent,#5fd0c8); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent2,#7fe3da);">Pool Care</span>
+      </a>
+      <div id="desktopNav" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
+        <a href="index.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Home</a>
+        <a href="services.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Services</a>
+        <a href="pricing.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pricing</a>
+        <a href="our-work.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Our Work</a>
+        <a href="#top" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:var(--accent2,#7fe3da);">About</a>
+        <a href="pool-school.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pool School</a>
+      </div>
+      <button id="menuBtn" aria-label="Menu" style="cursor:pointer; flex:none; width:38px; height:38px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); display:flex; align-items:center; justify-content:center; gap:4px; flex-direction:column;">
+        <span id="menuLine1" style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+        <span id="menuLineMid" style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transition:opacity .2s ease;"></span>
+        <span id="menuLine3" style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+      </button>
+      <a href="contact.html" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:11px 20px; border-radius:999px; box-shadow:0 8px 24px rgba(30,180,170,.3);">Rescue my pool</a>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div id="menuOverlay" style="display:none; position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
+  <div id="mobileMenu" style="display:none; position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; display:flex; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
+    <a href="index.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Home</a>
+    <a href="services.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Services</a>
+    <a href="pricing.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pricing</a>
+    <a href="our-work.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Our Work</a>
+    <a href="#top" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--accent2,#7fe3da); background:rgba(127,227,218,.08);">About</a>
+    <a href="pool-school.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pool School</a>
+    <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
+    <a href="contact.html" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf);">Rescue my pool</a>
+  </div>
+
+  <!-- ============ CONTENT ============ -->
+  <main style="position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 clamp(22px,5vw,72px) clamp(60px,10vh,120px);">
+
+    <!-- HERO -->
+    <section id="top" data-screen-label="About hero" style="padding:clamp(118px,20vh,196px) 0 clamp(30px,5vh,56px);">
+      <div data-reveal>
+        <div style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
+          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,#5fd0c8); box-shadow:0 0 12px var(--accent,#5fd0c8);"></span>
+          <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#dbeef0; font-weight:600;">About Meridian</span>
+        </div>
+        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:#f2fdfb; margin:0; text-wrap:balance;">We keep the<br />water honest.</h1>
+        <p style="max-width:620px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">A small crew of Austin water techs who believe a pool should be the easiest thing you own — not another chore, and never a swamp.</p>
+      </div>
+    </section>
+
+    <!-- STORY -->
+    <section data-screen-label="Story" style="padding:clamp(20px,4vh,44px) 0 clamp(40px,7vh,80px);">
+      <div data-reveal id="storySection" style="display:flex; flex-direction:row; gap:clamp(28px,4vw,60px); align-items:center;">
+        <div style="flex:1.15 1 0%; min-width:0;">
+          <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin:0 0 18px;">Our story</p>
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,4vw,48px); line-height:1.05; letter-spacing:-.02em; color:#f2fdfb; margin:0 0 20px; text-wrap:balance;">It started with one pool nobody would touch.</h2>
+          <p style="font-size:16px; line-height:1.65; color:rgba(232,244,240,.78); margin:0 0 16px;">Meridian began in 2016, when our founder inherited a backyard pool that had gone full swamp — and got quoted a drain-and-refill by every company in town. He learned the chemistry instead, brought it back without losing a drop, and realized most pools never had to get that far in the first place.</p>
+          <p style="font-size:16px; line-height:1.65; color:rgba(232,244,240,.78); margin:0;">Nearly 10 years later we've rescued more than 1,900 pools across the Hill Country — and the whole company still runs on one idea: show up, stay ahead of the water, and never hand you a surprise.</p>
+        </div>
+        <div style="flex:.85 1 0%; min-width:0; width:100%;">
+          <div style="position:relative; border-radius:22px; overflow:hidden; border:1px solid rgba(150,230,225,.18); box-shadow:0 26px 64px rgba(3,16,20,.5);">
+            <img src="https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="A Meridian pool, kept clear" loading="lazy" draggable="false" style="display:block; width:100%; height:clamp(280px,38vw,420px); object-fit:cover;" />
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,14,18,.08), rgba(4,14,18,.42)); pointer-events:none;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUES -->
+    <section data-screen-label="Values" style="padding-top:clamp(20px,4vh,44px);">
+      <div data-reveal style="margin-bottom:clamp(28px,4.5vh,44px);">
+        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin:0 0 16px;">What we stand on</p>
+        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:#f2fdfb; margin:0;">Four promises.</h2>
+      </div>
+      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
+        <div style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,#5fd0c8); margin-bottom:14px;">01</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; letter-spacing:-.015em; color:#f2fdfb; margin-bottom:10px;">Show up</div>
+          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Same day, every week. If we say Tuesday, it is Tuesday — rain, heat, or holiday.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,#5fd0c8); margin-bottom:14px;">02</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; letter-spacing:-.015em; color:#f2fdfb; margin-bottom:10px;">No surprises</div>
+          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Chemicals and photo reports are included. The bill is the number we quoted. Always.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,#5fd0c8); margin-bottom:14px;">03</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; letter-spacing:-.015em; color:#f2fdfb; margin-bottom:10px;">Own the water</div>
+          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">If it turns on our watch, we fix it free. Staying ahead of the algae is our job, not yours.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,#5fd0c8); margin-bottom:14px;">04</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; letter-spacing:-.015em; color:#f2fdfb; margin-bottom:10px;">Local hands</div>
+          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Austin-born crews who know Hill Country water, hard fills, brutal heat, and flash storms.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section data-screen-label="Team" style="padding-top:clamp(64px,11vh,130px);">
+      <div data-reveal style="margin-bottom:clamp(28px,4.5vh,44px);">
+        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin:0 0 16px;">The crew</p>
+        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 12px;">The hands in your backyard.</h2>
+        <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.7); margin:0; max-width:560px;">The same faces, week after week — every one a certified pool operator, bonded and background-checked.</p>
+      </div>
+      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px;">
+        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#8ef0e6,#37c7bf); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:#052026; margin-bottom:16px;">MR</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:#f2fdfb;">Marco Reyes</div>
+          <div style="font-size:13.5px; color:var(--accent2,#7fe3da); font-weight:600; margin-top:3px;">Founder & Lead Tech</div>
+          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Learned the chemistry on his own green pool. Still runs a route every week.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#8ef0e6,#37c7bf); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:#052026; margin-bottom:16px;">DW</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:#f2fdfb;">Dana Whitfield</div>
+          <div style="font-size:13.5px; color:var(--accent2,#7fe3da); font-weight:600; margin-top:3px;">Operations</div>
+          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Keeps 14 crews on schedule and every gate code straight.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#8ef0e6,#37c7bf); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:#052026; margin-bottom:16px;">TA</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:#f2fdfb;">Theo Alvarez</div>
+          <div style="font-size:13.5px; color:var(--accent2,#7fe3da); font-weight:600; margin-top:3px;">Rescue Crew Lead</div>
+          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Has never met a swamp he could not turn to glass in a week.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#8ef0e6,#37c7bf); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:#052026; margin-bottom:16px;">PN</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:#f2fdfb;">Priya Nair</div>
+          <div style="font-size:13.5px; color:var(--accent2,#7fe3da); font-weight:600; margin-top:3px;">Water Chemist</div>
+          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Writes the dosing playbook every tech carries on the truck.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#8ef0e6,#37c7bf); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:#052026; margin-bottom:16px;">SO</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:#f2fdfb;">Sam Okafor</div>
+          <div style="font-size:13.5px; color:var(--accent2,#7fe3da); font-weight:600; margin-top:3px;">Equipment Tech</div>
+          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Hears a failing pump before it fails. Usually right.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,#8ef0e6,#37c7bf); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:#052026; margin-bottom:16px;">LC</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:#f2fdfb;">Lena Cho</div>
+          <div style="font-size:13.5px; color:var(--accent2,#7fe3da); font-weight:600; margin-top:3px;">Client Care</div>
+          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">The human who actually answers when you call.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST -->
+    <section data-screen-label="Trust" style="padding-top:clamp(64px,11vh,130px);">
+      <div data-reveal style="margin-bottom:clamp(24px,4vh,38px);">
+        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin:0 0 16px;">Licensed &amp; accountable</p>
+        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:#f2fdfb; margin:0;">On paper, not just in person.</h2>
+      </div>
+      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-bottom:16px;">
+        <div style="padding:24px 24px 26px; border-radius:18px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; color:#f2fdfb; margin-bottom:6px;">Texas licensed</div>
+          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.66);">Pool service Lic. #TX-PC-2201, in good standing.</div>
+        </div>
+        <div style="padding:24px 24px 26px; border-radius:18px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; color:#f2fdfb; margin-bottom:6px;">Bonded &amp; insured</div>
+          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.66);">$2M general liability on every job we take.</div>
+        </div>
+        <div style="padding:24px 24px 26px; border-radius:18px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; color:#f2fdfb; margin-bottom:6px;">CPO certified</div>
+          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.66);">A Certified Pool Operator on every single crew.</div>
+        </div>
+        <div style="padding:24px 24px 26px; border-radius:18px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; color:#f2fdfb; margin-bottom:6px;">Background-checked</div>
+          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.66);">Every tech vetted before they touch a gate.</div>
+        </div>
+      </div>
+      <div data-reveal style="padding:clamp(28px,4vw,44px); border-radius:22px; background:linear-gradient(135deg, rgba(12,52,66,.6), rgba(8,30,38,.48)); border:1px solid rgba(127,227,218,.3); display:flex; flex-wrap:wrap; align-items:center; gap:18px 28px;">
+        <div style="flex:none; width:56px; height:56px; border-radius:16px; background:rgba(127,227,218,.16); border:1px solid rgba(127,227,218,.5); display:flex; align-items:center; justify-content:center; font-size:26px; color:var(--accent,#5fd0c8);">✓</div>
+        <div style="flex:1 1 300px; min-width:0;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(20px,2.4vw,28px); color:#f2fdfb; letter-spacing:-.01em;">The green-to-clean guarantee</div>
+          <p style="font-size:15px; line-height:1.55; color:rgba(214,240,236,.76); margin:6px 0 0;">If we take on a rescue and can't get it swim-ready in five days, the rescue is free. We've paid it out twice in nine years.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section data-reveal data-screen-label="About CTA" style="margin-top:clamp(60px,10vh,120px); padding:clamp(40px,6vw,66px); border-radius:28px; background:linear-gradient(135deg, rgba(12,52,66,.62), rgba(8,30,38,.5)); border:1px solid rgba(127,227,218,.3); text-align:center; backdrop-filter:blur(10px);">
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,4vw,52px); line-height:1.02; letter-spacing:-.02em; color:#f2fdfb; margin:0 0 14px; text-wrap:balance;">Let's meet at your gate.</h2>
+      <p style="font-size:17px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto 30px; max-width:520px;">Book a first visit and meet the crew who'll be keeping your water honest all season.</p>
+      <a href="contact.html" class="cta-button" style="display:inline-block; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:16px 30px; border-radius:999px; box-shadow:0 14px 40px rgba(30,180,170,.36); transition:transform .3s ease;">Book a visit →</a>
+    </section>
+
+    <!-- FOOTER -->
+    <div style="margin-top:clamp(56px,9vh,110px); padding-top:26px; border-top:1px solid rgba(150,230,225,.12); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px; font-size:13px; color:rgba(214,240,236,.44);">
+      <span>© 2026 Meridian Pool Care · Lic. #TX-PC-2201 · Bonded &amp; insured</span>
+      <span style="display:flex; flex-wrap:wrap; gap:8px 20px;"><a href="tel:+15125550143">(512) 555-0143</a><a href="mailto:care@meridianpools.com">care@meridianpools.com</a><span>Austin &amp; Hill Country</span></span>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/config.js"></script>
+<script>
+(function() {
+  // Set up color palette
+  const root = document.getElementById('root');
+  const accentColor = '#5fd0c8';
+  const accentColor2 = '#7fe3da';
+  root.style.setProperty('--accent', accentColor);
+  root.style.setProperty('--accent2', accentColor2);
+
+  // State
+  const state = {
+    isNarrow: false,
+    menuOpen: false
+  };
+
+  // Elements
+  const nav = document.getElementById('nav');
+  const desktopNav = document.getElementById('desktopNav');
+  const menuBtn = document.getElementById('menuBtn');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuLine1 = document.getElementById('menuLine1');
+  const menuLineMid = document.getElementById('menuLineMid');
+  const menuLine3 = document.getElementById('menuLine3');
+  const storySection = document.getElementById('storySection');
+
+  // Media query for narrow viewport
+  const mq = matchMedia('(max-width: 860px)');
+  const updateNarrow = (e) => {
+    state.isNarrow = e.matches;
+    state.menuOpen = false;
+    updateMenuDisplay();
+    updateNavDisplay();
+    updateStoryDir();
+  };
+  mq.addEventListener('change', updateNarrow);
+  state.isNarrow = mq.matches;
+  updateNavDisplay();
+  updateStoryDir();
+
+  // Menu button click
+  menuBtn.addEventListener('click', () => {
+    state.menuOpen = !state.menuOpen;
+    updateMenuDisplay();
+  });
+
+  // Close menu overlay click
+  menuOverlay.addEventListener('click', () => {
+    state.menuOpen = false;
+    updateMenuDisplay();
+  });
+
+  // Close menu on link click
+  const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+  mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      state.menuOpen = false;
+      updateMenuDisplay();
+    });
+  });
+
+  function updateMenuDisplay() {
+    if (state.isNarrow) {
+      menuBtn.style.display = 'flex';
+      desktopNav.style.display = 'none';
+    } else {
+      menuBtn.style.display = 'none';
+      desktopNav.style.display = 'flex';
+      state.menuOpen = false;
+    }
+
+    if (state.menuOpen) {
+      menuOverlay.style.display = 'block';
+      mobileMenu.style.display = 'flex';
+      menuLine1.style.transform = 'translateY(5.5px) rotate(45deg)';
+      menuLineMid.style.opacity = '0';
+      menuLine3.style.transform = 'translateY(-5.5px) rotate(-45deg)';
+    } else {
+      menuOverlay.style.display = 'none';
+      mobileMenu.style.display = 'none';
+      menuLine1.style.transform = 'none';
+      menuLineMid.style.opacity = '1';
+      menuLine3.style.transform = 'none';
+    }
+  }
+
+  function updateNavDisplay() {
+    if (state.isNarrow) {
+      desktopNav.style.display = 'none';
+      menuBtn.style.display = 'flex';
+    } else {
+      desktopNav.style.display = 'flex';
+      menuBtn.style.display = 'none';
+    }
+  }
+
+  function updateStoryDir() {
+    if (state.isNarrow) {
+      storySection.style.flexDirection = 'column';
+    } else {
+      storySection.style.flexDirection = 'row';
+    }
+  }
+
+  // Scroll event for nav styling
+  const onScroll = () => {
+    const solid = window.scrollY > 40;
+    nav.style.background = solid ? 'rgba(4,20,27,0.72)' : 'rgba(4,20,27,0)';
+    nav.style.borderBottomColor = solid ? 'rgba(150,230,225,0.14)' : 'rgba(150,230,225,0)';
+    nav.style.backdropFilter = solid ? 'blur(14px) saturate(120%)' : 'none';
+    nav.style.webkitBackdropFilter = nav.style.backdropFilter;
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Reveal animations using IntersectionObserver
+  function initReveal() {
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach((en) => {
+        if (en.isIntersecting) {
+          en.target.style.opacity = '1';
+          en.target.style.transform = 'none';
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' });
+
+    root.querySelectorAll('[data-reveal]').forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)';
+      el.style.transitionDelay = (el.dataset.delay || 0) + 'ms';
+      el.style.willChange = 'opacity, transform';
+      io.observe(el);
+    });
+  }
+
+  requestAnimationFrame(() => initReveal());
+
+  // Clean up
+  window.addEventListener('beforeunload', () => {
+    window.removeEventListener('scroll', onScroll);
+    mq.removeEventListener('change', updateNarrow);
+  });
+})();
+</script>
+
+</body>
+</html>
