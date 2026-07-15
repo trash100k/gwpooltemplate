@@ -18,6 +18,9 @@ window.MERIDIAN_CONFIG = {
   }
 };
 
+/* Track whether demo-mode warning has been emitted this page load. */
+var meridianLeadWarningEmitted = false;
+
 /* Shared lead-form submit helper. Returns a promise that resolves when the
    lead is stored (or immediately in demo mode). Pages call this from their
    form handlers. */
@@ -30,6 +33,16 @@ window.meridianSubmitLead = function (fields) {
     page: location.pathname
   }, fields);
   if (!cfg.leadEndpoint) {
+    // Warn once per page load if running on a non-local deployment.
+    var isLocalhost = location.hostname === 'localhost' ||
+                      location.hostname === '127.0.0.1' ||
+                      location.hostname === '0.0.0.0' ||
+                      location.hostname === '::1' ||
+                      location.hostname === '';
+    if (!isLocalhost && !meridianLeadWarningEmitted) {
+      console.warn('[Meridian/Gaelworx] leadEndpoint is not configured — booking forms are running in DEMO MODE and leads are NOT being stored. Set leadEndpoint in js/config.js.');
+      meridianLeadWarningEmitted = true;
+    }
     return Promise.resolve({ demo: true, payload: payload });
   }
   return fetch(cfg.leadEndpoint, {

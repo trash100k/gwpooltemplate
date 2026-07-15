@@ -30,20 +30,72 @@
   @keyframes gw-coin-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes gw-ablaze { 0% { color: #ff9a3c; text-shadow: 0 0 5px rgba(255,150,60,.7), 0 0 12px rgba(255,90,20,.4); } 100% { color: #ffd27a; text-shadow: 0 0 9px rgba(255,185,90,.95), 0 0 22px rgba(255,110,30,.6); } }
   @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes pc-fc-clear { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 0 100%); } }
 
   /* :hover / :focus rules ported from the prototype's hover/focus authoring attributes */
-  .pc-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 22px 54px rgba(30,180,170,.5); }
+  .pc-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 38px rgba(30,180,170,.55); }
   .pc-hero-secondary:hover { background: rgba(20,34,12,.6); transform: translateY(-3px); }
-  .pc-svc-row:hover { background: rgba(127,227,218,.05); padding-left: 26px; }
+  .pc-svc-row:hover { background: rgba(127,227,218,.05); transform: translateX(18px); }
   .pc-caro-btn:hover { border-color: rgba(127,227,218,.55); }
   .pc-plan-ghost:hover { background: rgba(16,66,82,.7); }
   .pc-plan-primary:hover { transform: translateY(-2px); }
   .pc-chip:hover { border-color: rgba(127,227,218,.5); }
   .pc-input:focus { border-color: #7fe3da; }
-  .pc-form-submit:hover { transform: translateY(-2px); box-shadow: 0 18px 44px rgba(30,180,170,.5); }
+  .pc-form-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(30,180,170,.55); }
   .pc-nav-link:hover { color: #7fe3da; }
   .pc-menu-link:hover { background: rgba(127,227,218,.1); }
   .pc-badge:hover { transform: translateY(-3px); box-shadow: 0 26px 62px rgba(2,10,14,.66); border-color: rgba(127,227,218,.5); }
+  .pc-chip:focus-visible { outline: 2px solid #7fe3da; outline-offset: 2px; }
+  .pc-vh { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* Rescue Forecast — contact-section lead magnet */
+  .pc-fc-panel { padding: 20px 20px 22px; margin: 0 0 20px; border-radius: 16px; background: rgba(4,20,27,.45); border: 1px solid rgba(150,230,225,.18); animation: pc-fade .45s ease both; }
+  .pc-fc-no { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #5fd0c8; margin: 0 0 8px; }
+  .pc-fc-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: clamp(21px,2.6vw,27px); line-height: 1.08; letter-spacing: -.02em; color: #f2fdfb; margin: 0 0 18px; text-wrap: balance; }
+  .pc-fc-strip { position: relative; height: 14px; margin: 0 0 20px; }
+  .pc-fc-fill { position: absolute; inset: 0; border-radius: 999px; }
+  .pc-fc-veil { position: absolute; inset: 0; border-radius: 999px; background: linear-gradient(90deg, rgba(160,235,228,.42), rgba(4,20,27,.6) 24%, rgba(4,20,27,.64)); box-shadow: inset 2px 0 0 rgba(185,244,238,.55); }
+  .pc-fc-clearing { animation: pc-fc-clear 1.2s cubic-bezier(.2,.7,.2,1) forwards; }
+  .pc-fc-dot { position: absolute; top: 50%; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: #eafcfb; box-shadow: 0 0 8px rgba(127,227,218,.85); z-index: 2; }
+  .pc-fc-steps { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+  .pc-fc-step { display: flex; gap: 12px; align-items: baseline; animation: pc-rise .55s cubic-bezier(.2,.7,.2,1) both; }
+  .pc-fc-step-label { flex: none; min-width: 76px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .01em; color: #7fe3da; }
+  .pc-fc-step-text { font-family: 'Manrope', sans-serif; font-weight: 400; font-size: 14px; line-height: 1.5; color: rgba(224,244,240,.86); }
+  .pc-fc-band { font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 13px; line-height: 1.5; letter-spacing: .01em; color: #9df0e7; background: rgba(127,227,218,.1); border: 1px solid rgba(127,227,218,.26); border-radius: 10px; padding: 10px 14px; margin: 0 0 12px; }
+  .pc-fc-honesty { font-family: 'Manrope', sans-serif; font-weight: 400; font-size: 11.5px; line-height: 1.5; color: rgba(214,240,236,.5); margin: 0; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid #7fe3da; outline-offset: 2px; }
+  .pc-hero-primary:active, .pc-plan-primary:active, .pc-form-submit:active { transform: translateY(1px); transition-duration: .1s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* stop the infinite/ambient decorative animations outright */
+    .pc-marq,
+    .pc-float,
+    .pc-drift,
+    #pc-cue span,
+    #pc-crawl h2,
+    #pc-badge-wrap img,
+    #pc-badge-wrap [aria-hidden="true"],
+    .gw-ablaze-el {
+      animation: none !important;
+    }
+
+    /* entrance reveals stay (content visibility depends on them) but resolve instantly */
+    .pc-rise,
+    .pc-fade {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+    }
+
+    /* forecast reveals resolve to their final (clear) state instantly */
+    .pc-fc-panel,
+    .pc-fc-step {
+      animation: none !important;
+    }
+    .pc-fc-veil {
+      display: none !important;
+    }
+  }
 </style>
 
 <!-- ===== inline SVG filters ===== -->
@@ -91,37 +143,20 @@
     <section id="care-hero" data-chapter="" data-screen-label="Hero" style="position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:clamp(90px,14vh,150px) clamp(22px,5vw,72px) clamp(60px,9vh,110px);">
 
       <div style="max-width:1180px; width:100%; margin:0 auto;">
-        <div style="display:inline-flex; align-items:center; gap:12px; padding:9px 16px; border:1px solid rgba(190,210,140,.30); border-radius:999px; background:rgba(14,22,6,.4); backdrop-filter:blur(6px); margin-bottom:clamp(22px,3.5vh,40px); animation:pc-rise 1s cubic-bezier(.2,.7,.2,1) both;">
+        <div class="pc-rise" style="display:inline-flex; align-items:center; gap:12px; padding:9px 16px; border:1px solid rgba(190,210,140,.30); border-radius:999px; background:rgba(14,22,6,.4); backdrop-filter:blur(6px); margin-bottom:clamp(22px,3.5vh,40px); animation:pc-rise 1s cubic-bezier(.2,.7,.2,1) both;">
           <span style="width:7px; height:7px; border-radius:50%; background:#aebd6d; box-shadow:0 0 12px #aebd6d;"></span>
           <span style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#dde8bc; font-weight:600;">Meridian · Pool Care &amp; Rescue</span>
         </div>
 
-        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(52px,10.5vw,150px); line-height:.92; letter-spacing:-.03em; color:#f2fdfb; margin:0; text-shadow:0 8px 60px rgba(6,12,2,.6); animation:pc-rise 1.15s cubic-bezier(.2,.7,.2,1) .08s both;">
+        <h1 class="pc-rise" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(52px,10.5vw,150px); line-height:.92; letter-spacing:-.03em; color:#f2fdfb; margin:0; text-shadow:0 8px 60px rgba(6,12,2,.6); animation:pc-rise 1.15s cubic-bezier(.2,.7,.2,1) .08s both;">
           Green means stop.<br><span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.08em; letter-spacing:0; color:#a9efe6;">Clear means go.</span>
         </h1>
 
-        <p style="max-width:600px; margin:clamp(24px,3.5vh,38px) 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.62; color:rgba(236,246,228,.82); animation:pc-rise 1.2s cubic-bezier(.2,.7,.2,1) .18s both;">Algae, cloud, and chemistry gone sideways, every pool drifts toward swamp          without steady hands. Scroll, and watch our team take over.</p>
+        <p class="pc-rise" style="max-width:600px; margin:clamp(24px,3.5vh,38px) 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.62; color:rgba(236,246,228,.82); animation:pc-rise 1.2s cubic-bezier(.2,.7,.2,1) .18s both;">Algae, cloud, and chemistry gone sideways, every pool drifts toward swamp without steady hands. Scroll, and watch our team take over.</p>
 
-        <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:clamp(30px,4.5vh,46px); animation:pc-rise 1.25s cubic-bezier(.2,.7,.2,1) .28s both;">
-          <button class="pc-hero-primary" data-target="care-contact" data-nav="1" style="cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:16px; letter-spacing:.01em; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:17px 30px; border-radius:999px; box-shadow:0 14px 40px rgba(30,180,170,.36); transition:transform .3s ease, box-shadow .3s ease;">Rescue my pool</button>
+        <div class="pc-rise" style="display:flex; flex-wrap:wrap; gap:16px; margin-top:clamp(38px,6vh,64px); animation:pc-rise 1.25s cubic-bezier(.2,.7,.2,1) .28s both;">
+          <button class="pc-hero-primary" data-target="care-contact" data-nav="1" style="cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:16px; letter-spacing:.01em; color:#052026; background:linear-gradient(135deg,#8ef0e6,#2bb3a9); padding:17px 30px; border-radius:999px; box-shadow:0 10px 28px rgba(30,180,170,.42); transition:transform .3s ease, box-shadow .3s ease;">Rescue my pool</button>
           <button class="pc-hero-secondary" data-target="care-proof" data-nav="1" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:16px; color:#eafcfb; background:rgba(14,24,8,.42); border:1px solid rgba(200,220,150,.32); padding:17px 28px; border-radius:999px; backdrop-filter:blur(8px); transition:background .3s ease, transform .3s ease;">See the transformation</button>
-        </div>
-
-        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:clamp(20px,3vw,40px); margin-top:clamp(34px,5vh,58px); animation:pc-rise 1.3s cubic-bezier(.2,.7,.2,1) .4s both;">
-          <div style="display:flex; align-items:center; gap:11px;">
-            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:26px; color:#f2fdfb;">1,900+</span>
-            <span style="font-size:13px; line-height:1.3; color:rgba(232,242,224,.66);">pools<br>rescued</span>
-          </div>
-          <div style="width:1px; height:30px; background:rgba(200,220,150,.24);"></div>
-          <div style="display:flex; align-items:center; gap:11px;">
-            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:26px; color:#f2fdfb;">4 days</span>
-            <span style="font-size:13px; line-height:1.3; color:rgba(232,242,224,.66);">avg green<br>to clean</span>
-          </div>
-          <div style="width:1px; height:30px; background:rgba(200,220,150,.24);"></div>
-          <div style="display:flex; align-items:center; gap:11px;">
-            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:26px; color:#f2fdfb;">98%</span>
-            <span style="font-size:13px; line-height:1.3; color:rgba(232,242,224,.66);">stay year<br>over year</span>
-          </div>
         </div>
       </div>
 
@@ -135,7 +170,7 @@
 
     <!-- ---------- TRUST BAR · moving credentials ---------- -->
     <div aria-label="Credentials" style="position:relative; z-index:1; padding:clamp(16px,2.6vh,26px) 0; border-top:1px solid rgba(150,230,225,.12); border-bottom:1px solid rgba(150,230,225,.12); overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent); mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);">
-      <div style="display:flex; width:max-content; animation:pc-marquee 46s linear infinite; will-change:transform;">
+      <div class="pc-marq" style="display:flex; width:max-content; animation:pc-marquee 46s linear infinite; will-change:transform;">
         <div style="display:flex; align-items:center; gap:clamp(24px,3.2vw,50px); padding-right:clamp(24px,3.2vw,50px);">
           <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">Licensed &amp; Insured</span>
           <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
@@ -146,6 +181,8 @@
           <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">Background-Checked Crew</span>
           <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
           <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">4.9★ Google</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">1,900+ Pools Rescued</span>
           <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
           <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">No Contracts</span>
           <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
@@ -162,6 +199,8 @@
           <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">Background-Checked Crew</span>
           <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
           <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:rgba(236,246,228,.9); white-space:nowrap;">4.9★ Google</span>
+          <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">1,900+ Pools Rescued</span>
           <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
           <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(18px,2.2vw,29px); letter-spacing:-.01em; color:transparent; -webkit-text-stroke:1px rgba(159,220,214,.85); white-space:nowrap;">No Contracts</span>
           <span style="width:7px; height:7px; border-radius:50%; background:#5fd0c8; flex:none; opacity:.7;"></span>
@@ -208,7 +247,7 @@
     </section>
 
     <!-- ---------- THE CRAWL · what grows while you wait (Star Wars style) ---------- -->
-    <section id="care-crawl" data-chapter="" data-screen-label="The water" style="position:relative; min-height:200vh; overflow:hidden;">
+    <section id="care-crawl" data-chapter="" data-screen-label="The water" style="position:relative; min-height:170vh; overflow:hidden;">
 
       <!-- faint glow at the vanishing point -->
       <div aria-hidden="true" style="position:absolute; top:5%; left:50%; transform:translateX(-50%); width:min(660px,82vw); height:240px; background:radial-gradient(62% 100% at 50% 0%, rgba(244,209,61,.12), transparent 72%); pointer-events:none;"></div>
@@ -216,25 +255,24 @@
       <div aria-hidden="true" style="position:absolute; inset:0; z-index:1; pointer-events:none; background:radial-gradient(118% 40% at 50% 50%, rgba(4,12,7,.34), rgba(4,12,7,.13) 56%, transparent 78%);"></div>
 
       <!-- section kicker -->
-      <p data-reveal="" style="position:absolute; top:clamp(16px,2.6vh,32px); left:0; right:0; z-index:3; text-align:center; margin:0; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#c6d68e; font-weight:600;">Meanwhile, in the water you didn't touch</p>
+      <p data-reveal="" style="position:absolute; top:clamp(16px,2.6vh,32px); left:0; right:0; z-index:3; text-align:center; margin:0; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#c6d68e; font-weight:600;">02 — Meanwhile, in the water you didn't touch</p>
 
       <!-- crawl stage -->
       <div style="position:absolute; inset:0; z-index:2; perspective:520px; perspective-origin:50% 44%; overflow:hidden; -webkit-mask-image:linear-gradient(to top, transparent 2%, #000 16%, #000 64%, transparent 96%); mask-image:linear-gradient(to top, transparent 2%, #000 16%, #000 64%, transparent 96%);">
-        <div id="pc-crawl" style="position:absolute; left:50%; bottom:0; width:97vw; transform-origin:50% 100%; transform:translateX(-50%) rotateX(30deg) translateY(66%); will-change:transform;">
+        <div id="pc-crawl" style="position:absolute; left:50%; bottom:0; width:min(78vw, 880px); transform-origin:50% 100%; transform:translateX(-50%) rotateX(30deg) translateY(66%); will-change:transform;">
 
           <div style="text-align:center; margin-bottom:60px;">
             <div style="font-family:'Manrope',sans-serif; font-weight:700; font-size:clamp(18px,2.4vw,32px); letter-spacing:.12em; text-transform:uppercase; color:#f4d13d; margin-bottom:26px; opacity:.92;">The DIY Chronicles</div>
             <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(64px,11vw,150px); line-height:.94; letter-spacing:-.01em; color:#f4d13d; margin:0; filter:url(#waterRipple); animation:pc-crawl-title 4.5s ease-in-out infinite;">What grows<br>while you wait</h2>
           </div>
 
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(30px,4.8vw,66px); line-height:1.4; letter-spacing:.004em; text-align:justify; color:#d8b552; text-shadow:0 0 20px rgba(200,150,26,.32);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(30px,4.8vw,66px); line-height:1.4; letter-spacing:.004em; text-align:justify; hyphens:auto; -webkit-hyphens:auto; color:#d8b552; text-shadow:0 0 20px rgba(200,150,26,.32);">
             <p style="margin:0 0 1.05em;">Turn your back for one warm weekend, and the water begins to change. In the still, unattended deep end, an entire ecosystem stakes its claim.</p>
-            <p style="margin:0 0 1.05em;">First bloom the <strong style="font-weight:800; color:#ffe45e;">ALGAE</strong> — green algae, mustard algae, black algae, blue-green cyanobacteria, and the creeping pink slime that stains the tile line.</p>
-            <p style="margin:0 0 1.05em;">Then spread the <strong style="font-weight:800; color:#ffe45e;">MOLDS</strong> in the dark — white water mold, unfurling like wet tissue through the skimmer and the returns.</p>
-            <p style="margin:0 0 1.05em;">In their wake creep the <strong style="font-weight:800; color:#ffe45e;">BACTERIA</strong> — Pseudomonas aeruginosa, Legionella pneumophila, Escherichia coli, Shigella, and Campylobacter.</p>
-            <p style="margin:0 0 1.05em;">Deeper still wait the <strong style="font-weight:800; color:#ffe45e;">PARASITES</strong> — Cryptosporidium, Giardia, Acanthamoeba, and Naegleria fowleri, the brain-eating amoeba.</p>
-            <p style="margin:0 0 1.05em;">And drifting on every warm current, the <strong style="font-weight:800; color:#ffe45e;">VIRUSES</strong> — norovirus, adenovirus, hepatitis A, echovirus, and coxsackievirus.</p>
+            <p style="margin:0 0 1.05em;">First bloom the <strong style="font-weight:800; color:#ffe45e;">ALGAE</strong> — green algae, mustard algae, and black algae.</p>
+            <p style="margin:0 0 1.05em;">Then spread the <strong style="font-weight:800; color:#ffe45e;">MOLDS and BACTERIA</strong> in the dark — white water mold unfurling like wet tissue through the skimmer, and Pseudomonas, E. coli close behind.</p>
+            <p style="margin:0 0 1.05em;">Deeper still wait the <strong style="font-weight:800; color:#ffe45e;">PARASITES</strong> — Cryptosporidium, Giardia, and Naegleria fowleri, the brain-eating amoeba.</p>
             <p style="margin:1.5em 0 0; text-align:center; font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.18em; letter-spacing:0; color:#ffe45e;">This is the water you inherit the moment you look away.</p>
+            <p style="margin:1.5em 0 0; text-align:center; font-family:'Manrope',sans-serif; font-weight:600; font-style:normal; letter-spacing:.004em; color:#7fe3da; text-shadow:0 0 18px rgba(127,227,218,.35);">Every one of them loses to balanced water.</p>
           </div>
 
         </div>
@@ -243,36 +281,42 @@
 
     <!-- ---------- THE TURN · live clarity counter ---------- -->
     <section id="care-turn" data-chapter="" data-screen-label="The turn" style="position:relative; min-height:112vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:clamp(60px,10vh,120px) clamp(22px,5vw,72px);">
-      <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 clamp(18px,3vh,30px);">02 — The turn</p>
+      <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 clamp(18px,3vh,30px);">03 — The turn</p>
       <div id="pc-turnpct" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(96px,19vw,270px); line-height:.9; letter-spacing:-.045em; color:#f2fdfb; text-shadow:0 10px 80px rgba(3,20,28,.6);">8%</div>
-      <div style="font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:rgba(214,240,236,.6); margin:clamp(14px,2.5vh,24px) 0 clamp(30px,5vh,52px);">water clarity — keep scrolling</div>
+      <div id="pc-turnlabel" aria-live="polite" style="font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:rgba(214,240,236,.6); margin:clamp(14px,2.5vh,24px) 0 clamp(30px,5vh,52px);">water clarity — keep scrolling</div>
       <h2 data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.6vw,58px); line-height:1.04; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 16px; text-wrap:balance;">This is <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">where we come in.</span></h2>
       <p data-reveal="" data-delay="80" style="font-size:clamp(16px,1.4vw,19px); line-height:1.62; color:rgba(224,247,242,.78); margin:0; max-width:520px;">One crew. One visit a week. The whole ritual, every time — and the water never gets a vote.</p>
+
+      <div style="margin-top:clamp(36px,6vh,60px); display:flex; flex-direction:column; gap:clamp(10px,1.8vh,18px);">
+        <p data-reveal="" data-delay="140" style="margin:0; line-height:1.1;"><span class="pc-count" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); letter-spacing:-.025em; color:#f2fdfb;">1,900+</span> <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:clamp(19px,2.2vw,28px); color:rgba(224,247,242,.8); margin-left:.4em;">pools pulled back.</span></p>
+        <p data-reveal="" data-delay="220" style="margin:0; line-height:1.1;"><span class="pc-count" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); letter-spacing:-.025em; color:#f2fdfb;">4 days</span> <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:clamp(19px,2.2vw,28px); color:rgba(224,247,242,.8); margin-left:.4em;">green to clean, on average.</span></p>
+        <p data-reveal="" data-delay="300" style="margin:0; line-height:1.1;"><span class="pc-count" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); letter-spacing:-.025em; color:#f2fdfb;">98%</span> <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:clamp(19px,2.2vw,28px); color:rgba(224,247,242,.8); margin-left:.4em;">stay, year after year.</span></p>
+      </div>
     </section>
 
     <!-- ---------- SERVICES · the ritual, open rows ---------- -->
     <section id="care-services" data-chapter="" data-screen-label="Services" style="position:relative; padding:clamp(80px,12vh,160px) clamp(22px,5vw,72px);">
             <div style="max-width:1180px; margin:0 auto; position:relative;">
-        <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">03 — Every visit</p>
+        <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">04 — Every visit</p>
         <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,6vw,80px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 clamp(40px,6vh,70px);">The full ritual, <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">weekly.</span></h2>
 
         <div data-reveal="" style="border-top:1px solid rgba(150,230,225,.18);">
-          <div class="pc-svc-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, padding-left .35s ease;">
+          <div class="pc-svc-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, transform .35s ease;">
             <span style="flex:none; width:54px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#7fe3da;">01</span>
             <span style="flex:1 1 300px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(24px,3vw,40px); letter-spacing:-.02em; color:#f2fdfb;">Skim · Brush · Vacuum</span>
             <span style="flex:1 1 320px; max-width:460px; font-size:15.5px; line-height:1.6; color:rgba(224,247,242,.7);">Waterline to floor, tile line included. Photo-ready when we latch the gate behind us.</span>
           </div>
-          <div class="pc-svc-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, padding-left .35s ease;">
+          <div class="pc-svc-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, transform .35s ease;">
             <span style="flex:none; width:54px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#7fe3da;">02</span>
             <span style="flex:1 1 300px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(24px,3vw,40px); letter-spacing:-.02em; color:#f2fdfb;">Balance the chemistry</span>
             <span style="flex:1 1 320px; max-width:460px; font-size:15.5px; line-height:1.6; color:rgba(224,247,242,.7);">Lab-grade testing, dosed on the spot, chemicals included — full report to your phone before we leave.</span>
           </div>
-          <div class="pc-svc-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, padding-left .35s ease;">
+          <div class="pc-svc-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, transform .35s ease;">
             <span style="flex:none; width:54px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#7fe3da;"></span>
             <span style="flex:1 1 300px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(24px,3vw,40px); letter-spacing:-.02em; color:#f2fdfb;">Watch the equipment</span>
             <span style="flex:1 1 320px; max-width:460px; font-size:15.5px; line-height:1.6; color:rgba(224,247,242,.7);">Pump, filter, heater, salt cell — caught early, fixed fast. No July surprises.</span>
           </div>
-          <div class="pc-svc-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, padding-left .35s ease;">
+          <div class="pc-svc-row" style="display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 28px; padding:clamp(26px,3.5vh,40px) 8px; border-bottom:1px solid rgba(150,230,225,.14); transition:background .35s ease, transform .35s ease;">
             <span style="flex:none; width:54px; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:#7fe3da;">04</span>
             <span style="flex:1 1 300px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(24px,3vw,40px); letter-spacing:-.02em; color:#f2fdfb;">Rescue the lost causes</span>
             <span style="flex:1 1 320px; max-width:460px; font-size:15.5px; line-height:1.6; color:rgba(224,247,242,.7);">Most full-swamp pools back to swim-ready in 3–5 days — we save your water whenever we can, and most rescues need no drain. Then we keep it that way.</span>
@@ -285,9 +329,9 @@
     <section id="care-proof" data-chapter="" data-screen-label="Proof" style="position:relative; padding:clamp(80px,12vh,160px) clamp(22px,5vw,72px);">
       <div style="max-width:1180px; margin:0 auto; position:relative;">
         <div style="text-align:center; margin-bottom:clamp(36px,5vh,56px);">
-          <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">04 — Proof</p>
+          <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">05 — Proof</p>
           <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,6vw,80px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0;">Recent rescues.</h2>
-          <p data-reveal="" data-delay="110" style="font-size:15px; color:rgba(214,240,236,.6); margin:14px 0 0;">Hover or tap a job to open it — real backyards, real turnarounds.</p>
+          <p data-reveal="" data-delay="110" style="font-size:15px; color:rgba(214,240,236,.6); margin:14px 0 0;">Real backyards, real turnarounds — hover or tap a job to open it.</p>
         </div>
 
         <div data-reveal="" id="pc-jobs" style="display:flex; flex-direction:row; gap:12px; width:100%; height:clamp(420px,56vh,540px);">
@@ -362,7 +406,7 @@
             <div class="pc-job-ring" style="position:absolute; inset:0; border-radius:16px; border:1.5px solid rgba(127,227,218,0); box-shadow:none; pointer-events:none; transition:border-color .55s ease, box-shadow .55s ease;"></div>
           </div>
         </div>
-        <p data-reveal="" style="text-align:center; font-size:12.5px; color:rgba(214,240,236,.42); margin:18px 0 0;">Photography via Pexels &amp; Unsplash — drop your own before &amp; after photos into each panel.</p>
+        <!-- Template note (not shown to site visitors): photography via Pexels & Unsplash — drop your own before & after photos into each panel before launch. -->
 
         <div data-reveal="" style="position:relative; max-width:720px; margin:clamp(56px,9vh,90px) auto 0;">
           <div style="overflow:hidden;">
@@ -373,7 +417,7 @@
               </blockquote>
               <blockquote style="flex:0 0 100%; min-width:0; margin:0; text-align:center; padding:0 8px;">
                 <p style="font-family:'Bricolage Grotesque',sans-serif; font-weight:500; font-size:clamp(20px,2.4vw,30px); line-height:1.35; letter-spacing:-.015em; color:#eefbf8; margin:0 0 16px;">“Weekly visits, one point of contact, and chemistry logged every time. We stopped thinking about the pool at all.”</p>
-                <footer style="font-size:14px; color:rgba(214,240,236,.6);">— Dana &amp; Marc R. · Complete Care since 2023</footer>
+                <footer style="font-size:14px; color:rgba(214,240,236,.6);">— Dana &amp; Marc R. · Complete since 2023</footer>
               </blockquote>
               <blockquote style="flex:0 0 100%; min-width:0; margin:0; text-align:center; padding:0 8px;">
                 <p style="font-family:'Bricolage Grotesque',sans-serif; font-weight:500; font-size:clamp(20px,2.4vw,30px); line-height:1.35; letter-spacing:-.015em; color:#eefbf8; margin:0 0 16px;">“Mustard algae had beaten three other companies. Meridian triple-shocked it and it never came back.”</p>
@@ -403,7 +447,7 @@
     <section id="care-promise" data-chapter="" data-screen-label="Promise" style="position:relative; padding:clamp(70px,11vh,150px) clamp(22px,5vw,72px);">
       <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr)); gap:clamp(32px,5vw,80px);">
         <div data-reveal="">
-          <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">The Meridian promise</p>
+          <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">06 — The promise</p>
           <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4vw,54px); line-height:1.0; letter-spacing:-.02em; color:#f2fdfb; margin:0 0 20px; text-wrap:balance;">If it isn't right, <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">we make it right.</span></h3>
           <p style="font-size:clamp(15px,1.4vw,18px); line-height:1.62; color:rgba(224,247,242,.76); margin:0; max-width:470px;">Tell us within 48 hours of a visit and we re-clean it free — no argument. Your water is balanced and logged before we latch the gate; that part we guarantee. Timelines on a rescue depend on the pool, so we quote it honestly after we see the water.</p>
         </div>
@@ -419,12 +463,12 @@
     <section id="care-plans" data-chapter="" data-screen-label="Plans" style="position:relative; padding:clamp(80px,12vh,160px) clamp(22px,5vw,72px);">
             <div style="max-width:1180px; margin:0 auto; position:relative;">
         <div style="text-align:center; margin-bottom:clamp(40px,6vh,66px);">
-          <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">05 — Plans</p>
+          <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">07 — Plans</p>
           <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,6vw,80px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0;">Pick your <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">peace of mind.</span></h2>
         </div>
 
         <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:18px; align-items:stretch;">
-          <div data-reveal="" style="display:flex; flex-direction:column; padding:34px 30px; border-radius:24px; background:rgba(8,34,44,.5); backdrop-filter:blur(10px); border:1px solid rgba(150,230,225,.18);">
+          <div data-reveal="" style="display:flex; flex-direction:column; padding:34px 30px; border-radius:24px; background:rgba(8,34,44,.5); backdrop-filter:blur(10px); border:1px solid rgba(150,230,225,.18); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
             <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; color:#f2fdfb;">Essential</div>
             <div style="display:flex; align-items:baseline; gap:6px; margin:14px 0 20px;"><span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:44px; color:#f2fdfb; letter-spacing:-.02em;">$149</span><span style="font-size:15px; color:rgba(214,240,236,.6);">/mo</span></div>
             <div style="display:flex; flex-direction:column; font-size:14.5px; line-height:1.5; color:rgba(224,247,242,.78);">
@@ -436,8 +480,8 @@
             <button class="pc-plan-ghost" data-target="care-contact" data-nav="1" style="margin-top:auto; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:#eafcfb; background:rgba(12,52,66,.5); border:1px solid rgba(150,230,225,.32); padding:14px; border-radius:999px; transition:background .3s ease;">Start with Essential</button>
           </div>
 
-          <div data-reveal="" data-delay="70" style="position:relative; display:flex; flex-direction:column; padding:34px 30px; border-radius:24px; background:rgba(12,48,60,.62); backdrop-filter:blur(12px); border:1.5px solid rgba(127,227,218,.55); box-shadow:0 24px 70px rgba(20,120,112,.22);">
-            <span style="position:absolute; top:-13px; left:30px; padding:6px 13px; border-radius:999px; background:linear-gradient(135deg,#8ef0e6,#37c7bf); color:#052026; font-size:12px; font-weight:700; letter-spacing:.06em;">MOST POPULAR</span>
+          <div data-reveal="" data-delay="70" style="position:relative; display:flex; flex-direction:column; padding:34px 30px; border-radius:24px; background:rgba(12,48,60,.62); backdrop-filter:blur(12px); border:1.5px solid rgba(127,227,218,.55); box-shadow:0 24px 70px rgba(20,120,112,.22), inset 0 1px 0 rgba(255,255,255,.05);">
+            <span style="position:absolute; top:-13px; left:30px; padding:6px 13px; border-radius:999px; background:linear-gradient(135deg,#8ef0e6,#2bb3a9); color:#052026; font-size:12px; font-weight:700; letter-spacing:.06em;">MOST POPULAR</span>
             <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; color:#f2fdfb;">Complete</div>
             <div style="display:flex; align-items:baseline; gap:6px; margin:14px 0 20px;"><span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:44px; color:#f2fdfb; letter-spacing:-.02em;">$239</span><span style="font-size:15px; color:rgba(214,240,236,.6);">/mo</span></div>
             <div style="display:flex; flex-direction:column; font-size:14.5px; line-height:1.5; color:rgba(224,247,242,.78);">
@@ -446,10 +490,10 @@
               <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Quarterly filter deep-cleans</span>
               <span style="padding:10px 0; border-top:1px solid rgba(150,230,225,.14);">Same-week storm cleanups</span>
             </div>
-            <button class="pc-plan-primary" data-target="care-contact" data-nav="1" style="margin-top:auto; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:15px; border-radius:999px; box-shadow:0 12px 34px rgba(30,180,170,.34); transition:transform .25s ease;">Go Complete</button>
+            <button class="pc-plan-primary" data-target="care-contact" data-nav="1" style="margin-top:auto; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#2bb3a9); padding:15px; border-radius:999px; box-shadow:0 9px 24px rgba(30,180,170,.42); transition:transform .25s ease;">Go Complete</button>
           </div>
 
-          <div data-reveal="" data-delay="140" style="display:flex; flex-direction:column; padding:34px 30px; border-radius:24px; background:rgba(8,34,44,.5); backdrop-filter:blur(10px); border:1px solid rgba(150,230,225,.18);">
+          <div data-reveal="" data-delay="140" style="display:flex; flex-direction:column; padding:34px 30px; border-radius:24px; background:rgba(8,34,44,.5); backdrop-filter:blur(10px); border:1px solid rgba(150,230,225,.18); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
             <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; color:#f2fdfb;">The Rescue</div>
             <div style="display:flex; align-items:baseline; gap:6px; margin:14px 0 20px;"><span style="font-size:15px; color:rgba(214,240,236,.6);">from</span><span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:44px; color:#f2fdfb; letter-spacing:-.02em;">$399</span><span style="font-size:15px; color:rgba(214,240,236,.6);">one-time</span></div>
             <div style="display:flex; flex-direction:column; font-size:14.5px; line-height:1.5; color:rgba(224,247,242,.78);">
@@ -469,12 +513,12 @@
     <section id="care-faq" data-chapter="" data-screen-label="FAQ" style="position:relative; padding:clamp(70px,11vh,150px) clamp(22px,5vw,72px);">
       <div style="max-width:900px; margin:0 auto;">
         <div style="text-align:center; margin-bottom:clamp(30px,5vh,52px);">
-          <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">06 — Questions</p>
+          <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">08 — Questions</p>
           <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,72px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0;">Before you <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">book.</span></h2>
         </div>
         <div data-reveal="" style="border-top:1px solid rgba(150,230,225,.16);">
           <div class="pc-faq" style="border-bottom:1px solid rgba(150,230,225,.14);">
-            <button class="pc-faq-btn" data-i="0" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
+            <button class="pc-faq-btn" data-i="0" aria-expanded="false" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
               <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.1vw,25px); letter-spacing:-.01em; color:#f2fdfb;">How much does service cost?</span>
               <span class="pc-faq-icon" style="flex:none; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:300; color:#7fe3da; transform:rotate(0deg); transition:transform .4s cubic-bezier(.2,.7,.2,1);">+</span>
             </button>
@@ -483,7 +527,7 @@
             </div>
           </div>
           <div class="pc-faq" style="border-bottom:1px solid rgba(150,230,225,.14);">
-            <button class="pc-faq-btn" data-i="1" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
+            <button class="pc-faq-btn" data-i="1" aria-expanded="false" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
               <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.1vw,25px); letter-spacing:-.01em; color:#f2fdfb;">How often do you visit?</span>
               <span class="pc-faq-icon" style="flex:none; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:300; color:#7fe3da; transform:rotate(0deg); transition:transform .4s cubic-bezier(.2,.7,.2,1);">+</span>
             </button>
@@ -492,7 +536,7 @@
             </div>
           </div>
           <div class="pc-faq" style="border-bottom:1px solid rgba(150,230,225,.14);">
-            <button class="pc-faq-btn" data-i="2" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
+            <button class="pc-faq-btn" data-i="2" aria-expanded="false" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
               <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.1vw,25px); letter-spacing:-.01em; color:#f2fdfb;">Do you service saltwater pools?</span>
               <span class="pc-faq-icon" style="flex:none; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:300; color:#7fe3da; transform:rotate(0deg); transition:transform .4s cubic-bezier(.2,.7,.2,1);">+</span>
             </button>
@@ -501,7 +545,7 @@
             </div>
           </div>
           <div class="pc-faq" style="border-bottom:1px solid rgba(150,230,225,.14);">
-            <button class="pc-faq-btn" data-i="3" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
+            <button class="pc-faq-btn" data-i="3" aria-expanded="false" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
               <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.1vw,25px); letter-spacing:-.01em; color:#f2fdfb;">Are chemicals included?</span>
               <span class="pc-faq-icon" style="flex:none; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:300; color:#7fe3da; transform:rotate(0deg); transition:transform .4s cubic-bezier(.2,.7,.2,1);">+</span>
             </button>
@@ -510,7 +554,7 @@
             </div>
           </div>
           <div class="pc-faq" style="border-bottom:1px solid rgba(150,230,225,.14);">
-            <button class="pc-faq-btn" data-i="4" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
+            <button class="pc-faq-btn" data-i="4" aria-expanded="false" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
               <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.1vw,25px); letter-spacing:-.01em; color:#f2fdfb;">Am I locked into a contract?</span>
               <span class="pc-faq-icon" style="flex:none; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:300; color:#7fe3da; transform:rotate(0deg); transition:transform .4s cubic-bezier(.2,.7,.2,1);">+</span>
             </button>
@@ -519,7 +563,7 @@
             </div>
           </div>
           <div class="pc-faq" style="border-bottom:1px solid rgba(150,230,225,.14);">
-            <button class="pc-faq-btn" data-i="5" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
+            <button class="pc-faq-btn" data-i="5" aria-expanded="false" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:clamp(18px,2.4vh,24px) 6px; background:none; border:none; cursor:pointer; text-align:left;">
               <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2.1vw,25px); letter-spacing:-.01em; color:#f2fdfb;">What if I'm not happy with a visit?</span>
               <span class="pc-faq-icon" style="flex:none; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:300; color:#7fe3da; transform:rotate(0deg); transition:transform .4s cubic-bezier(.2,.7,.2,1);">+</span>
             </button>
@@ -535,7 +579,7 @@
     <div aria-label="Service area" style="position:relative; z-index:1; padding:clamp(26px,4.5vh,54px) 0;">
       <p style="text-align:center; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 clamp(16px,2.6vh,28px);">Where we run — Austin &amp; the Hill Country</p>
       <div style="overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent); mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);">
-        <div style="display:flex; width:max-content; animation:pc-marquee-rev 60s linear infinite; will-change:transform;">
+        <div class="pc-marq" style="display:flex; width:max-content; animation:pc-marquee-rev 60s linear infinite; will-change:transform;">
           <div style="display:flex; align-items:center; gap:clamp(20px,2.8vw,44px); padding-right:clamp(20px,2.8vw,44px);">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,5vw,64px); letter-spacing:-.02em; color:transparent; -webkit-text-stroke:1.2px rgba(159,220,214,.6); white-space:nowrap;">Cedar Park</span>
             <span style="width:9px; height:9px; border-radius:50%; background:#7fe3da; flex:none; opacity:.55;"></span>
@@ -583,37 +627,43 @@
     <!-- ---------- CONTACT + FOOTER ---------- -->
     <section id="care-contact" data-chapter="" data-screen-label="Contact" style="position:relative; padding:clamp(80px,12vh,160px) clamp(22px,5vw,72px) 40px;">
       <div style="max-width:720px; margin:0 auto; text-align:center;">
-        <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">Book a visit</p>
+        <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#5fd0c8; font-weight:600; margin:0 0 18px;">09 — The Rescue Forecast</p>
         <h2 data-reveal="" data-delay="60" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,6vw,80px); line-height:.98; letter-spacing:-.025em; color:#f2fdfb; margin:0 0 16px;">Get your <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">Saturday back.</span></h2>
         <p data-reveal="" data-delay="120" style="font-size:17px; line-height:1.6; color:rgba(214,240,236,.76); margin:0 0 clamp(34px,5vh,50px);">Tell us how the water looks today. A real water tech — not a call center — replies within one business day.</p>
 
         <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr)); gap:clamp(22px,3vw,40px); align-items:stretch; text-align:left;">
-          <figure data-reveal="" data-delay="80" style="margin:0; display:flex; flex-direction:column; justify-content:center; padding:clamp(26px,3vw,38px); border-radius:24px; background:rgba(8,34,44,.32); border:1px solid rgba(150,230,225,.14);">
+          <figure data-reveal="" data-delay="80" style="margin:0; display:flex; flex-direction:column; justify-content:center; padding:clamp(26px,3vw,38px); border-radius:24px; background:rgba(8,34,44,.32); border:1px solid rgba(150,230,225,.14); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
             <div aria-hidden="true" style="font-family:'Instrument Serif',serif; font-style:italic; font-size:60px; line-height:.55; color:rgba(127,227,218,.5); margin-bottom:14px;">“</div>
             <blockquote style="margin:0; font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:clamp(22px,2.4vw,31px); line-height:1.3; color:#eefbf8;">They pulled our pool back from full swamp in four days — and it’s stayed glass ever since.</blockquote>
-            <figcaption style="margin-top:20px; font-family:'Manrope',sans-serif; font-size:13.5px; letter-spacing:.02em; color:rgba(214,240,236,.62);">The Hendersons · Rescue Nº 1,847</figcaption>
+            <figcaption style="margin-top:20px; font-family:'Manrope',sans-serif; font-size:13.5px; letter-spacing:.02em; color:rgba(214,240,236,.62);">The Hendersons · Rescue Nº <span class="pc-count">1,847</span></figcaption>
           </figure>
-          <div data-reveal="" data-delay="120" style="padding:clamp(26px,3vw,38px); border-radius:24px; background:rgba(8,34,44,.55); backdrop-filter:blur(12px); border:1px solid rgba(150,230,225,.2); text-align:left;">
+          <div data-reveal="" data-delay="120" style="padding:clamp(26px,3vw,38px); border-radius:24px; background:rgba(8,34,44,.55); backdrop-filter:blur(12px); border:1px solid rgba(150,230,225,.2); box-shadow:inset 0 1px 0 rgba(255,255,255,.05); text-align:left;">
           <div id="pc-submitted" style="display:none;">
             <div style="text-align:center; padding:26px 6px;">
               <div style="width:64px; height:64px; margin:0 auto 22px; border-radius:50%; background:rgba(127,227,218,.16); border:1px solid rgba(127,227,218,.5); display:flex; align-items:center; justify-content:center; font-size:28px; color:#7fe3da;">✓</div>
               <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:28px; color:#f2fdfb; margin:0 0 12px;">Rescue inbound.</h3>
-              <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto; max-width:340px;">A water tech will call within one business day. Leave the gate unlocked — we'll handle the rest.</p>
+              <p id="pc-submitted-recap" style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.82); margin:0 auto 12px; max-width:360px;">Your forecast is locked. A real water tech confirms it within one business day.</p>
+              <p style="font-size:14px; line-height:1.6; color:rgba(214,240,236,.6); margin:0 auto; max-width:340px;">Leave the gate unlocked — we'll handle the rest.</p>
             </div>
           </div>
           <div id="pc-form-panel">
             <div>
               <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#7fe3da; font-weight:600; margin-bottom:14px;">How's the water today?</div>
-              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-                <button type="button" class="pc-chip" data-v="crystal" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Crystal — maintain it<span class="pc-chip-ring" style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none; display:none;"></span></button>
-                <button type="button" class="pc-chip" data-v="cloudy" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">A little cloudy<span class="pc-chip-ring" style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none; display:none;"></span></button>
-                <button type="button" class="pc-chip" data-v="green" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Getting green<span class="pc-chip-ring" style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none; display:block;"></span></button>
-                <button type="button" class="pc-chip" data-v="swamp" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Full swamp<span class="pc-chip-ring" style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none; display:none;"></span></button>
+              <div id="pc-chips" role="group" aria-label="Current water condition" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+                <button type="button" class="pc-chip" data-v="crystal" aria-pressed="false" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Crystal — maintain it<span class="pc-chip-ring" style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none; display:none;"></span></button>
+                <button type="button" class="pc-chip" data-v="cloudy" aria-pressed="false" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">A little cloudy<span class="pc-chip-ring" style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none; display:none;"></span></button>
+                <button type="button" class="pc-chip" data-v="green" aria-pressed="false" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Getting green<span class="pc-chip-ring" style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none; display:none;"></span></button>
+                <button type="button" class="pc-chip" data-v="swamp" aria-pressed="false" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Full swamp<span class="pc-chip-ring" style="position:absolute; inset:-1px; border-radius:999px; border:2px solid #7fe3da; pointer-events:none; display:none;"></span></button>
               </div>
+              <p id="pc-chip-hint" role="alert" style="display:none; font-size:12.5px; line-height:1.5; color:#ff9a8f; margin:0 0 16px;">Pick the water first — takes one tap.</p>
+              <div id="pc-forecast" aria-live="polite" style="display:none;"></div>
+              <div id="pc-form-head" style="display:none; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#7fe3da; font-weight:600; margin-bottom:12px;">Lock in this forecast</div>
               <form id="pc-form" style="display:flex; flex-direction:column; gap:12px;">
-                <input class="pc-input" required="" name="name" placeholder="First name" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
-                <input class="pc-input" required="" name="contact" placeholder="Phone or email" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
-                <button type="submit" class="pc-form-submit" style="margin-top:4px; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:16px; border-radius:12px; box-shadow:0 12px 34px rgba(30,180,170,.34); transition:transform .25s ease, box-shadow .25s ease;">Book my first visit →</button>
+                <label class="pc-vh" for="pc-name">First name</label>
+                <input id="pc-name" class="pc-input" required="" name="name" placeholder="First name" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
+                <label class="pc-vh" for="pc-contact">Phone or email</label>
+                <input id="pc-contact" class="pc-input" required="" name="contact" placeholder="Phone or email" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
+                <button type="submit" class="pc-form-submit" style="margin-top:4px; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#2bb3a9); padding:16px; border-radius:12px; box-shadow:0 9px 24px rgba(30,180,170,.42); transition:transform .25s ease, box-shadow .25s ease;">Book my first visit →</button>
                 <p id="pc-form-error" style="display:none; font-size:12.5px; line-height:1.5; color:#ff9a8f; margin:2px 0 0; text-align:center;">Something went wrong — please call (512) 555-0143 and we'll take it from there.</p>
               </form>
               <p style="font-size:12.5px; line-height:1.5; color:rgba(214,240,236,.5); margin:14px 0 0; text-align:center;">First clean free with any plan. No spam, ever.</p>
@@ -660,10 +710,10 @@
       <a class="pc-menu-link pc-menu-close" href="about.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">About</a>
       <a class="pc-menu-link pc-menu-close" href="pool-school.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pool School</a>
       <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
-      <button id="pc-menu-contact" style="cursor:pointer; border:none; display:block; width:100%; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf);">Rescue my pool</button>
+      <button id="pc-menu-contact" style="cursor:pointer; border:none; display:block; width:100%; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#2bb3a9);">Rescue my pool</button>
     </div>
   </div>
-  <button data-target="care-contact" data-nav="1" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:11px 20px; border-radius:999px; border:none; box-shadow:0 8px 24px rgba(30,180,170,.3);">Rescue my pool</button>
+  <button data-target="care-contact" data-nav="1" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#2bb3a9); padding:11px 20px; border-radius:999px; border:none; box-shadow:0 6px 18px rgba(30,180,170,.38);">Rescue my pool</button>
 </nav>
 
 <!-- ============ CLAIM-THIS-SITE BADGE (Gaelworx) ============ -->
@@ -677,9 +727,9 @@
       </span>
       <span style="display:flex; flex-direction:column; line-height:1.16; padding-right:2px;">
         <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15.5px; letter-spacing:-.006em; color:#f2fdfb;">Claim this site</span>
-        <span style="display:flex; align-items:baseline; gap:5px; font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; color:rgba(214,240,236,.55);">by <span style="font-family:'Grenze Gotisch',serif; font-weight:700; text-transform:uppercase; letter-spacing:.04em; font-size:13px; color:#d99a5b;">G<span style="color:#ffb14d; text-shadow:0 0 7px rgba(255,150,60,.85), 0 0 16px rgba(255,90,20,.55); animation:gw-ablaze 1.6s ease-in-out infinite alternate;">ae</span>lworx</span></span>
+        <span style="display:flex; align-items:baseline; gap:5px; font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; color:rgba(214,240,236,.55);">by <span style="font-family:'Grenze Gotisch',serif; font-weight:700; text-transform:uppercase; letter-spacing:.04em; font-size:13px; color:#d99a5b;">G<span class="gw-ablaze-el" style="color:#ffb14d; text-shadow:0 0 7px rgba(255,150,60,.85), 0 0 16px rgba(255,90,20,.55); animation:gw-ablaze 1.6s ease-in-out infinite alternate;">ae</span>lworx</span></span>
       </span>
-      <span style="flex:none; width:32px; height:32px; margin-left:2px; border-radius:50%; background:linear-gradient(135deg,#8ef0e6,#37c7bf); color:#052026; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; box-shadow:0 4px 14px rgba(30,180,170,.45);">→</span>
+      <span style="flex:none; width:32px; height:32px; margin-left:2px; border-radius:50%; background:linear-gradient(135deg,#8ef0e6,#2bb3a9); color:#052026; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; box-shadow:0 4px 14px rgba(30,180,170,.45);">→</span>
     </span>
   </a>
 </div>
@@ -722,7 +772,7 @@
   var CLARITY_K = [[0, 0.04], [0.12, 0.08], [0.36, 0.2], [0.40, 0.3], [0.52, 0.78], [0.66, 0.88], [0.82, 0.96], [1, 1]];
 
   // ---- state ----
-  var state = { submitted: false, condition: 'green', isNarrow: false, activeJob: 0, reviewIdx: 0, faqOpen: null, menuOpen: false };
+  var state = { submitted: false, condition: null, isNarrow: false, activeJob: 0, reviewIdx: 0, faqOpen: null, menuOpen: false };
 
   // ---- refs / caches ----
   var stage = document.getElementById('pc-stage');
@@ -732,6 +782,8 @@
   var dirtyOverlay = document.getElementById('pc-dirty');
   var waterline = document.getElementById('pc-waterline');
   var turnPct = document.getElementById('pc-turnpct');
+  var turnLabel = document.getElementById('pc-turnlabel');
+  var cannonballed = false;
   var carouselTrack = document.getElementById('pc-carousel');
   var crawl = document.getElementById('pc-crawl');
   var turb = null, disp = null, crawlSection = null;
@@ -815,8 +867,14 @@
     P.ripples.push({ x: x, y: y, t: P.now || 0, rt: performance.now() / 1000, s: s == null ? 1 : s });
     if (P.ripples.length > 12) P.ripples.shift();
   }
-  function burst() {
-    for (var i = 0; i < 3; i++) addRipple(0.5 + (Math.random() - 0.5) * 0.1, 0.42 + (Math.random() - 0.5) * 0.1, 1.3);
+  // success celebration — a spread of ripples across the lower half of the viewport
+  // (engine y is bottom-up, so lower-screen == small y). Reduced motion gets one calm ripple.
+  function successBurst() {
+    if (reduce) { addRipple(0.5, 0.22, 1.3); return; }
+    var n = 4 + Math.floor(Math.random() * 2); // 4–5
+    for (var i = 0; i < n; i++) {
+      addRipple(0.12 + Math.random() * 0.76, 0.05 + Math.random() * 0.4, 1.0 + Math.random() * 0.6);
+    }
   }
   function goTo(id) {
     var el = stage && stage.querySelector('#' + id);
@@ -871,6 +929,7 @@
     faqEls.forEach(function (el, i) {
       var open = state.faqOpen === i;
       el.querySelector('.pc-faq-icon').style.transform = open ? 'rotate(45deg)' : 'rotate(0deg)';
+      el.querySelector('.pc-faq-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
       var body = el.querySelector('.pc-faq-body');
       body.style.maxHeight = open ? '280px' : '0px';
       body.style.opacity = open ? '1' : '0';
@@ -879,9 +938,101 @@
 
   function updateCond() {
     chipEls.forEach(function (btn) {
-      var ring = btn.querySelector('.pc-chip-ring');
-      ring.style.display = (btn.getAttribute('data-v') === state.condition) ? 'block' : 'none';
+      var on = btn.getAttribute('data-v') === state.condition;
+      btn.querySelector('.pc-chip-ring').style.display = on ? 'block' : 'none';
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+  }
+
+  // ---- Rescue Forecast lead magnet ----
+  // Only claims the page already makes (3–5 day swamp rescues, no drain in most cases,
+  // chemicals included, plans from $149/mo, rescues from $399). No new promises.
+  var FORECASTS = {
+    crystal: {
+      title: 'Keep it glass.',
+      grad: 'linear-gradient(90deg,#2a5a4e,#2bb3a9)',
+      band: 'from $149/mo · no contracts',
+      steps: [
+        ['Week 1', 'First visit free: full clean, balance, photo report'],
+        ['Every week after', 'The full ritual, chemicals included']
+      ]
+    },
+    cloudy: {
+      title: 'Caught it early.',
+      grad: 'linear-gradient(90deg,#4a7a72,#7fe3da)',
+      band: 'often no rescue needed — from $149/mo, or a one-time balance visit',
+      steps: [
+        ['Visit 1', 'Lab-grade test + first dose'],
+        ['Days 2–3', 'Filter runs, chemistry settles'],
+        ['By the weekend', 'Clear, balanced, logged']
+      ]
+    },
+    green: {
+      title: 'Bloom in progress — beatable.',
+      grad: 'linear-gradient(90deg,#4a6a2a,#2bb3a9)',
+      band: 'typical green-to-clean: 3–4 days · rescues from $399',
+      steps: [
+        ['Day 1', 'Shock + algaecide, brush-down'],
+        ['Day 2–3', 'Filter cycles, second dose'],
+        ['Day 3–4', 'Clarity check, final balance']
+      ]
+    },
+    swamp: {
+      title: 'Full rescue. We live for these.',
+      grad: 'linear-gradient(90deg,#3d4a16,#2a5a4e,#2bb3a9)',
+      band: 'most swamps: 3–5 days · from $399 · water saved whenever possible',
+      steps: [
+        ['Day 1', 'Assessment + heavy shock, no drain in most cases'],
+        ['Days 2–4', 'Daily filter cycles, brush-downs, second treatment'],
+        ['Day 5', 'Swim-ready, lab-tested, logged']
+      ]
+    }
+  };
+  var CONDLABEL = { crystal: 'crystal', cloudy: 'cloudy', green: 'green', swamp: 'swamp' };
+  var FORECAST_NO = (function () {
+    var now = new Date();
+    var start = new Date(now.getFullYear(), 0, 0);
+    var doy = Math.floor((now - start) / 86400000);
+    return 1900 + doy;
+  })();
+  function fmtNo(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  function renderForecast() {
+    var host = document.getElementById('pc-forecast');
+    var head = document.getElementById('pc-form-head');
+    var submitBtn = document.querySelector('#pc-form .pc-form-submit');
+    var fc = state.condition ? FORECASTS[state.condition] : null;
+    if (!fc) {
+      host.style.display = 'none';
+      host.innerHTML = '';
+      head.style.display = 'none';
+      if (submitBtn) submitBtn.innerHTML = 'Book my first visit →';
+      return;
+    }
+    var n = fc.steps.length, dots = '', steps = '', i, left;
+    for (i = 0; i < n; i++) {
+      left = n === 1 ? 50 : (10 + i * (80 / (n - 1)));
+      dots += '<span class="pc-fc-dot" style="left:' + left + '%;"></span>';
+      steps += '<li class="pc-fc-step" style="animation-delay:' + (0.15 + i * 0.11).toFixed(2) + 's;">'
+        + '<span class="pc-fc-step-label">' + fc.steps[i][0] + '</span>'
+        + '<span class="pc-fc-step-text">' + fc.steps[i][1] + '</span></li>';
+    }
+    host.innerHTML =
+      '<div class="pc-fc-panel">'
+      + '<div class="pc-fc-no">Forecast Nº ' + fmtNo(FORECAST_NO) + '</div>'
+      + '<h3 class="pc-fc-title">' + fc.title + '</h3>'
+      + '<div class="pc-fc-strip">'
+      + '<div class="pc-fc-fill" style="background:' + fc.grad + '; filter:url(#waterRipple);"></div>'
+      + dots
+      + '<div class="pc-fc-veil' + (reduce ? '' : ' pc-fc-clearing') + '"></div>'
+      + '</div>'
+      + '<ul class="pc-fc-steps">' + steps + '</ul>'
+      + '<div class="pc-fc-band">' + fc.band + '</div>'
+      + '<p class="pc-fc-honesty">Typical timeline — we confirm it after we see your water. If it isn\'t right, we make it right.</p>'
+      + '</div>';
+    host.style.display = 'block';
+    head.style.display = 'block';
+    if (submitBtn) submitBtn.innerHTML = 'Send my forecast + book the visit →';
   }
 
   function updateSubmitted() {
@@ -916,7 +1067,20 @@
     });
   });
   chipEls.forEach(function (btn) {
-    btn.addEventListener('click', function () { state.condition = btn.getAttribute('data-v'); updateCond(); burst(); });
+    btn.addEventListener('click', function (e) {
+      state.condition = btn.getAttribute('data-v');
+      document.getElementById('pc-chip-hint').style.display = 'none';
+      if (state.condition === 'swamp' && !reduce) _murk = 1;
+      updateCond();
+      renderForecast();
+      // two ripples near the tap (engine y is bottom-up). Keyboard activation
+      // reports 0,0 — fall back to the chip's own centre so the ripple still lands.
+      var cx = e.clientX, cy = e.clientY;
+      if (!cx && !cy) { var r = btn.getBoundingClientRect(); cx = r.left + r.width / 2; cy = r.top + r.height / 2; }
+      var nx = cx / window.innerWidth, ny = 1 - cy / window.innerHeight;
+      addRipple(nx + (Math.random() - 0.5) * 0.04, ny + (Math.random() - 0.5) * 0.04, 1.2);
+      addRipple(nx + (Math.random() - 0.5) * 0.04, ny + (Math.random() - 0.5) * 0.04, 1.2);
+    });
   });
   document.getElementById('pc-hamburger').addEventListener('click', function () { state.menuOpen = !state.menuOpen; renderNav(); });
   document.getElementById('pc-menu-overlay').addEventListener('click', function () { state.menuOpen = false; renderNav(); });
@@ -932,14 +1096,22 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     formError.style.display = 'none';
+    // a forecast (chosen condition) is required before booking
+    if (!state.condition) {
+      document.getElementById('pc-chip-hint').style.display = 'block';
+      if (chipEls[0]) chipEls[0].focus();
+      return;
+    }
     var name = (form.querySelector('[name=name]') || {}).value || '';
     var contact = (form.querySelector('[name=contact]') || {}).value || '';
     var submitFn = window.meridianSubmitLead;
-    var p = submitFn ? submitFn({ name: name, contact: contact, condition: state.condition }) : Promise.resolve();
+    var p = submitFn ? submitFn({ name: name, contact: contact, condition: state.condition, forecastNo: FORECAST_NO }) : Promise.resolve();
     Promise.resolve(p).then(function () {
+      var recap = document.getElementById('pc-submitted-recap');
+      if (recap) recap.innerHTML = 'Your ' + (CONDLABEL[state.condition] || '') + ' forecast (Nº ' + fmtNo(FORECAST_NO) + ') is locked. A real water tech confirms it within one business day.';
       state.submitted = true;
       updateSubmitted();
-      burst();
+      successBurst();
     }).catch(function () {
       formError.style.display = 'block';
     });
@@ -969,6 +1141,8 @@
 
     // ---- clarity morph ----
     var raw = clarityAt(P.scroll);
+    // swamp confession: a full-swamp pick murks the whole water for a beat, then it recovers
+    if (_murk > 0.004) { _murk *= 0.972; raw *= 1 - _murk * 0.9; } else if (_murk) { _murk = 0; }
     P.clarity = raw;
     _cl += (raw - _cl) * 0.09;
     var cl = _cl;
@@ -980,6 +1154,7 @@
       if (hudFill) { hudFill.style.height = pct + '%'; hudFill.style.background = col; }
       if (hudWord) hudWord.textContent = pct < 22 ? 'Swamp' : pct < 48 ? 'Murky' : pct < 78 ? 'Clearing' : 'Crystal';
       if (turnPct) turnPct.textContent = pct + '%';
+      if (!cannonballed && pct >= 100 && turnLabel) { cannonballed = true; turnLabel.textContent = '100% — cannonball approved'; }
     }
     if (dirtyOverlay) dirtyOverlay.style.opacity = (1 - cl).toFixed(3);
     if (waterline) waterline.style.opacity = (1 - cl).toFixed(3);
@@ -1145,8 +1320,61 @@
   updateReviews();
   updateFaqs();
   updateCond();
+  renderForecast();
   updateSubmitted();
   if (!PROPS.showClaimBadge) { var bw = document.getElementById('pc-badge-wrap'); if (bw) bw.style.display = 'none'; }
+
+  var _murk = 0;
+
+  // headline wake: the hero statement rides the water under the cursor
+  var heroH1 = document.querySelector('#care-hero h1');
+  if (heroH1 && !reduce) {
+    var _lastWake = 0;
+    heroH1.addEventListener('mousemove', function (e) {
+      var now = performance.now();
+      if (now - _lastWake < 160) return;
+      _lastWake = now;
+      addRipple(e.clientX / window.innerWidth, 1 - e.clientY / window.innerHeight, 0.7);
+    });
+  }
+
+  // count-up: the proof numbers arrive when they enter view
+  (function () {
+    var els = [].slice.call(document.querySelectorAll('.pc-count'));
+    if (!els.length || !window.IntersectionObserver || reduce) return;
+    function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+    els.forEach(function (el) {
+      var m = el.textContent.match(/^([^\d]*)([\d,]+)(.*)$/);
+      if (m) el._count = { pre: m[1], target: parseInt(m[2].replace(/,/g, ''), 10), post: m[3] };
+    });
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target, c = el._count;
+        cio.unobserve(el);
+        if (!c || el._counted) return;
+        el._counted = true;
+        var t0 = performance.now(), dur = 950;
+        (function tick(now) {
+          var t = Math.min(1, (now - t0) / dur);
+          var ease = 1 - Math.pow(1 - t, 4);
+          el.textContent = c.pre + fmt(Math.round(c.target * ease)) + c.post;
+          if (t < 1) requestAnimationFrame(tick);
+        })(t0);
+      });
+    }, { threshold: 0.5 });
+    els.forEach(function (el) { if (el._count) cio.observe(el); });
+  })();
+
+  // taps land in the water — primary CTAs push a real ripple into the scene
+  document.addEventListener('click', function (e) {
+    if (reduce || !e.target || !e.target.closest) return;
+    var b = e.target.closest('.pc-hero-primary,.pc-hero-secondary,.pc-plan-primary,.pc-plan-ghost,#pc-menu-contact,button[data-target="care-contact"]');
+    if (!b) return;
+    addRipple(e.clientX / window.innerWidth, e.clientY / window.innerHeight, 1.1);
+  });
+
+  console.log('%cMeridian runs on GAELWORX — every site in the fleet learns from this one. Claim yours → /get-this-site.html', 'background:#04141b;color:#7fe3da;padding:6px 10px;border-radius:6px;font-weight:600;');
   _revTimer = setInterval(advanceReview, 6000);
   _boot = requestAnimationFrame(initEngine);
 })();

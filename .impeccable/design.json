@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-15T19:42:04Z",
+  "title": "Design System: Meridian Pool Care",
+  "extensions": {
+    "colorMeta": {
+      "swamp-black": {
+        "role": "neutral",
+        "displayName": "Swamp Black",
+        "canonical": "#0a1208",
+        "tonalRamp": [
+          "#04140a",
+          "#081f10",
+          "#0a1208",
+          "#122a18",
+          "#1c3d24",
+          "#2c5535",
+          "#4a7a52",
+          "#7ca887"
+        ]
+      },
+      "deep-water": {
+        "role": "neutral",
+        "displayName": "Deep Water",
+        "canonical": "#04141b",
+        "tonalRamp": [
+          "#020a0e",
+          "#03101699",
+          "#04141b",
+          "#0a2530",
+          "#134255",
+          "#1f647d",
+          "#3a8fa8",
+          "#6cbdd1"
+        ]
+      },
+      "foam-white": {
+        "role": "neutral",
+        "displayName": "Foam White",
+        "canonical": "#f2fdfb",
+        "tonalRamp": [
+          "#0a1a17",
+          "#1e3a35",
+          "#3c655d",
+          "#6d9d92",
+          "#a6d4c8",
+          "#d3edE5",
+          "#eafcfb",
+          "#f2fdfb"
+        ]
+      },
+      "foam-bright": {
+        "role": "neutral",
+        "displayName": "Foam Bright",
+        "canonical": "#eafcfb",
+        "tonalRamp": [
+          "#0a1a17",
+          "#1e3a35",
+          "#3c655d",
+          "#6d9d92",
+          "#a6d4c8",
+          "#cff2ec",
+          "#eafcfb",
+          "#f6fffe"
+        ]
+      },
+      "teal-link": {
+        "role": "secondary",
+        "displayName": "Teal Link",
+        "canonical": "#63d3ca",
+        "tonalRamp": [
+          "#062825",
+          "#0d443f",
+          "#166058",
+          "#238e82",
+          "#3bb5a9",
+          "#63d3ca",
+          "#8fe2da",
+          "#c2f2ec"
+        ]
+      },
+      "teal-mid": {
+        "role": "secondary",
+        "displayName": "Teal Mid",
+        "canonical": "#5fd0c8",
+        "tonalRamp": [
+          "#062724",
+          "#0c423d",
+          "#155e57",
+          "#228c81",
+          "#3ab3a7",
+          "#5fd0c8",
+          "#8de0d7",
+          "#c1f0ea"
+        ]
+      },
+      "teal-bright": {
+        "role": "primary",
+        "displayName": "Teal Bright",
+        "canonical": "#7fe3da",
+        "tonalRamp": [
+          "#083330",
+          "#0f5450",
+          "#1a756e",
+          "#2ba398",
+          "#4ec6bb",
+          "#7fe3da",
+          "#a9edE6",
+          "#d4f8f2"
+        ]
+      },
+      "cta-gradient-from": {
+        "role": "primary",
+        "displayName": "CTA Gradient Start",
+        "canonical": "#8ef0e6",
+        "tonalRamp": [
+          "#0a3a35",
+          "#125e56",
+          "#1e847a",
+          "#33aca0",
+          "#5cd0c3",
+          "#8ef0e6",
+          "#b9f6ee",
+          "#dffcf8"
+        ]
+      },
+      "cta-gradient-to": {
+        "role": "primary",
+        "displayName": "CTA Gradient End (jewel)",
+        "canonical": "#2bb3a9",
+        "tonalRamp": [
+          "#052e2a",
+          "#0a4d47",
+          "#136e66",
+          "#1f978d",
+          "#28b3a9",
+          "#37c7bf",
+          "#6bdad2",
+          "#a4ece6"
+        ]
+      },
+      "cta-ink": {
+        "role": "neutral",
+        "displayName": "CTA Ink",
+        "canonical": "#052026",
+        "tonalRamp": [
+          "#020c0e",
+          "#052026",
+          "#0a3844",
+          "#125566",
+          "#1c7890",
+          "#2ea0bb",
+          "#5cc2d8",
+          "#9adeeb"
+        ]
+      },
+      "algae-olive": {
+        "role": "tertiary",
+        "displayName": "Algae Olive",
+        "canonical": "#aebd6d",
+        "tonalRamp": [
+          "#2c3316",
+          "#454f22",
+          "#5f6d30",
+          "#7c8c40",
+          "#98a854",
+          "#aebd6d",
+          "#c4d193",
+          "#dee7c0"
+        ]
+      },
+      "crawl-gold": {
+        "role": "tertiary",
+        "displayName": "Crawl Gold",
+        "canonical": "#f4d13d",
+        "tonalRamp": [
+          "#3d3005",
+          "#6b540a",
+          "#8f7010",
+          "#b8901a",
+          "#d6ac26",
+          "#f4d13d",
+          "#f8e070",
+          "#fbefb0"
+        ]
+      },
+      "gaelworx-ember": {
+        "role": "tertiary",
+        "displayName": "Gaelworx Ember",
+        "canonical": "#ffb14d",
+        "tonalRamp": [
+          "#402505",
+          "#6b3d0a",
+          "#935410",
+          "#c06f18",
+          "#e08d28",
+          "#ffb14d",
+          "#ffcd85",
+          "#ffe4bb"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "One hero statement per page; the site's single loudest moment."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles, one per chapter of the scroll journey."
+      },
+      "accent-serif": {
+        "displayName": "Accent Serif",
+        "purpose": "The italic punchline half of a two-part headline or hero line — never a full heading."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraph copy at translucent-foam colors over the dark canvas."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Chapter kickers and credential-bar text; sparse, uppercase, wide-tracked."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "Reserved exclusively for the 'Gaelworx' name inside the funnel badge."
+      }
+    },
+    "shadows": [
+      {
+        "name": "cta-glow",
+        "value": "0 10px 28px rgba(30,180,170,.42)",
+        "purpose": "Resting elevation for primary CTA buttons."
+      },
+      {
+        "name": "cta-glow-hover",
+        "value": "0 16px 38px rgba(30,180,170,.55)",
+        "purpose": "Hover state for primary CTA buttons."
+      },
+      {
+        "name": "badge-lift",
+        "value": "0 16px 44px rgba(2,10,14,.55), inset 0 1px 0 rgba(255,255,255,.05)",
+        "purpose": "Resting elevation for the Claim-This-Site funnel badge."
+      },
+      {
+        "name": "featured-plan-glow",
+        "value": "0 24px 70px rgba(20,120,112,.22)",
+        "purpose": "Marks the 'Most Popular' plan card as elevated relative to siblings."
+      },
+      {
+        "name": "specular-edge",
+        "value": "inset 0 1px 0 rgba(255,255,255,.05)",
+        "purpose": "Top-edge light catch on structural glass surfaces; alpha never exceeds .05."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-rise",
+        "value": "cubic-bezier(.2,.7,.2,1)",
+        "purpose": "Default ease-out for scroll-reveal entrances (pc-rise/pc-fade)."
+      },
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(.4,0,.2,1)",
+        "purpose": "Structural transitions, e.g. job-gallery flex-grow accordion."
+      }
+    ],
+    "breakpoints": []
+  },
+  "components": [
+    {
+      "name": "Primary CTA Button",
+      "kind": "button",
+      "refersTo": "button-cta",
+      "description": "Main call-to-action pill, e.g. 'Rescue my pool'.",
+      "html": "<button class=\"ds-btn-cta\">Rescue my pool</button>",
+      "css": ".ds-btn-cta { cursor: pointer; border: none; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: .01em; color: #052026; background: linear-gradient(135deg,#8ef0e6,#2bb3a9); padding: 17px 30px; border-radius: 999px; box-shadow: 0 10px 28px rgba(30,180,170,.42); transition: transform .3s ease, box-shadow .3s ease; } .ds-btn-cta:hover { transform: translateY(-3px); box-shadow: 0 16px 38px rgba(30,180,170,.55); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action pill, e.g. 'See the transformation'.",
+      "html": "<button class=\"ds-btn-ghost\">See the transformation</button>",
+      "css": ".ds-btn-ghost { cursor: pointer; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 16px; color: #eafcfb; background: rgba(14,24,8,.42); border: 1px solid rgba(200,220,150,.32); padding: 17px 28px; border-radius: 999px; backdrop-filter: blur(8px); transition: background .3s ease, transform .3s ease; } .ds-btn-ghost:hover { background: rgba(20,34,12,.6); transform: translateY(-3px); }"
+    },
+    {
+      "name": "Toggle Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Selectable pill with an active-state ring, used in the water-condition selector.",
+      "html": "<button type=\"button\" class=\"ds-chip\">Getting green<span class=\"ds-chip-ring\"></span></button>",
+      "css": ".ds-chip { position: relative; cursor: pointer; padding: 11px 16px; border-radius: 999px; background: rgba(10,44,56,.55); border: 1px solid rgba(150,230,225,.2); color: #eafcfb; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 13.5px; transition: border-color .3s ease; } .ds-chip:hover { border-color: rgba(127,227,218,.5); } .ds-chip-ring { position: absolute; inset: -1px; border-radius: 999px; border: 2px solid #7fe3da; pointer-events: none; }"
+    },
+    {
+      "name": "Plan Card",
+      "kind": "card",
+      "refersTo": "card-plan",
+      "description": "Pricing plan card; the featured variant adds a heavier border and glow.",
+      "html": "<div class=\"ds-card-plan\"><div class=\"ds-card-plan-title\">Essential</div><div class=\"ds-card-plan-price\">$149<span>/mo</span></div></div>",
+      "css": ".ds-card-plan { display: flex; flex-direction: column; padding: 34px 30px; border-radius: 24px; background: rgba(8,34,44,.5); backdrop-filter: blur(10px); border: 1px solid rgba(150,230,225,.18); } .ds-card-plan-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; color: #f2fdfb; } .ds-card-plan-price { display: flex; align-items: baseline; gap: 6px; margin: 14px 0 20px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 44px; color: #f2fdfb; letter-spacing: -.02em; } .ds-card-plan-price span { font-size: 15px; font-weight: 400; color: rgba(214,240,236,.6); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Booking/contact form field, glass surface with teal focus border.",
+      "html": "<input class=\"ds-input\" placeholder=\"First name\">",
+      "css": ".ds-input { padding: 15px 16px; border-radius: 12px; background: rgba(4,20,27,.55); border: 1px solid rgba(150,230,225,.22); color: #eafcfb; font-family: 'Manrope', sans-serif; font-size: 15px; outline: none; } .ds-input::placeholder { color: rgba(214,240,236,.4); } .ds-input:focus { border-color: #7fe3da; }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Top navigation link with teal hover.",
+      "html": "<a class=\"ds-nav-link\" href=\"#\">Services</a>",
+      "css": ".ds-nav-link { font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 14.5px; color: rgba(234,250,246,.82); text-decoration: none; transition: color .3s ease; } .ds-nav-link:hover { color: #7fe3da; }"
+    },
+    {
+      "name": "Claim-This-Site Badge",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Signature funnel component fixed bottom-right on every deployed site: spinning coin, ember-glowing Gaelworx wordmark, teal arrow chip.",
+      "html": "<a class=\"ds-badge\" href=\"#\"><span class=\"ds-badge-coin\"></span><span class=\"ds-badge-label\">Claim this site<br><small>by <b class=\"ds-badge-wordmark\">Gaelworx</b></small></span><span class=\"ds-badge-arrow\">→</span></a>",
+      "css": ".ds-badge { position: relative; display: flex; align-items: center; padding: 9px 16px 9px 9px; border-radius: 999px; background: rgba(6,20,27,.72); backdrop-filter: blur(14px) saturate(120%); border: 1px solid rgba(150,230,225,.22); box-shadow: 0 16px 44px rgba(2,10,14,.55), inset 0 1px 0 rgba(255,255,255,.05); text-decoration: none; transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; } .ds-badge-label { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 15.5px; color: #f2fdfb; } .ds-badge-wordmark { font-family: 'Grenze Gotisch', serif; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #ffb14d; } .ds-badge-arrow { flex: none; width: 32px; height: 32px; margin-left: 2px; border-radius: 50%; background: linear-gradient(135deg,#8ef0e6,#2bb3a9); color: #052026; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Swamp to Crystal",
+    "overview": "The whole site is one continuous rescue, staged as a scroll-driven journey rather than a stack of marketing sections. It opens in a murky, half-lit swamp — algae-olive accents, dim water, a WebGL surface the visitor scrolls through — and clears, screen by screen, into bright teal crystal water as the Meridian story does its work. The system rejects the pool-service category default (stock-photo blue water, franchise-brochure blandness) and the generic AI-SaaS default (gradient text, tiny tracked eyebrows on every section, identical icon-card grids, the hero-metric template) in the same motion: the drama comes from the water motif itself, not from decoration layered on top of a template.",
+    "keyCharacteristics": [
+      "Dark, water-bound canvas (#0a1208 / #04141b) that the WebGL scene and gradients sit inside, never a light or neutral background.",
+      "Two-tier type voice: bold grotesque for statements, italic serif for the emotional turn inside the same sentence.",
+      "Glass-on-water surfaces (translucent, blurred, teal-bordered) standing in for the 'looking through water' motif — never decorative glassmorphism for its own sake.",
+      "One reserved bright-teal gradient, spent only on primary CTAs, the featured plan ribbon, and the funnel badge's arrow.",
+      "A single ornamental gothic face (Grenze Gotisch) reserved exclusively for the Gaelworx wordmark in the funnel badge."
+    ],
+    "rules": [
+      {
+        "name": "The One Gradient Rule",
+        "body": "The bright teal CTA gradient appears in exactly three places: primary buttons, the featured plan's ribbon, and the funnel badge's arrow. It never becomes a background wash, a card border, or a decorative flourish.",
+        "section": "colors"
+      },
+      {
+        "name": "The Warm-Means-Something Rule",
+        "body": "Olive, gold, and ember never appear together with the cool teal system in the same section. Warm = still dirty (olive), still a warning (gold), or still a funnel (ember).",
+        "section": "colors"
+      },
+      {
+        "name": "The Serif-Aside Rule",
+        "body": "Instrument Serif italic is a punctuation mark, not a typeface choice for whole headlines. If it's carrying more than half a sentence, it's being misused.",
+        "section": "typography"
+      },
+      {
+        "name": "The Glass-on-Water Rule",
+        "body": "backdrop-filter blur + a translucent teal-tinted background is the system's only depth cue for structural surfaces (nav, cards, inputs, badge). It's load-bearing to the water theme, not decorative glassmorphism.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the cool teal system as the only accent that reads as 'clean water winning.'",
+      "Do reserve Grenze Gotisch for the Gaelworx wordmark only.",
+      "Do use glass surfaces as the elevation system; colored glow shadows only on genuinely interactive/lifted elements.",
+      "Do keep numbered chapter kickers only on sections that are real, ordered beats of the swamp-to-crystal narrative.",
+      "Do hold body-text contrast at ≥4.5:1 against the swamp-black/deep-water canvas."
+    ],
+    "donts": [
+      "Don't introduce stock-photo blue-water treatments, franchise-brochure card grids, or generic 'Get a Free Quote!' banner styling anywhere in the template.",
+      "Don't use background-clip:text gradient text, side-stripe border accents, or a hero-metric template.",
+      "Don't stamp numbered eyebrows on sections that aren't part of the actual rescue narrative.",
+      "Don't mix the warm system (olive/gold/ember) with the cool system inside one section.",
+      "Don't apply glassmorphism decoratively outside structural surfaces (nav, cards, inputs, badge)."
+    ]
+  }
+}
