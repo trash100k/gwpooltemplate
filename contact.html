@@ -10,29 +10,51 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  :root{
+    --swamp-black:#0a1208; --deep-water:#04141b;
+    --foam-white:#f2fdfb; --foam-bright:#eafcfb;
+    --accent:#7fe3da; --accent-2:#5fd0c8; --link:#63d3ca;
+    --cta-from:#8ef0e6; --cta-to:#37c7bf; --cta-ink:#052026;
+    --algae:#aebd6d; --gold:#f4d13d; --ember:#ffb14d;
+  }
   html { scroll-behavior: smooth; }
   html, body { margin: 0; padding: 0; background: #04121a; }
   * { box-sizing: border-box; }
   body { font-family: 'Manrope', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-  a { color: #63d3ca; text-decoration: none; }
+  a { color: var(--link); text-decoration: none; }
   a:hover { color: #9df0e7; }
-  ::selection { background: rgba(95,208,200,0.30); color: #eafcfb; }
-  input::placeholder, textarea::placeholder { color: rgba(214,240,236,.4); }
+  ::selection { background: rgba(95,208,200,0.30); color: var(--foam-bright); }
+  input::placeholder, textarea::placeholder { color: rgba(214,240,236,.62); }
   @keyframes sv-floatA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px,-30px); } }
   @keyframes sv-floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-34px,26px); } }
   @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
 
   /* :hover / :focus rules ported from the prototype's style-hover / style-focus authoring attributes */
-  .cn-nav-link:hover { color: var(--accent2,#7fe3da); }
-  .cn-nav-cta:hover { color: #052026; }
+  .cn-nav-link:hover { color: var(--accent2,var(--accent)); }
+  .cn-nav-cta:hover { color: var(--cta-ink); }
   .cn-menu-link:hover { background: rgba(127,227,218,.1); }
   .cn-chip:hover { border-color: rgba(127,227,218,.5); }
-  .cn-input:focus { border-color: var(--accent,#5fd0c8); }
+  .cn-input:focus { border-color: var(--accent,var(--accent-2)); }
   .cn-submit:hover { transform: translateY(-2px); box-shadow: 0 18px 44px rgba(30,180,170,.5); }
-  .cn-phone-link:hover { color: var(--accent2,#7fe3da); }
+  .cn-phone-link:hover { color: var(--accent2,var(--accent)); }
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  .mpc-skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--deep-water);color:var(--foam-bright);padding:12px 18px;border-radius:0 0 10px 0;font-family:'Manrope',sans-serif;font-weight:600;font-size:14px;}
+  .mpc-skip:focus{left:0;}
 </style>
 </head>
 <body>
+<a class="mpc-skip" href="#main">Skip to content</a>
+
+<noscript>
+  <div style="position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; padding:24px; background:linear-gradient(180deg,#07171e 0%,#04121a 58%,#061a20 100%); font-family:'Manrope',system-ui,sans-serif;">
+    <div style="max-width:440px; text-align:center; padding:34px 30px; border-radius:24px; background:rgba(8,34,44,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright);">
+      <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:26px; letter-spacing:-.01em; color:var(--foam-white); margin:0 0 12px;">JavaScript required</div>
+      <p style="font-size:15px; line-height:1.6; color:rgba(214,240,236,.82); margin:0 0 18px;">This page needs JavaScript for the full booking experience. To book right now, reach a real water tech:</p>
+      <p style="font-size:16px; line-height:1.7; margin:0; color:var(--foam-bright);">Call <a href="tel:+15125550143" data-cfg-href="tel" data-cfg="phone" style="color:var(--accent); font-weight:700;">(512) 555-0143</a><br>or email <a href="mailto:care@meridianpools.com" data-cfg-href="mailto" data-cfg="email" style="color:var(--accent); font-weight:700;">care@meridianpools.com</a></p>
+    </div>
+  </div>
+</noscript>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <filter id="waterRipple" x="-12%" y="-12%" width="124%" height="124%">
@@ -52,8 +74,8 @@
   <!-- ============ NAV ============ -->
   <nav id="cn-nav" style="position:fixed; top:0; left:0; right:0; z-index:20; border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
     <div style="max-width:1180px; margin:0 auto; padding:15px clamp(22px,5vw,72px); display:flex; align-items:center; justify-content:space-between; gap:20px;">
-      <a href="index.html" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; letter-spacing:-.01em; color:#f2fdfb; display:flex; align-items:baseline; gap:9px;">
-        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,#5fd0c8); box-shadow:0 0 12px var(--accent,#5fd0c8); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent2,#7fe3da);">Pool Care</span>
+      <a href="index.html" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; letter-spacing:-.01em; color:var(--foam-white); display:flex; align-items:baseline; gap:9px;">
+        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2)); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent2,var(--accent));">Pool Care</span>
       </a>
       <div id="cn-desktop-links" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
         <a class="cn-nav-link" href="index.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Home</a>
@@ -63,10 +85,10 @@
         <a class="cn-nav-link" href="about.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">About</a>
         <a class="cn-nav-link" href="pool-school.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pool School</a>
       </div>
-      <button id="cn-hamburger" aria-label="Menu" style="display:none; cursor:pointer; flex:none; width:38px; height:38px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); align-items:center; justify-content:center; gap:4px; flex-direction:column;">
-        <span id="cn-line1" style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
-        <span id="cn-line2" style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; opacity:1; transition:opacity .2s ease;"></span>
-        <span id="cn-line3" style="width:16px; height:1.6px; border-radius:2px; background:#eafcfb; transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+      <button id="cn-hamburger" aria-label="Menu" style="display:none; cursor:pointer; flex:none; width:44px; height:44px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); align-items:center; justify-content:center; gap:4px; flex-direction:column;">
+        <span id="cn-line1" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+        <span id="cn-line2" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); opacity:1; transition:opacity .2s ease;"></span>
+        <span id="cn-line3" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
       </button>
       <div id="cn-menu-scrim" style="display:none; position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
       <div id="cn-menu" style="display:none; position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
@@ -77,23 +99,23 @@
         <a class="cn-menu-link" href="about.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">About</a>
         <a class="cn-menu-link" href="pool-school.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pool School</a>
         <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
-        <a href="#book" id="cn-menu-book" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf);">Book a visit</a>
+        <a href="#book" id="cn-menu-book" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Book a visit</a>
       </div>
-      <a class="cn-nav-cta" href="#book" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:11px 20px; border-radius:999px; box-shadow:0 8px 24px rgba(30,180,170,.3);">Book a visit</a>
+      <a class="cn-nav-cta" href="#book" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 8px 24px rgba(30,180,170,.3);">Book a visit</a>
     </div>
   </nav>
 
   <!-- ============ CONTENT ============ -->
-  <main style="position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 clamp(22px,5vw,72px) clamp(60px,10vh,120px);">
+  <main id="main" style="position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 clamp(22px,5vw,72px) clamp(60px,10vh,120px);">
 
     <!-- HERO -->
     <section id="top" data-screen-label="Contact hero" style="padding:clamp(118px,20vh,196px) 0 clamp(30px,5vh,56px);">
       <div data-reveal>
         <div style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
-          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,#5fd0c8); box-shadow:0 0 12px var(--accent,#5fd0c8);"></span>
+          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2));"></span>
           <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#dbeef0; font-weight:600;">Contact &amp; Booking</span>
         </div>
-        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:#f2fdfb; margin:0; text-wrap:balance;">Get your<br />Saturday back.</h1>
+        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">Get your<br />Saturday back.</h1>
         <p style="max-width:600px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">Tell us how the water looks today. A real water tech — not a call center — replies within one business day.</p>
       </div>
     </section>
@@ -106,39 +128,44 @@
         <div style="padding:clamp(26px,3vw,40px); border-radius:24px; background:rgba(8,34,44,.55); backdrop-filter:blur(12px); border:1px solid rgba(150,230,225,.2);">
 
           <div id="cn-submitted" style="display:none; text-align:center; padding:40px 6px;">
-            <div style="width:64px; height:64px; margin:0 auto 22px; border-radius:50%; background:rgba(127,227,218,.16); border:1px solid rgba(127,227,218,.5); display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--accent,#5fd0c8);">✓</div>
-            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:30px; color:#f2fdfb; margin:0 0 12px;">Rescue inbound.</h3>
+            <div style="width:64px; height:64px; margin:0 auto 22px; border-radius:50%; background:rgba(127,227,218,.16); border:1px solid rgba(127,227,218,.5); display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--accent,var(--accent-2));">✓</div>
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:30px; color:var(--foam-white); margin:0 0 12px;">Rescue inbound.</h3>
             <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto; max-width:360px;">A water tech will call within one business day. Leave the gate unlocked — we'll handle the rest.</p>
           </div>
 
           <div id="cn-form-panel">
-            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin-bottom:14px;">How's the water today?</div>
+            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin-bottom:14px;">How's the water today?</div>
             <div id="cn-conditions" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-              <button type="button" class="cn-chip" data-v="crystal" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Crystal — maintain it<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></button>
-              <button type="button" class="cn-chip" data-v="cloudy" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">A little cloudy<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></button>
-              <button type="button" class="cn-chip" data-v="green" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Getting green<span class="cn-ring" style="display:block; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></button>
-              <button type="button" class="cn-chip" data-v="swamp" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Full swamp<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="crystal" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Crystal — maintain it<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="cloudy" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">A little cloudy<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="green" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Getting green<span class="cn-ring" style="display:block; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="swamp" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Full swamp<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
             </div>
 
-            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent,#5fd0c8); font-weight:600; margin-bottom:14px;">What do you need?</div>
+            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin-bottom:14px;">What do you need?</div>
             <div id="cn-services" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-              <button type="button" class="cn-chip" data-v="weekly" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Weekly plan<span class="cn-ring" style="display:block; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></button>
-              <button type="button" class="cn-chip" data-v="rescue" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">One-time rescue<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></button>
-              <button type="button" class="cn-chip" data-v="repair" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Equipment repair<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></button>
-              <button type="button" class="cn-chip" data-v="question" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:#eafcfb; font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Just a question<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,#5fd0c8); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="weekly" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Weekly plan<span class="cn-ring" style="display:block; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="rescue" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">One-time rescue<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="repair" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Equipment repair<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="question" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Just a question<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
             </div>
 
             <form id="cn-form" style="display:flex; flex-direction:column; gap:12px;">
               <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                <input required name="name" class="cn-input" placeholder="First name" style="flex:1 1 160px; min-width:0; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
-                <input required name="contact" class="cn-input" placeholder="Phone or email" style="flex:1 1 160px; min-width:0; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
+                <label for="cn-name" class="vh">First name</label>
+                <input required name="name" id="cn-name" maxlength="100" class="cn-input" placeholder="First name" style="flex:1 1 160px; min-width:0; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
+                <label for="cn-contact" class="vh">Phone or email</label>
+                <input required name="contact" id="cn-contact" maxlength="120" class="cn-input" placeholder="Phone or email" style="flex:1 1 160px; min-width:0; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
               </div>
-              <input name="address" class="cn-input" placeholder="Street & ZIP (for a same-day quote)" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
-              <textarea name="message" rows="3" class="cn-input" placeholder="Anything we should know? (gate code, pump noise, last time it was cleaned…)" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:#eafcfb; font-family:'Manrope',sans-serif; font-size:15px; outline:none; resize:vertical;"></textarea>
-              <button type="submit" class="cn-submit" style="margin-top:4px; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:#052026; background:linear-gradient(135deg,#8ef0e6,#37c7bf); padding:16px; border-radius:12px; box-shadow:0 12px 34px rgba(30,180,170,.34); transition:transform .25s ease, box-shadow .25s ease;">Book my first visit →</button>
-              <p id="cn-form-error" style="display:none; font-size:13.5px; line-height:1.5; color:#ffb4a8; margin:2px 0 0; text-align:center;">Something went wrong sending that — please call (512) 555-0143 or email care@meridianpools.com and we'll take it from there.</p>
+              <p id="cn-contact-hint" style="display:none; font-size:13.5px; line-height:1.5; color:#ffb4a8; margin:-4px 0 0;">Add a phone number or email so we can reach you.</p>
+              <label for="cn-address" class="vh">Street and ZIP</label>
+              <input name="address" id="cn-address" maxlength="200" class="cn-input" placeholder="Street & ZIP (for a same-day quote)" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
+              <label for="cn-message" class="vh">Anything we should know?</label>
+              <textarea name="message" id="cn-message" rows="3" maxlength="1000" class="cn-input" placeholder="Anything we should know? (gate code, pump noise, last time it was cleaned…)" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-size:15px; outline:none; resize:vertical;"></textarea>
+              <button type="submit" class="cn-submit" style="margin-top:4px; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:16px; border-radius:12px; box-shadow:0 12px 34px rgba(30,180,170,.34); transition:transform .25s ease, box-shadow .25s ease;">Book my first visit →</button>
+              <p id="cn-form-error" role="alert" style="display:none; font-size:13.5px; line-height:1.5; color:#ffb4a8; margin:2px 0 0; text-align:center;">Something went wrong sending that — please call (512) 555-0143 or email care@meridianpools.com and we'll take it from there.</p>
             </form>
-            <p style="font-size:12.5px; line-height:1.5; color:rgba(214,240,236,.5); margin:14px 0 0; text-align:center;">First clean free with any plan. No spam, ever.</p>
+            <p style="font-size:12.5px; line-height:1.5; color:rgba(214,240,236,.6); margin:14px 0 0; text-align:center;">First clean free with any plan. No spam, ever.</p>
           </div>
         </div>
 
@@ -146,24 +173,24 @@
         <div style="display:flex; flex-direction:column; gap:16px;">
           <div style="padding:28px 28px 30px; border-radius:24px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px);">
             <div style="font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:rgba(214,240,236,.55); font-weight:600; margin-bottom:16px;">Reach a human</div>
-            <a class="cn-phone-link" href="tel:+15125550143" style="display:block; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,3vw,34px); letter-spacing:-.01em; color:#f2fdfb; margin-bottom:8px;">(512) 555-0143</a>
-            <a href="mailto:care@meridianpools.com" style="font-size:15px; color:var(--accent2,#7fe3da);">care@meridianpools.com</a>
+            <a class="cn-phone-link" href="tel:+15125550143" data-cfg-href="tel" data-cfg="phone" style="display:block; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,3vw,34px); letter-spacing:-.01em; color:var(--foam-white); margin-bottom:8px;">(512) 555-0143</a>
+            <a href="mailto:care@meridianpools.com" data-cfg-href="mailto" data-cfg="email" style="font-size:15px; color:var(--accent2,var(--accent));">care@meridianpools.com</a>
             <div style="margin-top:22px; padding-top:20px; border-top:1px solid rgba(150,230,225,.14); display:flex; flex-direction:column; gap:11px;">
               <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; font-size:14.5px;">
                 <span style="color:rgba(224,247,242,.7);">Monday – Friday</span>
-                <span style="color:#f2fdfb; font-weight:600; text-align:right;">7:00a – 6:00p</span>
+                <span style="color:var(--foam-white); font-weight:600; text-align:right;">7:00a – 6:00p</span>
               </div>
               <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; font-size:14.5px;">
                 <span style="color:rgba(224,247,242,.7);">Saturday</span>
-                <span style="color:#f2fdfb; font-weight:600; text-align:right;">8:00a – 2:00p</span>
+                <span style="color:var(--foam-white); font-weight:600; text-align:right;">8:00a – 2:00p</span>
               </div>
               <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; font-size:14.5px;">
                 <span style="color:rgba(224,247,242,.7);">Sunday</span>
-                <span style="color:#f2fdfb; font-weight:600; text-align:right;">Emergencies only</span>
+                <span style="color:var(--foam-white); font-weight:600; text-align:right;">Emergencies only</span>
               </div>
               <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; font-size:14.5px;">
                 <span style="color:rgba(224,247,242,.7);">Reply time</span>
-                <span style="color:#f2fdfb; font-weight:600; text-align:right;">Within 1 business day</span>
+                <span style="color:var(--foam-white); font-weight:600; text-align:right;">Within 1 business day</span>
               </div>
             </div>
           </div>
@@ -191,7 +218,7 @@
       <div style="position:relative; border-radius:24px; overflow:hidden; border:1px solid rgba(150,230,225,.2); box-shadow:0 26px 64px rgba(3,16,20,.5);">
         <iframe title="Meridian Pool Care service area — Austin, TX" src="https://maps.google.com/maps?q=Austin,TX&z=10&output=embed" loading="lazy" style="display:block; width:100%; height:clamp(320px,48vh,480px); border:0; filter:invert(0.92) hue-rotate(185deg) saturate(0.75) brightness(0.92) contrast(1.05);"></iframe>
         <div style="position:absolute; top:16px; left:16px; padding:9px 15px; border-radius:12px; background:rgba(6,24,30,.72); border:1px solid rgba(127,227,218,.32); backdrop-filter:blur(8px); pointer-events:none;">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:#f2fdfb;">Austin &amp; Hill Country</div>
+          <div data-cfg="area" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--foam-white);">Austin &amp; Hill Country</div>
           <div style="font-size:12px; color:rgba(214,240,236,.66); margin-top:2px;">Serving a ~35-mile radius</div>
         </div>
       </div>
@@ -201,27 +228,27 @@
     <section data-reveal data-screen-label="What to expect" style="padding-top:clamp(48px,8vh,90px);">
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
         <div style="padding:26px 26px 28px; border-radius:20px; background:rgba(8,32,40,.42); border:1px solid rgba(150,230,225,.14);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,#5fd0c8); margin-bottom:12px;">01</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:#f2fdfb; margin-bottom:8px; letter-spacing:-.01em;">You reach out</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:12px;">01</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:var(--foam-white); margin-bottom:8px; letter-spacing:-.01em;">You reach out</div>
           <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Send a photo or just describe the water. Takes two minutes.</p>
         </div>
         <div style="padding:26px 26px 28px; border-radius:20px; background:rgba(8,32,40,.42); border:1px solid rgba(150,230,225,.14);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,#5fd0c8); margin-bottom:12px;">02</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:#f2fdfb; margin-bottom:8px; letter-spacing:-.01em;">We assess</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:12px;">02</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:var(--foam-white); margin-bottom:8px; letter-spacing:-.01em;">We assess</div>
           <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">A real tech reads it, quotes it, and books a day that works.</p>
         </div>
         <div style="padding:26px 26px 28px; border-radius:20px; background:rgba(8,32,40,.42); border:1px solid rgba(150,230,225,.14);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,#5fd0c8); margin-bottom:12px;">03</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:#f2fdfb; margin-bottom:8px; letter-spacing:-.01em;">Water clears</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:12px;">03</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:var(--foam-white); margin-bottom:8px; letter-spacing:-.01em;">Water clears</div>
           <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">We show up, do the whole ritual, and text you the proof.</p>
         </div>
       </div>
     </section>
 
     <!-- FOOTER -->
-    <div style="margin-top:clamp(56px,9vh,110px); padding-top:26px; border-top:1px solid rgba(150,230,225,.12); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px; font-size:13px; color:rgba(214,240,236,.44);">
+    <div style="margin-top:clamp(56px,9vh,110px); padding-top:26px; border-top:1px solid rgba(150,230,225,.12); display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px; font-size:13px; color:rgba(214,240,236,.6);">
       <span>© 2026 Meridian Pool Care · Lic. #TX-PC-2201 · Bonded &amp; insured</span>
-      <span style="display:flex; flex-wrap:wrap; gap:8px 20px;"><a href="tel:+15125550143">(512) 555-0143</a><a href="mailto:care@meridianpools.com">care@meridianpools.com</a><span>Austin &amp; Hill Country</span></span>
+      <span style="display:flex; flex-wrap:wrap; gap:8px 20px;"><a href="tel:+15125550143" data-cfg-href="tel" data-cfg="phone">(512) 555-0143</a><a href="mailto:care@meridianpools.com" data-cfg-href="mailto" data-cfg="email">care@meridianpools.com</a><span data-cfg="area">Austin &amp; Hill Country</span></span>
     </div>
 
   </main>
@@ -263,15 +290,25 @@
   function closeMenu() {
     menuOpen = false;
     renderMenuState();
+    if (hamburger) { hamburger.focus(); }
   }
 
   hamburger.addEventListener('click', function () {
     menuOpen = !menuOpen;
     renderMenuState();
+    if (menuOpen) {
+      var firstLink = menu.querySelector('.cn-menu-link');
+      if (firstLink) { firstLink.focus(); }
+    }
   });
   menuScrim.addEventListener('click', closeMenu);
   Array.prototype.forEach.call(menu.querySelectorAll('a'), function (a) {
     a.addEventListener('click', closeMenu);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (menuOpen && (e.key === 'Escape' || e.key === 'Esc')) {
+      closeMenu();
+    }
   });
 
   var mq = window.matchMedia('(max-width: 860px)');
@@ -361,10 +398,31 @@
   var formError = document.getElementById('cn-form-error');
   var formPanel = document.getElementById('cn-form-panel');
   var submittedPanel = document.getElementById('cn-submitted');
+  var submitBtn = form.querySelector('.cn-submit');
+
+  // ---- non-blocking "phone or email" hint ----
+  var contactInput = document.getElementById('cn-contact');
+  var contactHint = document.getElementById('cn-contact-hint');
+  if (contactInput && contactHint) {
+    contactInput.addEventListener('input', function () {
+      contactHint.style.display = 'none';
+    });
+    contactInput.addEventListener('blur', function () {
+      var v = (contactInput.value || '').replace(/^\s+|\s+$/g, '');
+      var digits = v.replace(/[^0-9]/g, '').length;
+      var reachable = v.indexOf('@') !== -1 || digits >= 7;
+      contactHint.style.display = (v !== '' && !reachable) ? 'block' : 'none';
+    });
+  }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     formError.style.display = 'none';
+    var submitLabel = submitBtn ? submitBtn.textContent : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+    }
     var name = (form.querySelector('[name=name]') || {}).value || '';
     var contact = (form.querySelector('[name=contact]') || {}).value || '';
     var address = (form.querySelector('[name=address]') || {}).value || '';
@@ -382,6 +440,10 @@
       formPanel.style.display = 'none';
       submittedPanel.style.display = 'block';
     }).catch(function () {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
+      }
       formError.style.display = 'block';
     });
   });

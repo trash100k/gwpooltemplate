@@ -13,9 +13,17 @@
     canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;';
     host.appendChild(canvas);
     var ctx = canvas.getContext('2d');
+    if (!ctx) {
+      // Canvas 2d unsupported — bail out cleanly, no animation loop, no throw.
+      canvas.remove();
+      host._cleanup = function () {};
+      return;
+    }
     var DPR = Math.min(2, window.devicePixelRatio || 1);
     var W = 1, H = 1, nodes = [], edges = [], pulses = [], hub = { x: 0, y: 0 };
     var raf = 0, t0 = performance.now(), lastIn = 0, lastBcast = -2000, hubFlare = 0;
+    var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var hiddenAt = 0;
 
     function build() {
       nodes = []; edges = [];
@@ -47,9 +55,7 @@
     function pos(n, t) { return { x: n.bx + Math.cos(t * 0.0006 * n.sp + n.ph) * n.amp, y: n.by + Math.sin(t * 0.0007 * n.sp + n.ph) * n.amp }; }
     function nodePos(idx, t) { return idx < 0 ? hub : pos(nodes[idx], t); }
 
-    function frame(now) {
-      raf = requestAnimationFrame(frame);
-      if (host.offsetParent === null) return; // hidden — skip work
+    function render(now) {
       var t = now - t0;
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       ctx.clearRect(0, 0, W, H);
@@ -102,6 +108,12 @@
       ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(hub.x, hub.y, hr * 2.8, 0, 7); ctx.fill();
     }
 
+    function frame(now) {
+      raf = requestAnimationFrame(frame);
+      if (host.offsetParent === null) return; // hidden — skip work
+      render(now);
+    }
+
     function size() {
       var r = host.getBoundingClientRect();
       W = r.width || 320; H = r.height || 320;
@@ -109,9 +121,31 @@
       build();
     }
     size();
-    var ro = new ResizeObserver(size); ro.observe(host);
-    raf = requestAnimationFrame(frame);
-    host._cleanup = function () { cancelAnimationFrame(raf); ro.disconnect(); canvas.remove(); };
+    var ro = new ResizeObserver(function () {
+      size();
+      if (reduceMotion) render(performance.now()); // repaint the static frame after a resize
+    });
+    ro.observe(host);
+    if (reduceMotion) {
+      render(performance.now()); // one static frame, no continuous loop
+      host._cleanup = function () { ro.disconnect(); canvas.remove(); };
+    } else {
+      var onVisibility = function () {
+        if (document.hidden) {
+          if (raf) { cancelAnimationFrame(raf); raf = 0; }
+          hiddenAt = performance.now();
+        } else if (!raf) {
+          t0 += performance.now() - hiddenAt; // resume without a time jump
+          raf = requestAnimationFrame(frame);
+        }
+      };
+      document.addEventListener('visibilitychange', onVisibility);
+      if (document.hidden) hiddenAt = performance.now(); else raf = requestAnimationFrame(frame);
+      host._cleanup = function () {
+        document.removeEventListener('visibilitychange', onVisibility);
+        cancelAnimationFrame(raf); ro.disconnect(); canvas.remove();
+      };
+    }
   }
 
   customElements.define('mesh-net', class extends HTMLElement {

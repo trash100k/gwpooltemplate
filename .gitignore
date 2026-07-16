@@ -5,3 +5,8 @@ node_modules/
 # impeccable: per-session tool state, not project source
 .impeccable/hook.cache.json
 .impeccable/live/sessions/
+
+# skill tooling installs (local, not product source)
+.agents/
+skills-lock.json
+.claude/

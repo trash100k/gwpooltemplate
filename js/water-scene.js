@@ -9,8 +9,6 @@
  * ------------------------------------------------------------------ */
 (function () {
   var THREE_URL = 'https://esm.sh/three@0.160.0';
-  var REACT_URL = 'https://esm.sh/react@18.3.1';
-  var FIBER_URL = 'https://esm.sh/@react-three/fiber@8.15.19?deps=react@18.3.1,react-dom@18.3.1,three@0.160.0';
 
   var vert = [
     'varying vec2 vUv;',
@@ -148,12 +146,38 @@
     });
   }
 
+  // WebGL availability probe. Create a throwaway context so we can bail
+  // cleanly on WebGL-less browsers (or ones where context creation is blocked)
+  // instead of letting WebGLRenderer throw less predictably deep in three.js.
+  // The throwaway context is released immediately so it never occupies one of
+  // the browser's limited live-context slots.
+  function webglSupported() {
+    try {
+      var c = document.createElement('canvas');
+      var gl = c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl');
+      if (!gl || typeof gl.getParameter !== 'function') return false;
+      var lose = gl.getExtension && gl.getExtension('WEBGL_lose_context');
+      if (lose) lose.loseContext();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function mount(host) {
     var disposed = false;
     var cleanup = function () { disposed = true; };
     load().then(function (L) {
       if (disposed) return;
       var THREE = L.THREE;
+      // Expected, handled condition on WebGL-less browsers: bail through the
+      // shared catch below (logged as a warning, not an error). The page's
+      // static swamp-black backdrop stays as the correct fallback visual.
+      if (!webglSupported()) {
+        var noWebGL = new Error('WebGL unavailable — leaving static backdrop');
+        noWebGL.expected = true;
+        throw noWebGL;
+      }
       var canvas = document.createElement('canvas');
       canvas.style.cssText = 'display:block;width:100%;height:100%;';
       host.appendChild(canvas);
@@ -211,8 +235,10 @@
 
       var last = performance.now();
       var raf = 0;
+      var running = false;
       var loop = function (now) {
         raf = requestAnimationFrame(loop);
+        try {
         var S = window.__POOL || (window.__POOL = {});
         var u = uniforms;
         var dt = Math.min((now - last) / 1000 || 0.016, 0.05);
@@ -243,11 +269,47 @@
           if (r) v.set(r.x, r.y, r.t, (r.s == null ? 1 : r.s)); else v.set(0, 0, -1, 0);
         }
         renderer.render(scene, camera);
+        } catch (err) {
+          // A per-frame failure (e.g. lazy shader-program compilation, or a
+          // lost/failed GL context) would otherwise re-throw every frame since
+          // the next frame is already scheduled above. Stop and tear down once,
+          // silently to the visitor — the static backdrop remains.
+          cancelAnimationFrame(raf);
+          console.error('[water-scene] render loop failed', err && (err.message || err.stack || String(err)));
+          try { cleanup(); } catch (e2) {}
+        }
       };
-      raf = requestAnimationFrame(loop);
+      var startLoop = function () {
+        if (running || disposed) return;
+        running = true;
+        // Reset the clock so the first frame after a (re)start has a small dt
+        // instead of a spike proportional to how long we were paused.
+        last = performance.now();
+        raf = requestAnimationFrame(loop);
+      };
+      var stopLoop = function () {
+        running = false;
+        cancelAnimationFrame(raf);
+      };
+      var onVisibility = function () {
+        if (document.hidden) stopLoop();
+        else startLoop();
+      };
+      // Honor reduced-motion: paint a single static frame and never spin up the
+      // continuous loop. Otherwise run normally, but pause while the tab is hidden.
+      var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (reduceMotion) {
+        renderer.render(scene, camera);
+      } else {
+        document.addEventListener('visibilitychange', onVisibility);
+        if (!document.hidden) startLoop();
+      }
 
       cleanup = function () {
+        if (disposed) return; // idempotent: error path + disconnectedCallback may both call this
         disposed = true;
+        running = false;
+        document.removeEventListener('visibilitychange', onVisibility);
         cancelAnimationFrame(raf);
         ro.disconnect();
         mesh.geometry.dispose();
@@ -255,7 +317,14 @@
         renderer.dispose();
         canvas.remove();
       };
-    }).catch(function (e) { console.error('[water-scene] load failed', e && (e.message || e.stack || String(e))); });
+    }).catch(function (e) {
+      if (e && e.expected) {
+        // Expected, handled condition (no WebGL) — not an error. Static backdrop stands.
+        console.warn('[water-scene] ' + (e.message || 'WebGL unavailable'));
+      } else {
+        console.error('[water-scene] load failed', e && (e.message || e.stack || String(e)));
+      }
+    });
     return function () { cleanup(); };
   }
 
