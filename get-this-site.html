@@ -75,10 +75,14 @@
   <!-- ripple displacement for the logo emblem -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <filter id="logoRipple" x="-15%" y="-15%" width="130%" height="130%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.010 0.017" numOctaves="2" seed="7" result="noise">
-        <animate attributeName="baseFrequency" dur="15s" values="0.010 0.017;0.014 0.022;0.011 0.015;0.010 0.017" repeatCount="indefinite"></animate>
-      </feTurbulence>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+      <!-- Static noise field: animating baseFrequency regenerates the whole
+           fractal-noise tile every keyframe, which makes the coin's edges
+           "boil"/glitch instead of rippling. Keep it fixed and breathe the
+           displacement scale instead — same stable field, smoothly re-sampled. -->
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.018" numOctaves="2" seed="7" result="noise"></feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G">
+        <animate attributeName="scale" dur="14s" calcMode="spline" values="6;8.5;5.5;6" keyTimes="0;0.4;0.75;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" repeatCount="indefinite"></animate>
+      </feDisplacementMap>
     </filter>
   </svg>
 
