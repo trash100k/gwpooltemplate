@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +8,7 @@
   <link rel="icon" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --swamp-black:#0a1208; --deep-water:#04141b;
@@ -28,9 +28,59 @@
     @keyframes sv-floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-34px,26px); } }
     @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
 
-    .nav-link:hover { color: var(--accent2, var(--accent)); }
-    .menu-item:hover { background: rgba(127,227,218,.1); }
-    .topic-card:hover { border-color: rgba(127,227,218,.4); transform: translateY(-4px); }
+    .pc-nav-link:hover { color: var(--accent); }
+    .pc-menu-link:hover { background: rgba(127,227,218,.1); }
+
+    /* Hero entrance — pure CSS load animation, no JS gate (ponytail: max stagger .2s, cap .25s) */
+    @keyframes ps-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .ps-hero-in { animation: ps-rise .7s cubic-bezier(.2,.7,.2,1) both; }
+
+    /* Below-fold reveals — gated only when JS adds html.rv; 1.5s failsafe in JS */
+    html.rv [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .55s cubic-bezier(.2,.7,.2,1), transform .55s cubic-bezier(.2,.7,.2,1); }
+    html.rv [data-reveal].in { opacity: 1; transform: none; }
+
+    /* Six-things curriculum — native details/summary on the glass system */
+    .ps-topic { border-top: 1px solid rgba(150,230,225,.12); }
+    .ps-topic:first-child { border-top: none; }
+    .ps-topic summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: 16px; padding: 20px clamp(18px,3vw,28px); }
+    .ps-topic summary::-webkit-details-marker { display: none; }
+    .ps-cta-bottom:hover { transform: translateY(-3px); box-shadow: 0 16px 44px rgba(30,180,170,.45); }
+  .ps-topic summary:hover .ps-topic-q { color: var(--accent); }
+    .ps-topic-num { flex: none; width: 24px; font-family: 'Bricolage Grotesque',sans-serif; font-weight: 700; font-size: 14px; color: var(--accent-2); }
+    .ps-topic-q { flex: 1; font-family: 'Bricolage Grotesque',sans-serif; font-weight: 600; font-size: clamp(18px,2vw,21px); letter-spacing: -.015em; color: var(--foam-white); transition: color .3s ease; text-wrap: balance; }
+    .ps-topic-plus { flex: none; align-self: center; font-size: 20px; line-height: 1; color: var(--accent-2); transition: transform .3s ease; }
+    .ps-topic[open] .ps-topic-plus { transform: rotate(45deg); }
+    .ps-topic-a { margin: 0; padding: 0 clamp(18px,3vw,28px) 22px; padding-left: calc(clamp(18px,3vw,28px) + 40px); font-size: 15px; line-height: 1.6; color: rgba(224,247,242,.72); max-width: 680px; }
+
+    /* Pump-shed card generator */
+    .ps-chip { position: relative; cursor: pointer; padding: 11px 16px; border-radius: 999px; background: rgba(10,44,56,.55); border: 1px solid rgba(150,230,225,.2); color: var(--foam-bright); font-family: 'Manrope',sans-serif; font-weight: 600; font-size: 13.5px; }
+    .ps-chip-ring { display: none; position: absolute; inset: -3px; border: 2px solid var(--accent); border-radius: 999px; pointer-events: none; }
+    .ps-chip[aria-pressed="true"] .ps-chip-ring { display: block; }
+    .ps-field { display: flex; flex-direction: column; gap: 6px; font-family: 'Manrope',sans-serif; font-weight: 600; font-size: 13px; color: rgba(214,240,236,.7); }
+    .ps-field input { width: 100%; border-radius: 12px; background: rgba(4,20,27,.55); border: 1px solid rgba(150,230,225,.22); color: var(--foam-bright); font-family: 'Manrope',sans-serif; font-size: 15px; padding: 13px 14px; }
+    .ps-field input:focus { outline: none; border-color: var(--accent); }
+    .ps-range-row { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 10px 0; border-top: 1px solid rgba(150,230,225,.14); }
+    .ps-range-row:first-of-type { border-top: none; }
+    .ps-range-name { font-family: 'Manrope',sans-serif; font-weight: 600; font-size: 14px; color: rgba(236,246,228,.82); }
+    .ps-range-val { font-family: 'Bricolage Grotesque',sans-serif; font-weight: 700; font-size: 15.5px; color: var(--accent); white-space: nowrap; }
+
+    /* Print path — only the pump-shed card, ink on white, half a letter page */
+    @media print {
+      html, body { background: #fff !important; }
+      #nav, .ps-bg, .mpc-skip { display: none !important; }
+      #main > *:not(#pump-card) { display: none !important; }
+      #pump-card { padding: 0 !important; }
+      #pump-card > *:not(.ps-cardgrid) { display: none !important; }
+      .ps-cardgrid { display: block !important; }
+      .ps-cardgrid > *:not(#pumpCard) { display: none !important; }
+      [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+      #pumpCard { max-width: 4.9in; margin: 0 !important; background: #fff !important; border: 1.5px solid #0a1208 !important; box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; break-inside: avoid; }
+      #pumpCard, #pumpCard * { color: #0a1208 !important; text-shadow: none !important; }
+      #pumpCard .ps-range-row, #pumpCard .ps-cred { border-color: #9aa5a3 !important; }
+      #pumpCard #psDose { background: #fff !important; border-color: #0a1208 !important; }
+      #pumpCard #psDoseHint { display: none !important; }
+      #pumpCard a { color: #0a1208 !important; text-decoration: none !important; }
+    }
 
     a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
     .mpc-skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--deep-water);color:var(--foam-bright);padding:12px 18px;border-radius:0 0 10px 0;font-family:'Manrope',sans-serif;font-weight:600;font-size:14px;}
@@ -40,60 +90,107 @@
       [data-reveal]{opacity:1!important;transform:none!important;}
     }
   </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Why is my pool green?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Algae. It blooms the moment chlorine drops and the water warms — one hot weekend with a low sanitizer is all it takes. The fix is almost never draining: shock hard, run the filter, and brush."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Why is my pool cloudy but not green?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "That is chemistry, not algae. Usually high pH, or particles too fine for the filter to grab. Balance the water, add a clarifier, and let the pump turn it over."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How often should I test pool water?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Twice a week in summer, weekly the rest of the year. Heat, rain, and swimmers all move the numbers fast."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is it safe to swim after a storm?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Test first. Runoff dilutes chlorine and dumps in contaminants and phosphates — prime algae food. Rebalance before anyone gets in."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What is the difference between salt and chlorine pools?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A salt pool still sanitizes with chlorine — it just generates its own from salt instead of you adding it. Softer feel, less handling, same chemistry underneath."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How long should the pool pump run?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Long enough to turn the whole pool over once a day — about 8 to 12 hours in summer heat. Circulation is what keeps chlorine working and algae from settling."
+   }
+  }
+ ]
+}
+</script>
 </head>
 <body>
 
 <a class="mpc-skip" href="#main">Skip to content</a>
 
-<noscript><div style="position:fixed; inset:0; z-index:9999; background:#0a1a1f; color:var(--foam-bright); display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; font-family:'Manrope', system-ui, sans-serif;"><div style="max-width:420px; background:rgba(7,26,33,.94); border:1px solid rgba(150,230,225,.26); border-radius:18px; padding:28px 24px; box-shadow:0 30px 70px rgba(2,10,14,.55);"><p style="margin:0 0 12px; font-size:17px; line-height:1.5;">This page needs JavaScript for the full experience.</p><p style="margin:0; font-size:15px; line-height:1.6; color:var(--accent);">Call <a href="tel:+15125550143" style="color:var(--accent);">(512) 555-0143</a> or email <a href="mailto:care@meridianpools.com" style="color:var(--accent);">care@meridianpools.com</a> to book.</p></div></div></noscript>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <filter id="waterRipple" x="-12%" y="-12%" width="124%" height="124%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.010 0.018" numOctaves="2" seed="7" result="n" />
-    <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G" />
-  </filter>
-</svg>
+<noscript><div style="position:fixed; inset:0; z-index:80; background:#0a1a1f; color:var(--foam-bright); display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; font-family:'Manrope', system-ui, sans-serif;"><div style="max-width:420px; background:rgba(7,26,33,.94); border:1px solid rgba(150,230,225,.26); border-radius:18px; padding:28px 24px; box-shadow:0 30px 70px rgba(2,10,14,.55);"><p style="margin:0 0 12px; font-size:17px; line-height:1.5;">This page needs JavaScript for the full experience.</p><p style="margin:0; font-size:15px; line-height:1.6; color:var(--accent);">Call <a href="tel:+15125550143" style="color:var(--accent);">(512) 555-0143</a> or email <a href="mailto:care@meridianpools.com" style="color:var(--accent);">care@meridianpools.com</a> to book.</p></div></div></noscript>
 
 <div id="root" style="position:relative;">
 
   <!-- ============ BACKGROUND ============ -->
-  <div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(120% 80% at 50% -10%, rgba(20,120,120,.26), transparent 55%), radial-gradient(90% 70% at 88% 112%, rgba(10,72,82,.34), transparent 60%), linear-gradient(180deg,#07171e 0%,#04121a 58%,#061a20 100%);">
+  <div class="ps-bg" style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(120% 80% at 50% -10%, rgba(20,120,120,.26), transparent 55%), radial-gradient(90% 70% at 88% 112%, rgba(10,72,82,.34), transparent 60%), linear-gradient(180deg,#07171e 0%,#04121a 58%,#061a20 100%);">
     <div style="position:absolute; top:8%; left:-6%; width:46vw; height:46vw; max-width:640px; max-height:640px; border-radius:50%; background:radial-gradient(circle, rgba(95,208,200,.16), transparent 68%); filter:blur(20px); animation:sv-floatA 22s ease-in-out infinite;"></div>
     <div style="position:absolute; bottom:2%; right:-8%; width:52vw; height:52vw; max-width:720px; max-height:720px; border-radius:50%; background:radial-gradient(circle, rgba(55,199,191,.12), transparent 66%); filter:blur(22px); animation:sv-floatB 27s ease-in-out infinite;"></div>
   </div>
 
-  <!-- ============ NAV ============ -->
-  <nav id="nav" style="position:fixed; top:0; left:0; right:0; z-index:20; border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
-    <div style="max-width:1180px; margin:0 auto; padding:15px clamp(22px,5vw,72px); display:flex; align-items:center; justify-content:space-between; gap:20px;">
-      <a href="index.html" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; letter-spacing:-.01em; color:var(--foam-white); display:flex; align-items:baseline; gap:9px;">
-        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2)); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent2,var(--accent));">Pool Care</span>
-      </a>
-      <div id="desktopLinks" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
-        <a href="index.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Home</a>
-        <a href="services.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Services</a>
-        <a href="pricing.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pricing</a>
-        <a href="our-work.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Our Work</a>
-        <a href="about.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">About</a>
-        <a href="#top" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:var(--accent2,var(--accent));">Pool School</a>
-      </div>
-      <button id="menuBtn" aria-label="Menu" style="cursor:pointer; flex:none; width:44px; height:44px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); display:none; align-items:center; justify-content:center; gap:4px; flex-direction:column;">
-        <span style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
-        <span style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:opacity .2s ease;"></span>
-        <span style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
-      </button>
-      <div id="menuOverlay" style="display:none; position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
-      <div id="mobileMenu" style="display:none; position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
-        <a href="index.html" class="menu-item" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Home</a>
-        <a href="services.html" class="menu-item" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Services</a>
-        <a href="pricing.html" class="menu-item" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pricing</a>
-        <a href="our-work.html" class="menu-item" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Our Work</a>
-        <a href="about.html" class="menu-item" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">About</a>
-        <a href="#top" class="menu-item" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--accent2,var(--accent)); background:rgba(127,227,218,.08);">Pool School</a>
-        <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
-        <a href="contact.html" class="menu-item" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Rescue my pool</a>
-      </div>
-      <a href="contact.html" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 8px 24px rgba(30,180,170,.3);">Rescue my pool</a>
+  <!-- ============ NAV (canonical geometry — matches index.html) ============ -->
+  <nav id="nav" style="position:fixed; top:0; left:0; right:0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
+    <a href="index.html" aria-label="Meridian Pool Care — home" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.01em; color:var(--foam-white); display:flex; align-items:baseline; gap:9px;">
+      <span style="width:9px; height:9px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 12px var(--accent-2); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent);">Pool Care</span>
+    </a>
+    <div id="desktopLinks" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
+      <a href="index.html" class="pc-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Home</a>
+      <a href="services.html" class="pc-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Services</a>
+      <a href="pricing.html" class="pc-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Pricing</a>
+      <a href="our-work.html" class="pc-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Our Work</a>
+      <a href="about.html" class="pc-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">About</a>
+      <a href="pool-school.html" aria-current="page" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:var(--accent);">Pool School</a>
     </div>
+    <button id="menuBtn" aria-label="Menu" style="cursor:pointer; flex:none; width:44px; height:44px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); display:none; align-items:center; justify-content:center; gap:4px; flex-direction:column;">
+      <span style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+      <span style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:opacity .2s ease;"></span>
+      <span style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+    </button>
+    <div id="menuOverlay" style="display:none; position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
+    <div id="mobileMenu" style="display:none; flex-direction:column; gap:2px; position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
+      <a href="index.html" class="pc-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Home</a>
+      <a href="services.html" class="pc-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Services</a>
+      <a href="pricing.html" class="pc-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pricing</a>
+      <a href="our-work.html" class="pc-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Our Work</a>
+      <a href="about.html" class="pc-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">About</a>
+      <a href="pool-school.html" class="pc-menu-link" aria-current="page" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--accent); background:rgba(127,227,218,.08);">Pool School</a>
+      <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
+      <a href="contact.html" class="pc-menu-link" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Rescue my pool</a>
+    </div>
+    <a href="contact.html" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 6px 18px rgba(30,180,170,.38);">Rescue my pool</a>
   </nav>
 
   <!-- ============ CONTENT ============ -->
@@ -101,158 +198,162 @@
 
     <!-- HERO -->
     <section id="top" data-screen-label="Pool School hero" style="padding:clamp(118px,20vh,196px) 0 clamp(30px,5vh,56px);">
-      <div data-reveal>
-        <div style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
-          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2));"></span>
+      <div>
+        <div class="ps-hero-in" style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
+          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 12px var(--accent-2);"></span>
           <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#dbeef0; font-weight:600;">Pool School</span>
         </div>
-        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">Know your water.</h1>
-        <p style="max-width:620px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">The stuff we wish every owner knew — why pools turn, what the numbers mean, and how to read the water before it reads you. Free, no strings.</p>
+        <h1 class="ps-hero-in" style="animation-delay:.1s; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">Know your water.</h1>
+        <p class="ps-hero-in" style="animation-delay:.2s; max-width:620px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">The stuff we wish every owner knew — why pools turn, what the numbers mean, and how to read the water before it reads you. Free, no strings. And further down: a pump-shed card sized to your exact pool.</p>
       </div>
     </section>
 
     <!-- TOPICS -->
     <section data-screen-label="Topics" style="padding-top:clamp(20px,4vh,44px);">
       <div data-reveal style="margin-bottom:clamp(28px,4.5vh,44px);">
-        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 16px;">The basics</p>
-        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">Six things to understand.</h2>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">Six things to understand.</h2>
       </div>
-      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;">
-        <div class="topic-card" style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">01</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px; text-wrap:balance;">Why is my pool green?</div>
-          <p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Algae. It blooms the moment chlorine drops and the water warms — one hot weekend with a low sanitizer is all it takes. The fix is almost never draining: shock hard, run the filter, and brush.</p>
-        </div>
-        <div class="topic-card" style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">02</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px; text-wrap:balance;">Cloudy, but not green?</div>
-          <p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">That is chemistry, not algae. Usually high pH, or particles too fine for the filter to grab. Balance the water, add a clarifier, and let the pump turn it over.</p>
-        </div>
-        <div class="topic-card" style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">03</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px; text-wrap:balance;">How often should I test?</div>
-          <p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Twice a week in summer, weekly the rest of the year. Heat, rain, and swimmers all move the numbers fast. (On a plan, we test every visit and log it.)</p>
-        </div>
-        <div class="topic-card" style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">04</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px; text-wrap:balance;">Is it safe to swim after a storm?</div>
-          <p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Test first. Runoff dilutes chlorine and dumps in contaminants and phosphates — prime algae food. Rebalance before anyone gets in.</p>
-        </div>
-        <div class="topic-card" style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">05</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px; text-wrap:balance;">Salt vs. chlorine?</div>
-          <p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">A salt pool still sanitizes with chlorine — it just generates its own from salt instead of you adding it. Softer feel, less handling, same chemistry underneath.</p>
-        </div>
-        <div class="topic-card" style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">06</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px; text-wrap:balance;">How long should the pump run?</div>
-          <p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Long enough to turn the whole pool over once a day — about 8 to 12 hours in summer heat. Circulation is what keeps chlorine working and algae from settling.</p>
-        </div>
+      <!-- ponytail: native details/summary — the curriculum works with JS off; numbering kept, it's a real ordered sequence -->
+      <div data-reveal style="border:1px solid rgba(150,230,225,.16); border-radius:20px; background:rgba(8,32,40,.5); backdrop-filter:blur(8px); overflow:hidden;">
+        <details class="ps-topic" open>
+          <summary><span class="ps-topic-num">01</span><span class="ps-topic-q">Why is my pool green?</span><span class="ps-topic-plus" aria-hidden="true">+</span></summary>
+          <p class="ps-topic-a">Algae. It blooms the moment chlorine drops and the water warms — one hot weekend with a low sanitizer is all it takes. The fix is almost never draining: shock hard, run the filter, and brush.</p>
+        </details>
+        <details class="ps-topic">
+          <summary><span class="ps-topic-num">02</span><span class="ps-topic-q">Cloudy, but not green?</span><span class="ps-topic-plus" aria-hidden="true">+</span></summary>
+          <p class="ps-topic-a">That is chemistry, not algae. Usually high pH, or particles too fine for the filter to grab. Balance the water, add a clarifier, and let the pump turn it over.</p>
+        </details>
+        <details class="ps-topic">
+          <summary><span class="ps-topic-num">03</span><span class="ps-topic-q">How often should I test?</span><span class="ps-topic-plus" aria-hidden="true">+</span></summary>
+          <p class="ps-topic-a">Twice a week in summer, weekly the rest of the year. Heat, rain, and swimmers all move the numbers fast. (On a plan, we test every visit and log it.)</p>
+        </details>
+        <details class="ps-topic">
+          <summary><span class="ps-topic-num">04</span><span class="ps-topic-q">Is it safe to swim after a storm?</span><span class="ps-topic-plus" aria-hidden="true">+</span></summary>
+          <p class="ps-topic-a">Test first. Runoff dilutes chlorine and dumps in contaminants and phosphates — prime algae food. Rebalance before anyone gets in.</p>
+        </details>
+        <details class="ps-topic">
+          <summary><span class="ps-topic-num">05</span><span class="ps-topic-q">Salt vs. chlorine?</span><span class="ps-topic-plus" aria-hidden="true">+</span></summary>
+          <p class="ps-topic-a">A salt pool still sanitizes with chlorine — it just generates its own from salt instead of you adding it. Softer feel, less handling, same chemistry underneath.</p>
+        </details>
+        <details class="ps-topic">
+          <summary><span class="ps-topic-num">06</span><span class="ps-topic-q">How long should the pump run?</span><span class="ps-topic-plus" aria-hidden="true">+</span></summary>
+          <p class="ps-topic-a">Long enough to turn the whole pool over once a day — about 8 to 12 hours in summer heat. Circulation is what keeps chlorine working and algae from settling.</p>
+        </details>
       </div>
     </section>
 
-    <!-- CHEMISTRY REFERENCE -->
-    <section data-screen-label="Chemistry reference" style="padding-top:clamp(64px,11vh,130px);">
+    <!-- PUMP-SHED CARD (lead magnet) -->
+    <section id="pump-card" data-screen-label="Pump-shed card" style="padding-top:clamp(64px,11vh,130px);">
       <div data-reveal style="margin-bottom:clamp(24px,4vh,40px);">
-        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 16px;">Cheat sheet</p>
-        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 12px;">Ideal water, by the number.</h2>
-        <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.7); margin:0; max-width:560px;">Tape this to the pump shed. Hit these ranges and algae never gets a foothold.</p>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 12px; text-wrap:balance;">Ideal water, <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.08em; letter-spacing:0;">by your number.</span></h2>
+        <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.7); margin:0; max-width:560px;">Tell us your pool's shape and size and the card fills in with your gallons and your exact shock dose. Print it, tape it inside the pump shed.</p>
       </div>
-      <div data-reveal style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
-        <div style="min-width:560px; border:1px solid rgba(150,230,225,.16); border-radius:20px; overflow:hidden; background:rgba(6,24,30,.4); backdrop-filter:blur(8px);">
-          <div style="display:grid; grid-template-columns:1.3fr 1fr 1.6fr;">
-            <div style="padding:18px 22px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(214,240,236,.6); font-weight:600;">Measure</div>
-            <div style="padding:18px 14px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(214,240,236,.6); font-weight:600; text-align:center;">Ideal range</div>
-            <div style="padding:18px 22px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(214,240,236,.6); font-weight:600;">Why it matters</div>
+      <div data-reveal class="ps-cardgrid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:18px; align-items:start;">
+
+        <!-- generator -->
+        <div style="padding:28px 26px 30px; border-radius:24px; background:rgba(8,34,44,.5); border:1px solid rgba(150,230,225,.18); backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
+          <p style="margin:0 0 10px; font-family:'Manrope',sans-serif; font-weight:600; font-size:13px; color:rgba(214,240,236,.7);">Your pool's shape</p>
+          <div id="psShapes" style="display:flex; flex-wrap:wrap; gap:8px; margin:0 0 20px;">
+            <button type="button" class="ps-chip" data-shape="rect" aria-pressed="true">Rectangle<span class="ps-chip-ring" aria-hidden="true"></span></button>
+            <button type="button" class="ps-chip" data-shape="oval" aria-pressed="false">Oval<span class="ps-chip-ring" aria-hidden="true"></span></button>
+            <button type="button" class="ps-chip" data-shape="kidney" aria-pressed="false">Kidney<span class="ps-chip-ring" aria-hidden="true"></span></button>
+            <button type="button" class="ps-chip" data-shape="direct" aria-pressed="false">I know my gallons<span class="ps-chip-ring" aria-hidden="true"></span></button>
           </div>
-          <div style="display:grid; grid-template-columns:1.3fr 1fr 1.6fr; border-top:1px solid rgba(150,230,225,.1);">
-            <div style="padding:16px 22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15.5px; color:var(--foam-white);">pH</div>
-            <div style="padding:16px 14px; text-align:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15.5px; color:var(--accent2,var(--accent));">7.4 – 7.6</div>
-            <div style="padding:16px 22px; font-size:14px; line-height:1.45; color:rgba(224,247,242,.72);">Swimmer comfort and keeps chlorine effective.</div>
+          <div id="psDims" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
+            <label class="ps-field">Length (ft)<input id="psLen" type="number" inputmode="decimal" min="4" max="60" step="any" placeholder="30"></label>
+            <label class="ps-field">Width (ft)<input id="psWid" type="number" inputmode="decimal" min="4" max="60" step="any" placeholder="15"></label>
+            <label class="ps-field">Avg depth (ft)<input id="psDep" type="number" inputmode="decimal" min="2" max="12" step="any" placeholder="5"></label>
           </div>
-          <div style="display:grid; grid-template-columns:1.3fr 1fr 1.6fr; border-top:1px solid rgba(150,230,225,.1);">
-            <div style="padding:16px 22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15.5px; color:var(--foam-white);">Free chlorine</div>
-            <div style="padding:16px 14px; text-align:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15.5px; color:var(--accent2,var(--accent));">1 – 3 ppm</div>
-            <div style="padding:16px 22px; font-size:14px; line-height:1.45; color:rgba(224,247,242,.72);">Your active sanitizer. Below 1 and algae wins.</div>
+          <div id="psDirect" style="display:none;">
+            <label class="ps-field">Gallons<input id="psGal" type="number" inputmode="numeric" min="500" max="100000" step="any" placeholder="15000"></label>
           </div>
-          <div style="display:grid; grid-template-columns:1.3fr 1fr 1.6fr; border-top:1px solid rgba(150,230,225,.1);">
-            <div style="padding:16px 22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15.5px; color:var(--foam-white);">Total alkalinity</div>
-            <div style="padding:16px 14px; text-align:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15.5px; color:var(--accent2,var(--accent));">80 – 120 ppm</div>
-            <div style="padding:16px 22px; font-size:14px; line-height:1.45; color:rgba(224,247,242,.72);">Buffers pH so it stops bouncing around.</div>
-          </div>
-          <div style="display:grid; grid-template-columns:1.3fr 1fr 1.6fr; border-top:1px solid rgba(150,230,225,.1);">
-            <div style="padding:16px 22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15.5px; color:var(--foam-white);">Cyanuric acid</div>
-            <div style="padding:16px 14px; text-align:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15.5px; color:var(--accent2,var(--accent));">30 – 50 ppm</div>
-            <div style="padding:16px 22px; font-size:14px; line-height:1.45; color:rgba(224,247,242,.72);">Sunscreen for chlorine — too little and the sun burns it off.</div>
-          </div>
-          <div style="display:grid; grid-template-columns:1.3fr 1fr 1.6fr; border-top:1px solid rgba(150,230,225,.1);">
-            <div style="padding:16px 22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15.5px; color:var(--foam-white);">Calcium hardness</div>
-            <div style="padding:16px 14px; text-align:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15.5px; color:var(--accent2,var(--accent));">200 – 400 ppm</div>
-            <div style="padding:16px 22px; font-size:14px; line-height:1.45; color:rgba(224,247,242,.72);">Protects plaster, tile grout, and equipment.</div>
-          </div>
-          <div style="display:grid; grid-template-columns:1.3fr 1fr 1.6fr; border-top:1px solid rgba(150,230,225,.1);">
-            <div style="padding:16px 22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15.5px; color:var(--foam-white);">Salt (SWG pools)</div>
-            <div style="padding:16px 14px; text-align:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15.5px; color:var(--accent2,var(--accent));">2,700 – 3,400 ppm</div>
-            <div style="padding:16px 22px; font-size:14px; line-height:1.45; color:rgba(224,247,242,.72);">Feeds the salt chlorinator cell.</div>
-          </div>
+          <p id="psErr" role="alert" style="display:none; margin:12px 0 0; font-size:13.5px; line-height:1.5; font-weight:600; color:var(--gold);"></p><!-- ponytail: gold = the sanctioned "warning" warm story; validation is a real warning, not decoration -->
         </div>
+
+        <!-- the card -->
+        <div id="pumpCard" style="padding:26px 24px 22px; border-radius:24px; background:rgba(12,48,60,.62); border:1.5px solid rgba(127,227,218,.4); backdrop-filter:blur(12px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
+          <p style="margin:0; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:19px; letter-spacing:-.01em; line-height:1.25; color:var(--foam-white); text-wrap:balance;">The <span data-cfg="name">Meridian Pool Care</span> pump-shed card</p>
+          <p style="margin:6px 0 16px; font-size:14px; color:rgba(224,247,242,.72);">Your pool: <strong id="psVol" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--accent);">&mdash; gal</strong></p>
+          <div>
+            <div class="ps-range-row"><span class="ps-range-name">Free chlorine</span><span class="ps-range-val">1 &ndash; 3 ppm</span></div>
+            <div class="ps-range-row"><span class="ps-range-name">pH</span><span class="ps-range-val">7.4 &ndash; 7.6</span></div>
+            <div class="ps-range-row"><span class="ps-range-name">Total alkalinity</span><span class="ps-range-val">80 &ndash; 120 ppm</span></div>
+            <div class="ps-range-row"><span class="ps-range-name">Cyanuric acid</span><span class="ps-range-val">30 &ndash; 50 ppm</span></div>
+            <div class="ps-range-row"><span class="ps-range-name">Salt (salt pools)</span><span class="ps-range-val">2,700 &ndash; 3,400 ppm</span></div>
+          </div>
+          <div id="psDose" style="display:none; margin-top:16px; padding:14px 16px; border-radius:16px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22);">
+            <p style="margin:0; font-size:14px; line-height:1.55; color:rgba(236,246,228,.82);">Shock dose for <em>your</em> pool: <strong id="psDoseAmt" style="color:var(--accent); font-family:'Bricolage Grotesque',sans-serif;">&mdash;</strong> of 12.5% liquid chlorinator raises your <span id="psDoseGal">&mdash;</span> gal by 10 ppm.</p>
+          </div>
+          <p id="psDoseHint" style="margin:16px 0 0; font-size:13.5px; line-height:1.5; color:rgba(214,240,236,.7);">Enter your pool's size and your personal shock dose appears here.</p>
+          <p style="margin:14px 0 0; font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.74);">Dose, run the pump 2 hours, re-test. When in doubt, call us &mdash; the test is free: <a href="tel:+15125550143" data-cfg-href="tel" data-cfg="phone">(512) 555-0143</a>.</p>
+          <p class="ps-cred" style="margin:14px 0 0; padding-top:12px; border-top:1px solid rgba(150,230,225,.14); font-size:12px; color:rgba(214,240,236,.7);"><span data-cfg="name">Meridian Pool Care</span> &middot; Lic. #<span data-cfg="license">TX-PC-2201</span> &middot; <span data-cfg="area">Austin &amp; Hill Country</span></p>
+        </div>
+      </div>
+
+      <!-- actions: print is the primary path; email is a soft, optional gate -->
+      <div data-reveal style="display:flex; flex-wrap:wrap; align-items:center; gap:12px 14px; margin-top:20px;">
+        <button id="psPrint" type="button" style="cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:15px 28px; border-radius:999px; box-shadow:0 10px 28px rgba(30,180,170,.42); transition:transform .3s ease, box-shadow .3s ease;">Print the card</button>
+        <form id="psEmailForm" novalidate style="display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
+          <input id="psEmail" type="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address (optional)" style="min-width:220px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-size:15px; padding:13px 14px;">
+          <button id="psEmailBtn" type="submit" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:var(--foam-bright); background:rgba(12,52,66,.5); border:1px solid rgba(150,230,225,.32); padding:13px 24px; border-radius:999px; transition:background .3s ease;">Email me my card</button>
+        </form>
+        <p id="psEmailMsg" role="status" style="display:none; margin:0; font-size:13.5px; font-weight:600; color:var(--accent);"></p>
       </div>
     </section>
 
     <!-- SEASONAL GUIDE -->
     <section data-screen-label="Seasonal guide" style="padding-top:clamp(64px,11vh,130px);">
       <div data-reveal style="margin-bottom:clamp(28px,4.5vh,44px);">
-        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 16px;">The Texas calendar</p>
-        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 12px;">Your year in water.</h2>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 12px;">Your Texas year in water.</h2>
         <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.7); margin:0; max-width:560px;">Hill Country pools rarely fully close — but each season changes the job. Here's the rhythm.</p>
       </div>
       <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
         <div style="display:flex; flex-direction:column; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
           <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:14px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; color:var(--foam-white);">Spring</span>
-            <span style="font-size:12px; color:var(--accent,var(--accent-2)); font-weight:600;">Mar – Apr</span>
+            <span style="font-size:12px; color:var(--accent-2); font-weight:600;">Mar – Apr</span>
           </div>
           <div style="display:flex; flex-direction:column;">
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Uncover and shock early</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Rebalance after winter</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Ramp pump hours back up</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>First blooms start with warm weeks</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Uncover and shock early</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Rebalance after winter</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Ramp pump hours back up</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>First blooms start with warm weeks</span>
           </div>
         </div>
         <div style="display:flex; flex-direction:column; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
           <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:14px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; color:var(--foam-white);">Summer</span>
-            <span style="font-size:12px; color:var(--accent,var(--accent-2)); font-weight:600;">May – Sep</span>
+            <span style="font-size:12px; color:var(--accent-2); font-weight:600;">May – Sep</span>
           </div>
           <div style="display:flex; flex-direction:column;">
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Peak season — test 2×/week</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Watch CYA and chlorine</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Brush walls weekly</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Longest pump runs of the year</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Peak season — test 2×/week</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Watch CYA and chlorine</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Brush walls weekly</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Longest pump runs of the year</span>
           </div>
         </div>
         <div style="display:flex; flex-direction:column; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
           <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:14px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; color:var(--foam-white);">Fall</span>
-            <span style="font-size:12px; color:var(--accent,var(--accent-2)); font-weight:600;">Oct – Nov</span>
+            <span style="font-size:12px; color:var(--accent-2); font-weight:600;">Oct – Nov</span>
           </div>
           <div style="display:flex; flex-direction:column;">
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Stay ahead of falling leaves</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Deep-clean the filter</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Ease back on chlorine</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Keep water circulating</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Stay ahead of falling leaves</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Deep-clean the filter</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Ease back on chlorine</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Keep water circulating</span>
           </div>
         </div>
         <div style="display:flex; flex-direction:column; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
           <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:14px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:21px; color:var(--foam-white);">Winter</span>
-            <span style="font-size:12px; color:var(--accent,var(--accent-2)); font-weight:600;">Dec – Feb</span>
+            <span style="font-size:12px; color:var(--accent-2); font-weight:600;">Dec – Feb</span>
           </div>
           <div style="display:flex; flex-direction:column;">
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Mild TX — keep it running</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Lower chlorine, keep testing</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Run pump through freeze nights</span>
-            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent,var(--accent-2)); font-weight:700;">·</span>Protect exposed plumbing</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Mild TX — keep it running</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Lower chlorine, keep testing</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Run pump through freeze nights</span>
+            <span style="display:flex; gap:9px; align-items:flex-start; padding:8px 0; border-top:1px solid rgba(150,230,225,.12); font-size:14px; line-height:1.45; color:rgba(224,247,242,.76);"><span style="flex:none; color:var(--accent-2); font-weight:700;">·</span>Protect exposed plumbing</span>
           </div>
         </div>
       </div>
@@ -261,49 +362,48 @@
     <!-- FAQ -->
     <section data-screen-label="Owner FAQ" style="padding-top:clamp(64px,11vh,130px);">
       <div data-reveal style="text-align:center; margin-bottom:clamp(30px,5vh,50px);">
-        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 16px;">Owner questions</p>
-        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">The ones we hear most.</h2>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">The questions we hear most.</h2>
       </div>
       <div data-reveal style="max-width:800px; margin:0 auto;">
         <div style="border-top:1px solid rgba(150,230,225,.14);">
           <button class="faq-btn" data-faq-index="0" aria-expanded="false" aria-controls="faq-answer-0" style="cursor:pointer; width:100%; text-align:left; background:none; border:none; padding:22px 4px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2vw,22px); color:var(--foam-white);">Why does my pool go green so fast?</span>
-            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent,var(--accent-2)); transition:transform .3s ease;">+</span>
+            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent-2); transition:transform .3s ease;">+</span>
           </button>
           <p id="faq-answer-0" class="faq-answer" style="display:none; font-size:15.5px; line-height:1.62; color:rgba(224,247,242,.74); margin:0; padding:0 4px 24px; max-width:680px;">Warm water plus a dip in chlorine is all algae needs, and it multiplies overnight. Stabilizer (CYA) that is too low lets the sun burn your chlorine off by mid-afternoon — so it looks fine at 9am and blooms by dinner.</p>
         </div>
         <div style="border-top:1px solid rgba(150,230,225,.14);">
           <button class="faq-btn" data-faq-index="1" aria-expanded="false" aria-controls="faq-answer-1" style="cursor:pointer; width:100%; text-align:left; background:none; border:none; padding:22px 4px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2vw,22px); color:var(--foam-white);">Is a green pool ruined?</span>
-            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent,var(--accent-2)); transition:transform .3s ease;">+</span>
+            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent-2); transition:transform .3s ease;">+</span>
           </button>
           <p id="faq-answer-1" class="faq-answer" style="display:none; font-size:15.5px; line-height:1.62; color:rgba(224,247,242,.74); margin:0; padding:0 4px 24px; max-width:680px;">Almost never. Even full-swamp pools come back without draining — it just takes shock dosed for the algae type, a clean filter, and a few days of running. Draining should be a last resort, not a first quote.</p>
         </div>
         <div style="border-top:1px solid rgba(150,230,225,.14);">
           <button class="faq-btn" data-faq-index="2" aria-expanded="false" aria-controls="faq-answer-2" style="cursor:pointer; width:100%; text-align:left; background:none; border:none; padding:22px 4px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2vw,22px); color:var(--foam-white);">How long after shocking can we swim?</span>
-            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent,var(--accent-2)); transition:transform .3s ease;">+</span>
+            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent-2); transition:transform .3s ease;">+</span>
           </button>
           <p id="faq-answer-2" class="faq-answer" style="display:none; font-size:15.5px; line-height:1.62; color:rgba(224,247,242,.74); margin:0; padding:0 4px 24px; max-width:680px;">Wait until free chlorine falls back to 1–3 ppm — usually 8 to 24 hours depending on the dose. Test before anyone gets in; swimming in freshly shocked water is hard on skin, eyes, and swimsuits.</p>
         </div>
         <div style="border-top:1px solid rgba(150,230,225,.14);">
           <button class="faq-btn" data-faq-index="3" aria-expanded="false" aria-controls="faq-answer-3" style="cursor:pointer; width:100%; text-align:left; background:none; border:none; padding:22px 4px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2vw,22px); color:var(--foam-white);">Why is my water cloudy right after I balanced it?</span>
-            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent,var(--accent-2)); transition:transform .3s ease;">+</span>
+            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent-2); transition:transform .3s ease;">+</span>
           </button>
           <p id="faq-answer-3" class="faq-answer" style="display:none; font-size:15.5px; line-height:1.62; color:rgba(224,247,242,.74); margin:0; padding:0 4px 24px; max-width:680px;">Fresh chemicals need to circulate and the filter needs time to catch the fine stuff. Give it a full turnover cycle. If it is still hazy after a day, your filter may need a clean or the pH is running high.</p>
         </div>
         <div style="border-top:1px solid rgba(150,230,225,.14);">
           <button class="faq-btn" data-faq-index="4" aria-expanded="false" aria-controls="faq-answer-4" style="cursor:pointer; width:100%; text-align:left; background:none; border:none; padding:22px 4px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2vw,22px); color:var(--foam-white);">Do I really need to brush?</span>
-            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent,var(--accent-2)); transition:transform .3s ease;">+</span>
+            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent-2); transition:transform .3s ease;">+</span>
           </button>
           <p id="faq-answer-4" class="faq-answer" style="display:none; font-size:15.5px; line-height:1.62; color:rgba(224,247,242,.74); margin:0; padding:0 4px 24px; max-width:680px;">Yes. Brushing lifts the film algae clings to and pushes debris toward the drains where the filter can grab it. Skipping it is the number-one reason a "clean-looking" pool blooms in the same spot every time.</p>
         </div>
         <div style="border-top:1px solid rgba(150,230,225,.14);">
           <button class="faq-btn" data-faq-index="5" aria-expanded="false" aria-controls="faq-answer-5" style="cursor:pointer; width:100%; text-align:left; background:none; border:none; padding:22px 4px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(18px,2vw,22px); color:var(--foam-white);">What makes swimmers' eyes sting?</span>
-            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent,var(--accent-2)); transition:transform .3s ease;">+</span>
+            <span style="flex:none; font-size:22px; line-height:1; color:var(--accent-2); transition:transform .3s ease;">+</span>
           </button>
           <p id="faq-answer-5" class="faq-answer" style="display:none; font-size:15.5px; line-height:1.62; color:rgba(224,247,242,.74); margin:0; padding:0 4px 24px; max-width:680px;">Not "too much chlorine" — usually the opposite. Sting and that strong pool smell come from chloramines (used-up chlorine) and off-balance pH. The fix is more fresh chlorine and correct pH, not less.</p>
         </div>
@@ -314,7 +414,7 @@
     <section data-reveal data-screen-label="Pool School CTA" style="margin-top:clamp(60px,10vh,120px); padding:clamp(40px,6vw,66px); border-radius:28px; background:linear-gradient(135deg, rgba(12,52,66,.62), rgba(8,30,38,.5)); border:1px solid rgba(127,227,218,.3); text-align:center; backdrop-filter:blur(10px);">
       <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,4vw,52px); line-height:1.02; letter-spacing:-.02em; color:var(--foam-white); margin:0 0 14px; text-wrap:balance;">Rather not think about any of this?</h2>
       <p style="font-size:17px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto 30px; max-width:520px;">That's the whole point of a plan. We hold the numbers, you enjoy the water.</p>
-      <a href="pricing.html" style="display:inline-block; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:16px 30px; border-radius:999px; box-shadow:0 14px 40px rgba(30,180,170,.36); transition:transform .3s ease;">See the plans →</a>
+      <a href="pricing.html" class="ps-cta-bottom" style="display:inline-block; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:16px 30px; border-radius:999px; box-shadow:0 14px 40px rgba(30,180,170,.36); transition:transform .3s ease;">See the plans →</a>
     </section>
 
     <!-- FOOTER -->
@@ -326,17 +426,10 @@
   </main>
 </div>
 
-<script src="js/config.js"></script>
+<script src="js/config.js?v=2026.07"></script>
 <script>
 (function() {
-  // Set accent colors (Lagoon palette by default)
-  const root = document.getElementById('root');
-  if (root) {
-    root.style.setProperty('--accent', '#5fd0c8');
-    root.style.setProperty('--accent2', '#7fe3da');
-  }
-
-  // Navigation state
+  // Navigation state (accent tokens come from :root + js/config.js — no per-page overrides)
   const nav = document.getElementById('nav');
   const desktopLinks = document.getElementById('desktopLinks');
   const menuBtn = document.getElementById('menuBtn');
@@ -345,13 +438,13 @@
   let menuOpen = false;
   let isNarrow = false;
 
-  // Media query for narrow screens
-  const mq = matchMedia('(max-width: 860px)');
+  // Media query for narrow screens — same collapse breakpoint as index.html
+  const mq = matchMedia('(max-width: 900px)');
   function updateNarrow(e) {
     isNarrow = e.matches;
     desktopLinks.style.display = isNarrow ? 'none' : 'flex';
     menuBtn.style.display = isNarrow ? 'flex' : 'none';
-    if (isNarrow && menuOpen) closeMenu();
+    if (!isNarrow && menuOpen) closeMenu();
   }
   updateNarrow(mq);
   mq.addEventListener('change', updateNarrow);
@@ -359,7 +452,7 @@
   // Menu toggle
   function toggleMenu() {
     menuOpen = !menuOpen;
-    mobileMenu.style.display = menuOpen ? 'block' : 'none';
+    mobileMenu.style.display = menuOpen ? 'flex' : 'none';
     menuOverlay.style.display = menuOpen ? 'block' : 'none';
     updateMenuButton();
     if (menuOpen) {
@@ -402,7 +495,7 @@
 
   // Scroll-based navbar changes
   function onScroll() {
-    const solid = window.scrollY > 40;
+    const solid = window.scrollY > 60;
     nav.style.background = solid ? 'rgba(4,20,27,0.72)' : 'rgba(4,20,27,0)';
     nav.style.borderBottomColor = solid ? 'rgba(150,230,225,0.14)' : 'rgba(150,230,225,0)';
     nav.style.backdropFilter = solid ? 'blur(14px) saturate(120%)' : 'none';
@@ -411,34 +504,25 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Intersection Observer for reveal animation
-  function initReveal() {
+  // Below-fold reveals — CSS gates only when html.rv is set; 1.5s failsafe means
+  // content can never sit invisible (ponytail: hero is pure CSS, not gated here)
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('rv');
+    const revealEls = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
     const io = new IntersectionObserver((ents) => {
       ents.forEach((en) => {
         if (en.isIntersecting) {
-          en.target.style.opacity = '1';
-          en.target.style.transform = 'none';
+          en.target.classList.add('in');
           io.unobserve(en.target);
         }
       });
-    }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' });
-
-    document.querySelectorAll('[data-reveal]').forEach((el) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(28px)';
-      el.style.transition = 'opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)';
-      el.style.transitionDelay = (el.dataset.delay || 0) + 'ms';
-      el.style.willChange = 'opacity, transform';
+    }, { threshold: 0.05, rootMargin: '0px 0px -4% 0px' });
+    revealEls.forEach((el) => {
+      el.style.transitionDelay = Math.min(parseInt(el.dataset.delay || '0', 10) || 0, 160) + 'ms';
       io.observe(el);
     });
+    setTimeout(() => { revealEls.forEach((el) => el.classList.add('in')); }, 1500);
   }
-
-  // Initialize reveal after DOM is ready
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      initReveal();
-    });
-  });
 
   // FAQ accordion
   let openFaqIndex = -1;
@@ -474,15 +558,150 @@
     });
   });
 
-  // Topic card hover effects (CSS handles this, but JS can be added for additional interactivity if needed)
-  document.querySelectorAll('.topic-card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-      this.style.borderColor = 'rgba(127,227,218,.4)';
-      this.style.transform = 'translateY(-4px)';
+  // ---- Pump-shed card generator ----
+  const MULT = { rect: 7.5, oval: 5.9, kidney: 6.7 };
+
+  function computeGallons(shape, l, w, d) {
+    // nearest 500, floored at 500 so a tiny valid plunge pool never rounds to 0
+    return Math.max(500, Math.round((l * w * d * MULT[shape]) / 500) * 500);
+  }
+  // 12.5% liquid chlorinator: fl oz to raise `gal` gallons by 10 ppm
+  function doseOz(gal) {
+    return (gal / 10000) * 10.7 * 10;
+  }
+  function formatDose(oz) {
+    var ozR = Math.max(1, Math.round(oz));
+    if (ozR < 128) return ozR + ' fl oz';
+    return (Math.round((oz / 128) * 4) / 4) + ' gal';
+  }
+
+  const shapeBtns = Array.prototype.slice.call(document.querySelectorAll('#psShapes .ps-chip'));
+  const dimsWrap = document.getElementById('psDims');
+  const directWrap = document.getElementById('psDirect');
+  const lenIn = document.getElementById('psLen');
+  const widIn = document.getElementById('psWid');
+  const depIn = document.getElementById('psDep');
+  const galIn = document.getElementById('psGal');
+  const errEl = document.getElementById('psErr');
+  const volEl = document.getElementById('psVol');
+  const doseWrap = document.getElementById('psDose');
+  const doseAmtEl = document.getElementById('psDoseAmt');
+  const doseGalEl = document.getElementById('psDoseGal');
+  const doseHint = document.getElementById('psDoseHint');
+  let shape = 'rect';
+  let gallons = null;
+
+  function setError(msg) {
+    errEl.textContent = msg || '';
+    errEl.style.display = msg ? 'block' : 'none';
+  }
+
+  function setCard(g) {
+    gallons = g;
+    if (g) {
+      volEl.textContent = g.toLocaleString('en-US') + ' gal';
+      doseAmtEl.textContent = formatDose(doseOz(g));
+      doseGalEl.textContent = g.toLocaleString('en-US');
+      doseWrap.style.display = 'block';
+      doseHint.style.display = 'none';
+    } else {
+      volEl.textContent = '— gal';
+      doseWrap.style.display = 'none';
+      doseHint.style.display = 'block';
+    }
+  }
+
+  function recalc() {
+    if (shape === 'direct') {
+      const raw = galIn.value.trim();
+      if (raw === '') { setError(''); setCard(null); return; }
+      const g = parseFloat(raw);
+      if (!isFinite(g) || g < 500 || g > 100000) {
+        setError('Gallons between 500 and 100,000, please — that covers every backyard pool we’ve met.');
+        setCard(null);
+        return;
+      }
+      setError('');
+      setCard(Math.round(g));
+      return;
+    }
+    const l = parseFloat(lenIn.value), w = parseFloat(widIn.value), d = parseFloat(depIn.value);
+    // Wait until all three dimensions are in before judging them
+    if ([lenIn, widIn, depIn].some((i) => i.value.trim() === '')) { setError(''); setCard(null); return; }
+    if (!isFinite(l) || !isFinite(w) || l < 4 || l > 60 || w < 4 || w > 60) {
+      setError('Length and width should each be 4 to 60 ft.');
+      setCard(null);
+      return;
+    }
+    if (!isFinite(d) || d < 2 || d > 12) {
+      setError('Average depth should be 2 to 12 ft (shallow end + deep end, halved).');
+      setCard(null);
+      return;
+    }
+    setError('');
+    setCard(computeGallons(shape, l, w, d));
+  }
+
+  shapeBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      shape = btn.dataset.shape;
+      shapeBtns.forEach((b) => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+      dimsWrap.style.display = shape === 'direct' ? 'none' : 'grid';
+      directWrap.style.display = shape === 'direct' ? 'block' : 'none';
+      recalc();
     });
-    card.addEventListener('mouseleave', function() {
-      this.style.borderColor = 'rgba(150,230,225,.16)';
-      this.style.transform = 'translateY(0)';
+  });
+  [lenIn, widIn, depIn, galIn].forEach((i) => i.addEventListener('input', recalc));
+
+  // Print path — the @media print sheet isolates #pumpCard, ink on white
+  document.getElementById('psPrint').addEventListener('click', () => window.print());
+
+  // Soft email gate — optional, never blocks printing
+  const emailForm = document.getElementById('psEmailForm');
+  const emailIn = document.getElementById('psEmail');
+  const emailBtn = document.getElementById('psEmailBtn');
+  const emailMsg = document.getElementById('psEmailMsg');
+  let sending = false;
+
+  function emailNote(msg, isError) {
+    emailMsg.textContent = msg;
+    emailMsg.style.color = isError ? 'var(--gold)' : 'var(--accent)';
+    emailMsg.style.display = 'block';
+  }
+
+  emailForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (sending) return;
+    const email = emailIn.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailNote('That email doesn’t look right — mind checking it?', true);
+      return;
+    }
+    sending = true;
+    emailBtn.disabled = true;
+    emailBtn.textContent = 'Sending…';
+    (window.meridianSubmitLead || function () { return Promise.resolve({ demo: true }); })({
+      type: 'pump-card',
+      gallons: gallons,
+      email: email,
+      ranges: {
+        freeChlorine: '1-3 ppm',
+        pH: '7.4-7.6',
+        totalAlkalinity: '80-120 ppm',
+        cyanuricAcid: '30-50 ppm',
+        salt: '2700-3400 ppm'
+      }
+    }).then(() => {
+      emailNote('Sent — your card is on its way. Print one for the shed too.', false);
+      emailBtn.textContent = 'Email me my card';
+      emailBtn.disabled = false;
+      sending = false;
+      emailIn.value = '';
+    }).catch(() => {
+      emailNote('That didn’t go through — give it another try, or just print the card.', true);
+      emailBtn.textContent = 'Email me my card';
+      emailBtn.disabled = false;
+      sending = false;
     });
   });
 })();

@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&amp;family=Instrument+Serif:ital@0;1&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>
   :root{
     --swamp-black:#0a1208; --deep-water:#04141b;
@@ -24,22 +24,42 @@
   a { color: var(--link); text-decoration: none; }
   a:hover { color: #9df0e7; }
   ::selection { background: rgba(95,208,200,0.30); color: var(--foam-bright); }
-  input::placeholder, textarea::placeholder { color: rgba(214,240,236,.62); }
+  input::placeholder, textarea::placeholder { color: rgba(214,240,236,.72); }
   @keyframes sv-floatA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px,-30px); } }
   @keyframes sv-floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-34px,26px); } }
   @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
 
-  /* :hover / :focus rules ported from the prototype's style-hover / style-focus authoring attributes */
-  .cn-nav-link:hover { color: var(--accent2,var(--accent)); }
+  /* hero entrance: pure CSS, no JS gate — content can never strand invisible */
+  @keyframes cn-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .cn-rise { animation: cn-rise .7s cubic-bezier(.2,.7,.2,1) both; }
+
+  /* below-fold reveals: gated on html.rv (JS-added), so no-JS = fully visible */
+  html.rv [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .55s cubic-bezier(.2,.7,.2,1), transform .55s cubic-bezier(.2,.7,.2,1); }
+  html.rv [data-reveal].in { opacity: 1; transform: none; }
+
+  /* Rescue Forecast strip — the one sanctioned #waterRipple use (non-text, per DESIGN.md Forecast Strip Exception) */
+  @property --fc-from { syntax: '<color>'; inherits: false; initial-value: #5f7434; }
+  @property --fc-mid { syntax: '<color>'; inherits: false; initial-value: #4f8a6d; }
+  .cn-strip { height: 14px; border-radius: 999px; filter: url(#waterRipple);
+    background: linear-gradient(90deg, var(--fc-from), var(--fc-mid) 46%, #2bb3a9);
+    transition: --fc-from .8s cubic-bezier(.2,.7,.2,1), --fc-mid .8s cubic-bezier(.2,.7,.2,1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cn-rise { animation: none; }
+    .cn-strip { transition: none; }
+  }
+
+  /* :hover / :focus rules — same vocabulary as index.html */
+  .cn-nav-link:hover { color: var(--accent); }
   .cn-nav-cta:hover { color: var(--cta-ink); }
   .cn-menu-link:hover { background: rgba(127,227,218,.1); }
   .cn-chip:hover { border-color: rgba(127,227,218,.5); }
-  .cn-input:focus { border-color: var(--accent,var(--accent-2)); }
+  .cn-input:focus { border-color: var(--accent); }
   .cn-submit:hover { transform: translateY(-2px); box-shadow: 0 18px 44px rgba(30,180,170,.5); }
-  .cn-phone-link:hover { color: var(--accent2,var(--accent)); }
+  .cn-phone-link:hover { color: var(--accent); }
   a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
-  .mpc-skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--deep-water);color:var(--foam-bright);padding:12px 18px;border-radius:0 0 10px 0;font-family:'Manrope',sans-serif;font-weight:600;font-size:14px;}
+  .mpc-skip{position:absolute;left:-9999px;top:0;z-index:80;background:var(--deep-water);color:var(--foam-bright);padding:12px 18px;border-radius:0 0 12px 0;font-family:'Manrope',sans-serif;font-weight:600;font-size:14px;}
   .mpc-skip:focus{left:0;}
 </style>
 </head>
@@ -47,7 +67,7 @@
 <a class="mpc-skip" href="#main">Skip to content</a>
 
 <noscript>
-  <div style="position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; padding:24px; background:linear-gradient(180deg,#07171e 0%,#04121a 58%,#061a20 100%); font-family:'Manrope',system-ui,sans-serif;">
+  <div style="position:fixed; inset:0; z-index:80; display:flex; align-items:center; justify-content:center; padding:24px; background:linear-gradient(180deg,#07171e 0%,#04121a 58%,#061a20 100%); font-family:'Manrope',system-ui,sans-serif;">
     <div style="max-width:440px; text-align:center; padding:34px 30px; border-radius:24px; background:rgba(8,34,44,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright);">
       <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:26px; letter-spacing:-.01em; color:var(--foam-white); margin:0 0 12px;">JavaScript required</div>
       <p style="font-size:15px; line-height:1.6; color:rgba(214,240,236,.82); margin:0 0 18px;">This page needs JavaScript for the full booking experience. To book right now, reach a real water tech:</p>
@@ -63,7 +83,8 @@
   </filter>
 </svg>
 
-<div id="cn-root" style="position:relative; --accent:#5fd0c8; --accent2:#7fe3da;">
+<!-- ponytail: no --accent override here — config.js sets buyer accent on <html>, and a local override would shadow it -->
+<div id="cn-root" style="position:relative;">
 
   <!-- ============ BACKGROUND ============ -->
   <div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(120% 80% at 50% -10%, rgba(20,120,120,.26), transparent 55%), radial-gradient(90% 70% at 88% 112%, rgba(10,72,82,.34), transparent 60%), linear-gradient(180deg,#07171e 0%,#04121a 58%,#061a20 100%);">
@@ -72,37 +93,35 @@
   </div>
 
   <!-- ============ NAV ============ -->
-  <nav id="cn-nav" style="position:fixed; top:0; left:0; right:0; z-index:20; border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
-    <div style="max-width:1180px; margin:0 auto; padding:15px clamp(22px,5vw,72px); display:flex; align-items:center; justify-content:space-between; gap:20px;">
-      <a href="index.html" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; letter-spacing:-.01em; color:var(--foam-white); display:flex; align-items:baseline; gap:9px;">
-        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2)); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent2,var(--accent));">Pool Care</span>
-      </a>
-      <div id="cn-desktop-links" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
-        <a class="cn-nav-link" href="index.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Home</a>
-        <a class="cn-nav-link" href="services.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Services</a>
-        <a class="cn-nav-link" href="pricing.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pricing</a>
-        <a class="cn-nav-link" href="our-work.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Our Work</a>
-        <a class="cn-nav-link" href="about.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">About</a>
-        <a class="cn-nav-link" href="pool-school.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pool School</a>
-      </div>
-      <button id="cn-hamburger" aria-label="Menu" style="display:none; cursor:pointer; flex:none; width:44px; height:44px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); align-items:center; justify-content:center; gap:4px; flex-direction:column;">
-        <span id="cn-line1" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
-        <span id="cn-line2" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); opacity:1; transition:opacity .2s ease;"></span>
-        <span id="cn-line3" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
-      </button>
-      <div id="cn-menu-scrim" style="display:none; position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
-      <div id="cn-menu" style="display:none; position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
-        <a class="cn-menu-link" href="index.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Home</a>
-        <a class="cn-menu-link" href="services.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Services</a>
-        <a class="cn-menu-link" href="pricing.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pricing</a>
-        <a class="cn-menu-link" href="our-work.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Our Work</a>
-        <a class="cn-menu-link" href="about.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">About</a>
-        <a class="cn-menu-link" href="pool-school.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pool School</a>
-        <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
-        <a href="#book" id="cn-menu-book" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Book a visit</a>
-      </div>
-      <a class="cn-nav-cta" href="#book" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 8px 24px rgba(30,180,170,.3);">Book a visit</a>
+  <nav id="cn-nav" style="position:fixed; top:0; left:0; right:0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
+    <a href="index.html" aria-label="Meridian Pool Care — home" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.01em; color:var(--foam-white); display:flex; align-items:baseline; gap:9px;">
+      <span style="width:9px; height:9px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 12px var(--accent-2); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent);">Pool Care</span>
+    </a>
+    <div id="cn-desktop-links" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
+      <a class="cn-nav-link" href="index.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Home</a>
+      <a class="cn-nav-link" href="services.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Services</a>
+      <a class="cn-nav-link" href="pricing.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Pricing</a>
+      <a class="cn-nav-link" href="our-work.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Our Work</a>
+      <a class="cn-nav-link" href="about.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">About</a>
+      <a class="cn-nav-link" href="pool-school.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Pool School</a>
     </div>
+    <button id="cn-hamburger" aria-label="Menu" style="display:none; cursor:pointer; flex:none; width:44px; height:44px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); align-items:center; justify-content:center; gap:4px; flex-direction:column;">
+      <span id="cn-line1" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+      <span id="cn-line2" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); opacity:1; transition:opacity .2s ease;"></span>
+      <span id="cn-line3" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+    </button>
+    <div id="cn-menu-scrim" style="display:none; position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
+    <div id="cn-menu" style="display:none; position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
+      <a class="cn-menu-link" href="index.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Home</a>
+      <a class="cn-menu-link" href="services.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Services</a>
+      <a class="cn-menu-link" href="pricing.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pricing</a>
+      <a class="cn-menu-link" href="our-work.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Our Work</a>
+      <a class="cn-menu-link" href="about.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">About</a>
+      <a class="cn-menu-link" href="pool-school.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pool School</a>
+      <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
+      <a href="#book" id="cn-menu-book" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Book a visit</a>
+    </div>
+    <a class="cn-nav-cta" href="#book" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 6px 18px rgba(30,180,170,.38);">Book a visit</a>
   </nav>
 
   <!-- ============ CONTENT ============ -->
@@ -110,19 +129,19 @@
 
     <!-- HERO -->
     <section id="top" data-screen-label="Contact hero" style="padding:clamp(118px,20vh,196px) 0 clamp(30px,5vh,56px);">
-      <div data-reveal>
-        <div style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
-          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2));"></span>
-          <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#dbeef0; font-weight:600;">Contact &amp; Booking</span>
+      <div>
+        <div class="cn-rise" style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
+          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent);"></span>
+          <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#dbeef0; font-weight:600;">The Rescue Forecast</span>
         </div>
-        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">Get your<br />Saturday back.</h1>
-        <p style="max-width:600px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">Tell us how the water looks today. A real water tech — not a call center — replies within one business day.</p>
+        <h1 class="cn-rise" style="animation-delay:.08s; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">Get your<br />Saturday back.</h1>
+        <p class="cn-rise" style="animation-delay:.16s; max-width:620px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">Tell us how the water looks and get an instant forecast: days to swim-ready, and what it should run. A real water tech, <em style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.08em;">not a call center,</em> confirms it on the first visit, free.</p>
       </div>
     </section>
 
     <!-- FORM + INFO -->
     <section id="book" data-screen-label="Booking form" style="scroll-margin-top:92px;">
-      <div data-reveal id="cn-grid" style="display:grid; grid-template-columns:1.15fr .85fr; gap:18px; align-items:start;">
+      <div id="cn-grid" style="display:grid; grid-template-columns:1.15fr .85fr; gap:18px; align-items:start;">
 
         <!-- FORM CARD -->
         <div style="padding:clamp(26px,3vw,40px); border-radius:24px; background:rgba(8,34,44,.55); backdrop-filter:blur(12px); border:1px solid rgba(150,230,225,.2);">
@@ -130,11 +149,11 @@
           <div id="cn-submitted" style="display:none; text-align:center; padding:40px 6px;">
             <div style="width:64px; height:64px; margin:0 auto 22px; border-radius:50%; background:rgba(127,227,218,.16); border:1px solid rgba(127,227,218,.5); display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--accent,var(--accent-2));">✓</div>
             <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:30px; color:var(--foam-white); margin:0 0 12px;">Rescue inbound.</h3>
-            <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto; max-width:360px;">A water tech will call within one business day. Leave the gate unlocked — we'll handle the rest.</p>
+            <p id="cn-submitted-copy" style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto; max-width:380px;">A water tech will call within one business day. Leave the gate unlocked and we'll handle the rest.</p>
           </div>
 
           <div id="cn-form-panel">
-            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin-bottom:14px;">How's the water today?</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.01em; color:var(--foam-white); margin-bottom:12px;">How's the water today?</div>
             <div id="cn-conditions" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
               <button type="button" class="cn-chip" data-v="crystal" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Crystal — maintain it<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
               <button type="button" class="cn-chip" data-v="cloudy" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">A little cloudy<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
@@ -142,12 +161,32 @@
               <button type="button" class="cn-chip" data-v="swamp" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Full swamp<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
             </div>
 
-            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin-bottom:14px;">What do you need?</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.01em; color:var(--foam-white); margin-bottom:12px;">How big is the pool?</div>
+            <div id="cn-sizes" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
+              <button type="button" class="cn-chip" data-v="s" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Up to 10k gal<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="m" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">10–20k<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="l" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">20k+<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+              <button type="button" class="cn-chip" data-v="u" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Not sure<span class="cn-ring" style="display:block; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+            </div>
+
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.01em; color:var(--foam-white); margin-bottom:12px;">What do you need?</div>
             <div id="cn-services" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
               <button type="button" class="cn-chip" data-v="weekly" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Weekly plan<span class="cn-ring" style="display:block; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
               <button type="button" class="cn-chip" data-v="rescue" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">One-time rescue<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
               <button type="button" class="cn-chip" data-v="repair" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Equipment repair<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
               <button type="button" class="cn-chip" data-v="question" style="position:relative; cursor:pointer; padding:11px 16px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-weight:600; font-size:13.5px; transition:border-color .3s ease;">Just a question<span class="cn-ring" style="display:none; position:absolute; inset:-1px; border-radius:999px; border:2px solid var(--accent,var(--accent-2)); pointer-events:none;"></span></button>
+            </div>
+
+            <!-- THE RESCUE FORECAST — rendered from the water-state + size chips -->
+            <div id="cn-forecast" style="margin:0 0 24px; padding:20px 20px 18px; border-radius:16px; background:rgba(4,20,27,.45); border:1px solid rgba(150,230,225,.18);">
+              <p id="cn-fc-title" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(19px,2.2vw,23px); line-height:1.28; letter-spacing:-.015em; color:var(--foam-white); margin:0 0 16px;">Green is routine for us. <em style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.08em; color:var(--accent);">This week, not next month.</em></p>
+              <div class="cn-strip" id="cn-strip" aria-hidden="true" style="--fc-from:#5f7434; --fc-mid:#4f8a6d; margin:0 2px;"></div>
+              <div style="display:flex; justify-content:space-between; font-size:12.5px; font-weight:600; color:rgba(214,240,236,.72); margin:8px 2px 16px;"><span>today</span><span style="color:var(--accent);">swim-ready</span></div>
+              <div style="display:flex; flex-wrap:wrap; gap:6px 20px; align-items:baseline;">
+                <span id="cn-fc-days" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:27px; letter-spacing:-.01em; color:var(--foam-white);">3–5 days</span>
+                <span id="cn-fc-price" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:var(--accent);">from $399 one-time · The Rescue</span>
+              </div>
+              <p id="cn-fc-note" style="font-size:13.5px; line-height:1.5; color:rgba(214,240,236,.72); margin:10px 0 0;">Estimate — confirmed on the first visit, free.</p>
             </div>
 
             <form id="cn-form" style="display:flex; flex-direction:column; gap:12px;">
@@ -157,24 +196,24 @@
                 <label for="cn-contact" class="vh">Phone or email</label>
                 <input required name="contact" id="cn-contact" maxlength="120" class="cn-input" placeholder="Phone or email" style="flex:1 1 160px; min-width:0; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
               </div>
-              <p id="cn-contact-hint" style="display:none; font-size:13.5px; line-height:1.5; color:#ffb4a8; margin:-4px 0 0;">Add a phone number or email so we can reach you.</p>
+              <p id="cn-contact-hint" style="display:none; font-size:13.5px; line-height:1.5; color:var(--gold); margin:-4px 0 0;">Add a phone number or email so we can reach you.</p>
               <label for="cn-address" class="vh">Street and ZIP</label>
               <input name="address" id="cn-address" maxlength="200" class="cn-input" placeholder="Street & ZIP (for a same-day quote)" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-size:15px; outline:none;">
               <label for="cn-message" class="vh">Anything we should know?</label>
               <textarea name="message" id="cn-message" rows="3" maxlength="1000" class="cn-input" placeholder="Anything we should know? (gate code, pump noise, last time it was cleaned…)" style="width:100%; padding:15px 16px; border-radius:12px; background:rgba(4,20,27,.55); border:1px solid rgba(150,230,225,.22); color:var(--foam-bright); font-family:'Manrope',sans-serif; font-size:15px; outline:none; resize:vertical;"></textarea>
               <button type="submit" class="cn-submit" style="margin-top:4px; cursor:pointer; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:16px; border-radius:12px; box-shadow:0 12px 34px rgba(30,180,170,.34); transition:transform .25s ease, box-shadow .25s ease;">Book my first visit →</button>
-              <p id="cn-form-error" role="alert" style="display:none; font-size:13.5px; line-height:1.5; color:#ffb4a8; margin:2px 0 0; text-align:center;">Something went wrong sending that — please call (512) 555-0143 or email care@meridianpools.com and we'll take it from there.</p>
+              <p id="cn-form-error" role="alert" style="display:none; font-size:13.5px; line-height:1.5; color:var(--gold); margin:2px 0 0; text-align:center;">Something went wrong sending that — please call (512) 555-0143 or email care@meridianpools.com and we'll take it from there.</p>
             </form>
-            <p style="font-size:12.5px; line-height:1.5; color:rgba(214,240,236,.6); margin:14px 0 0; text-align:center;">First clean free with any plan. No spam, ever.</p>
+            <p style="font-size:12.5px; line-height:1.5; color:rgba(214,240,236,.72); margin:14px 0 0; text-align:center;">First clean free with any plan. No spam, ever.</p>
           </div>
         </div>
 
         <!-- INFO CARD -->
         <div style="display:flex; flex-direction:column; gap:16px;">
           <div style="padding:28px 28px 30px; border-radius:24px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px);">
-            <div style="font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:rgba(214,240,236,.55); font-weight:600; margin-bottom:16px;">Reach a human</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.01em; color:var(--foam-white); margin-bottom:14px;">Reach a human</div>
             <a class="cn-phone-link" href="tel:+15125550143" data-cfg-href="tel" data-cfg="phone" style="display:block; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,3vw,34px); letter-spacing:-.01em; color:var(--foam-white); margin-bottom:8px;">(512) 555-0143</a>
-            <a href="mailto:care@meridianpools.com" data-cfg-href="mailto" data-cfg="email" style="font-size:15px; color:var(--accent2,var(--accent));">care@meridianpools.com</a>
+            <a href="mailto:care@meridianpools.com" data-cfg-href="mailto" data-cfg="email" style="font-size:15px; color:var(--accent);">care@meridianpools.com</a>
             <div style="margin-top:22px; padding-top:20px; border-top:1px solid rgba(150,230,225,.14); display:flex; flex-direction:column; gap:11px;">
               <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; font-size:14.5px;">
                 <span style="color:rgba(224,247,242,.7);">Monday – Friday</span>
@@ -196,7 +235,7 @@
           </div>
 
           <div style="padding:28px 28px 30px; border-radius:24px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px);">
-            <div style="font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:rgba(214,240,236,.55); font-weight:600; margin-bottom:16px;">Where we work</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.01em; color:var(--foam-white); margin-bottom:14px;">Where we work</div>
             <div style="display:flex; flex-wrap:wrap; gap:8px;">
               <span style="padding:7px 13px; border-radius:999px; background:rgba(10,44,56,.5); border:1px solid rgba(150,230,225,.18); font-size:13px; color:rgba(232,244,240,.85);">Austin</span>
               <span style="padding:7px 13px; border-radius:999px; background:rgba(10,44,56,.5); border:1px solid rgba(150,230,225,.18); font-size:13px; color:rgba(232,244,240,.85);">Cedar Park</span>
@@ -207,7 +246,7 @@
               <span style="padding:7px 13px; border-radius:999px; background:rgba(10,44,56,.5); border:1px solid rgba(150,230,225,.18); font-size:13px; color:rgba(232,244,240,.85);">Lago Vista</span>
               <span style="padding:7px 13px; border-radius:999px; background:rgba(10,44,56,.5); border:1px solid rgba(150,230,225,.18); font-size:13px; color:rgba(232,244,240,.85);">Round Rock</span>
             </div>
-            <p style="font-size:13.5px; line-height:1.55; color:rgba(214,240,236,.6); margin:16px 0 0;">Just outside the list? Call us — we add routes every season.</p>
+            <p style="font-size:13.5px; line-height:1.55; color:rgba(214,240,236,.72); margin:16px 0 0;">Just outside the list? Call us, we add routes every season.</p>
           </div>
         </div>
       </div>
@@ -219,28 +258,34 @@
         <iframe title="Meridian Pool Care service area — Austin, TX" src="https://maps.google.com/maps?q=Austin,TX&z=10&output=embed" loading="lazy" style="display:block; width:100%; height:clamp(320px,48vh,480px); border:0; filter:invert(0.92) hue-rotate(185deg) saturate(0.75) brightness(0.92) contrast(1.05);"></iframe>
         <div style="position:absolute; top:16px; left:16px; padding:9px 15px; border-radius:12px; background:rgba(6,24,30,.72); border:1px solid rgba(127,227,218,.32); backdrop-filter:blur(8px); pointer-events:none;">
           <div data-cfg="area" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--foam-white);">Austin &amp; Hill Country</div>
-          <div style="font-size:12px; color:rgba(214,240,236,.66); margin-top:2px;">Serving a ~35-mile radius</div>
+          <div style="font-size:12px; color:rgba(214,240,236,.72); margin-top:2px;">Serving a ~35-mile radius</div>
         </div>
       </div>
     </section>
 
     <!-- WHAT TO EXPECT -->
     <section data-reveal data-screen-label="What to expect" style="padding-top:clamp(48px,8vh,90px);">
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
-        <div style="padding:26px 26px 28px; border-radius:20px; background:rgba(8,32,40,.42); border:1px solid rgba(150,230,225,.14);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:12px;">01</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:var(--foam-white); margin-bottom:8px; letter-spacing:-.01em;">You reach out</div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Send a photo or just describe the water. Takes two minutes.</p>
+      <div style="max-width:720px;">
+        <div style="display:grid; grid-template-columns:56px 1fr; gap:18px; align-items:baseline; padding:clamp(20px,3vh,28px) 2px; border-top:1px solid rgba(150,230,225,.14);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2));">01</div>
+          <div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,22px); color:var(--foam-white); letter-spacing:-.01em; margin-bottom:6px;">You reach out</div>
+            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0; max-width:520px;">Send a photo or just describe the water. Takes two minutes.</p>
+          </div>
         </div>
-        <div style="padding:26px 26px 28px; border-radius:20px; background:rgba(8,32,40,.42); border:1px solid rgba(150,230,225,.14);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:12px;">02</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:var(--foam-white); margin-bottom:8px; letter-spacing:-.01em;">We assess</div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">A real tech reads it, quotes it, and books a day that works.</p>
+        <div style="display:grid; grid-template-columns:56px 1fr; gap:18px; align-items:baseline; padding:clamp(20px,3vh,28px) 2px; border-top:1px solid rgba(150,230,225,.14);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2));">02</div>
+          <div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,22px); color:var(--foam-white); letter-spacing:-.01em; margin-bottom:6px;">We assess</div>
+            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0; max-width:520px;">A real tech reads it, quotes it, and books a day that works.</p>
+          </div>
         </div>
-        <div style="padding:26px 26px 28px; border-radius:20px; background:rgba(8,32,40,.42); border:1px solid rgba(150,230,225,.14);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:12px;">03</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; color:var(--foam-white); margin-bottom:8px; letter-spacing:-.01em;">Water clears</div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">We show up, do the whole ritual, and text you the proof.</p>
+        <div style="display:grid; grid-template-columns:56px 1fr; gap:18px; align-items:baseline; padding:clamp(20px,3vh,28px) 2px; border-top:1px solid rgba(150,230,225,.14);">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2));">03</div>
+          <div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,22px); color:var(--foam-white); letter-spacing:-.01em; margin-bottom:6px;">Water clears</div>
+            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0; max-width:520px;">We show up, do the whole ritual, and text you the proof.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -254,7 +299,7 @@
   </main>
 </div>
 
-<script src="js/config.js"></script>
+<script src="js/config.js?v=2026.07"></script>
 <script>
 (function () {
   'use strict';
@@ -276,6 +321,7 @@
   var menuOpen = false;
 
   function renderMenuState() {
+    hamburger.setAttribute('aria-expanded', menuOpen ? 'true' : 'false');
     hamburger.style.display = isNarrow ? 'flex' : 'none';
     desktopLinks.style.display = isNarrow ? 'none' : 'flex';
     var show = isNarrow && menuOpen;
@@ -311,7 +357,7 @@
     }
   });
 
-  var mq = window.matchMedia('(max-width: 860px)');
+  var mq = window.matchMedia('(max-width: 900px)'); // same collapse breakpoint as index.html
   function onMqChange(e) {
     isNarrow = e.matches;
     menuOpen = false;
@@ -336,49 +382,50 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // ---- scroll reveal ----
+  // ---- scroll reveal (hidden state gated on html.rv, so content can never strand invisible) ----
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var revealEls = Array.prototype.slice.call(root.querySelectorAll('[data-reveal]'));
-  if (prefersReducedMotion) {
-    revealEls.forEach(function (el) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    });
-  } else if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) {
-          en.target.style.opacity = '1';
-          en.target.style.transform = 'none';
-          io.unobserve(en.target);
-        }
+  if (!prefersReducedMotion) {
+    document.documentElement.classList.add('rv');
+    var revealEls = Array.prototype.slice.call(root.querySelectorAll('[data-reveal]'));
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            en.target.classList.add('in');
+            io.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.05, rootMargin: '0px 0px -4% 0px' });
+      revealEls.forEach(function (el) {
+        el.style.transitionDelay = Math.min(parseInt(el.getAttribute('data-delay') || '0', 10) || 0, 160) + 'ms';
+        io.observe(el);
       });
-    }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' });
-    revealEls.forEach(function (el) {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(28px)';
-      el.style.transition = 'opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)';
-      el.style.transitionDelay = (el.dataset.delay || 0) + 'ms';
-      el.style.willChange = 'opacity, transform';
-      io.observe(el);
-    });
-  } else {
-    revealEls.forEach(function (el) {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    });
+    } else {
+      revealEls.forEach(function (el) { el.classList.add('in'); });
+    }
+    // failsafe: nothing stays hidden longer than 1.5s under any condition
+    window.setTimeout(function () {
+      revealEls.forEach(function (el) { el.classList.add('in'); });
+    }, 1500);
   }
 
-  // ---- condition / service chip selection ----
+  // ---- condition / size / service chip selection (?water= & ?intent= preselect) ----
   var condition = 'green';
+  var poolSize = 'u';
   var service = 'weekly';
+  var qs = new URLSearchParams(location.search);
+  var qWater = qs.get('water'), qIntent = qs.get('intent');
+  if (['crystal', 'cloudy', 'green', 'swamp'].indexOf(qWater) !== -1) { condition = qWater; }
+  if (['weekly', 'rescue', 'repair', 'question'].indexOf(qIntent) !== -1) { service = qIntent; }
 
   function wireChipGroup(containerId, getVal, setVal) {
     var chips = Array.prototype.slice.call(document.getElementById(containerId).querySelectorAll('.cn-chip'));
     function render() {
       chips.forEach(function (btn) {
         var ring = btn.querySelector('.cn-ring');
-        ring.style.display = (btn.getAttribute('data-v') === getVal()) ? 'block' : 'none';
+        var active = btn.getAttribute('data-v') === getVal();
+        ring.style.display = active ? 'block' : 'none';
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
     }
     chips.forEach(function (btn) {
@@ -390,8 +437,99 @@
     render();
   }
 
-  wireChipGroup('cn-conditions', function () { return condition; }, function (v) { condition = v; });
+  // ---- the Rescue Forecast ----
+  // Bands agree with pricing.html: Essential $149/mo; The Rescue "from $399", green-to-clean 3–5 days.
+  var FORECAST_BASE = {
+    crystal: { days: [0, 0], price: [149, 149], monthly: true },
+    cloudy:  { days: [1, 2], price: [129, 199], monthly: false },
+    green:   { days: [3, 5], price: [399, 499], monthly: false },
+    swamp:   { days: [5, 7], price: [499, 650], monthly: false }
+  };
+
+  // pure function — no DOM; keep it that way so it stays node-testable
+  function forecastFor(water, size) {
+    var b = FORECAST_BASE[water] || FORECAST_BASE.green;
+    var dMin = b.days[0], dMax = b.days[1];
+    if (!b.monthly) {
+      if (size === 'l') { dMin += 1; dMax += 1; }
+      if (size === 's') { dMax = Math.max(1, dMax - 1); }
+      if (dMin > dMax) { dMin = dMax; }
+      if (dMin < 1) { dMin = 1; }
+    }
+    return { dayMin: dMin, dayMax: dMax, priceMin: b.price[0], priceMax: b.price[1], monthly: b.monthly };
+  }
+
+  function daysLabel(monthly, min, max) {
+    if (monthly) { return 'Swim today'; }
+    if (min === max) { return min + (min === 1 ? ' day' : ' days'); }
+    return min + '–' + max + ' days';
+  }
+
+  function priceLabel(water, f) {
+    if (f.monthly) { return 'from $' + f.priceMin + '/mo · Essential plan'; }
+    if (water === 'green') { return 'from $' + f.priceMin + ' one-time · The Rescue'; }
+    return '$' + f.priceMin + '–$' + f.priceMax + ' one-time';
+  }
+
+  // ponytail: dirty-end colors only ever appear inside this strip (DESIGN.md Forecast Strip Exception)
+  var FORECAST_LOOK = {
+    crystal: { from: '#35c0b5', mid: '#2fb8ae' },
+    cloudy:  { from: '#3f7a7d', mid: '#379a92' },
+    green:   { from: '#5f7434', mid: '#4f8a6d' },
+    swamp:   { from: '#3d4a16', mid: '#5c6b2e' }
+  };
+  var FORECAST_COPY = {
+    crystal: { lead: 'You’re already there.', turn: 'Let’s keep it that way.', note: 'Weekly care from $149/mo keeps it exactly like this. First clean free.' },
+    cloudy:  { lead: 'A little cloudy is a quick fix.', turn: 'Back to glass in a day or two.', note: 'Estimate — confirmed on the first visit, free. Roll it into a plan and it gets cheaper.' },
+    green:   { lead: 'Green is routine for us.', turn: 'This week, not next month.', note: 'Estimate — confirmed on the first visit, free.' },
+    swamp:   { lead: 'Full swamp is our favorite starting point.', turn: 'Watch it turn.', note: 'Estimate — confirmed on the first visit, free. No drain, no refill bill.' }
+  };
+
+  var fcStrip = document.getElementById('cn-strip');
+  var fcTitle = document.getElementById('cn-fc-title');
+  var fcDays = document.getElementById('cn-fc-days');
+  var fcPrice = document.getElementById('cn-fc-price');
+  var fcNote = document.getElementById('cn-fc-note');
+  var fcShown = { min: 3, max: 5, raf: 0 };
+
+  function tweenDaysTo(f) {
+    window.cancelAnimationFrame(fcShown.raf);
+    if (prefersReducedMotion || f.monthly) {
+      fcShown.min = f.dayMin; fcShown.max = f.dayMax;
+      fcDays.textContent = daysLabel(f.monthly, f.dayMin, f.dayMax);
+      return;
+    }
+    var fromMin = fcShown.min, fromMax = fcShown.max, t0 = performance.now();
+    fcShown.raf = window.requestAnimationFrame(function step(now) {
+      var k = Math.min(1, (now - t0) / 420);
+      var e = 1 - Math.pow(1 - k, 3);
+      fcShown.min = Math.round(fromMin + (f.dayMin - fromMin) * e);
+      fcShown.max = Math.round(fromMax + (f.dayMax - fromMax) * e);
+      fcDays.textContent = daysLabel(false, fcShown.min, fcShown.max);
+      if (k < 1) { fcShown.raf = window.requestAnimationFrame(step); }
+    });
+  }
+
+  function renderForecast() {
+    var f = forecastFor(condition, poolSize);
+    var look = FORECAST_LOOK[condition] || FORECAST_LOOK.green;
+    var copy = FORECAST_COPY[condition] || FORECAST_COPY.green;
+    fcStrip.style.setProperty('--fc-from', look.from);
+    fcStrip.style.setProperty('--fc-mid', look.mid);
+    fcTitle.textContent = copy.lead + ' ';
+    var em = document.createElement('em');
+    em.setAttribute('style', "font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.08em; color:var(--accent);");
+    em.textContent = copy.turn;
+    fcTitle.appendChild(em);
+    fcPrice.textContent = priceLabel(condition, f);
+    fcNote.textContent = copy.note;
+    tweenDaysTo(f);
+  }
+
+  wireChipGroup('cn-conditions', function () { return condition; }, function (v) { condition = v; renderForecast(); });
+  wireChipGroup('cn-sizes', function () { return poolSize; }, function (v) { poolSize = v; renderForecast(); });
   wireChipGroup('cn-services', function () { return service; }, function (v) { service = v; });
+  renderForecast();
 
   // ---- booking form → window.meridianSubmitLead ----
   var form = document.getElementById('cn-form');
@@ -428,17 +566,33 @@
     var address = (form.querySelector('[name=address]') || {}).value || '';
     var message = (form.querySelector('[name=message]') || {}).value || '';
     var submitFn = window.meridianSubmitLead;
+    var f = forecastFor(condition, poolSize);
     var p = submitFn ? submitFn({
       name: name,
       contact: contact,
       address: address,
       message: message,
       condition: condition,
-      service: service
+      service: service,
+      poolSize: poolSize,
+      daysEstimate: daysLabel(f.monthly, f.dayMin, f.dayMax),
+      priceBand: f.monthly ? 'from $' + f.priceMin + '/mo' : '$' + f.priceMin + '–$' + f.priceMax
     }) : Promise.resolve();
     Promise.resolve(p).then(function () {
-      formPanel.style.display = 'none';
-      submittedPanel.style.display = 'block';
+      // sweep the forecast strip fully clean, then confirm with their forecast
+      fcStrip.style.setProperty('--fc-from', FORECAST_LOOK.crystal.from);
+      fcStrip.style.setProperty('--fc-mid', FORECAST_LOOK.crystal.mid);
+      var submittedCopy = document.getElementById('cn-submitted-copy');
+      if (submittedCopy) {
+        var span = (f.dayMin === f.dayMax) ? (f.dayMin + '-day') : (f.dayMin + '–' + f.dayMax + ' day');
+        submittedCopy.textContent = f.monthly
+          ? 'A water tech will call within one business day to lock in your keep-it-crystal plan. Leave the gate unlocked and we’ll handle the rest.'
+          : 'A water tech will call within one business day and confirm your ' + span + ' plan on the first visit, free. Leave the gate unlocked and we’ll handle the rest.';
+      }
+      window.setTimeout(function () {
+        formPanel.style.display = 'none';
+        submittedPanel.style.display = 'block';
+      }, prefersReducedMotion ? 0 : 850);
     }).catch(function () {
       if (submitBtn) {
         submitBtn.disabled = false;

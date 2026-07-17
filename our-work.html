@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Our Work — Meridian Pool Care</title>
@@ -5,7 +8,7 @@
 <link rel="icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --swamp-black:#0a1208; --deep-water:#04141b;
@@ -27,36 +30,44 @@
   @keyframes sv-floatA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(40px,-30px); } }
   @keyframes sv-floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-34px,26px); } }
   @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes ow-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
-  /* :hover rules ported from the prototype's style-hover authoring attributes */
-  .ow-nav-link:hover { color: var(--accent2,var(--accent)); }
-  .ow-menu-link:hover { background: rgba(127,227,218,.1); }
+  /* hover rules — same classes/behavior as index.html's nav system */
+  .pc-nav-link { transition: color .3s ease; }
+  .pc-nav-link:hover { color: var(--accent); }
+  .pc-menu-link:hover { background: rgba(127,227,218,.1); }
   .ow-cta-pill:hover { color: var(--cta-ink); }
-  .ow-job-card:hover { border-color: rgba(127,227,218,.4); transform: translateY(-4px); }
   .ow-cta-btn:hover { transform: translateY(-3px); color: var(--cta-ink); }
 
+  /* hero entrance: pure CSS load animation, no JS gate — content can never strand */
+  .ow-hero-in { animation: ow-rise .7s cubic-bezier(.2,.7,.2,1) both; }
+
+  /* below-fold reveals: armed only when JS adds .rv to <html>; JS also carries a
+     1.5s failsafe, and reduced-motion never adds .rv at all */
+  html.rv [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .55s cubic-bezier(.2,.7,.2,1), transform .55s cubic-bezier(.2,.7,.2,1); }
+  html.rv [data-reveal].in { opacity: 1; transform: none; }
+
   @media (prefers-reduced-motion: reduce) {
-    .ow-badge-dot, [style*="animation"] { animation: none !important; }
+    .ow-hero-in, [style*="animation"] { animation: none !important; }
   }
 </style>
 
 <a class="mpc-skip" href="#main">Skip to content</a>
 
+<script>
+/* Arm the below-fold reveal system immediately (before first paint) so there is
+   no flash; reduced-motion never arms it, so content is simply visible. */
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('rv');
+</script>
+
 <noscript>
-  <div style="position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; padding:24px; background:var(--swamp-black); font-family:sans-serif;">
+  <div style="position:fixed; inset:0; z-index:80; display:flex; align-items:center; justify-content:center; padding:24px; background:var(--swamp-black); font-family:sans-serif;">
     <div style="max-width:420px; text-align:center; padding:32px 28px; border-radius:20px; background:var(--swamp-black); border:1px solid rgba(127,227,218,.3); color:var(--foam-bright);">
       <p style="margin:0 0 14px; font-size:18px; font-weight:700;">This page needs JavaScript for the full experience.</p>
       <p style="margin:0; font-size:15px; line-height:1.5; color:var(--foam-bright);">To book a rescue right now, call <a href="tel:+15125550143" style="color:var(--accent); font-weight:700;">(512) 555-0143</a> or email <a href="mailto:care@meridianpools.com" style="color:var(--accent); font-weight:700;">care@meridianpools.com</a>.</p>
     </div>
   </div>
 </noscript>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <filter id="waterRipple" x="-12%" y="-12%" width="124%" height="124%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.010 0.018" numOctaves="2" seed="7" result="n" />
-    <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G" />
-  </filter>
-</svg>
 
 <div id="ow-root" style="position:relative;">
 
@@ -66,209 +77,199 @@
     <div style="position:absolute; bottom:2%; right:-8%; width:52vw; height:52vw; max-width:720px; max-height:720px; border-radius:50%; background:radial-gradient(circle, rgba(55,199,191,.12), transparent 66%); filter:blur(22px); animation:sv-floatB 27s ease-in-out infinite;"></div>
   </div>
 
-  <!-- ============ NAV ============ -->
-  <nav id="ow-nav" style="position:fixed; top:0; left:0; right:0; z-index:20; border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
-    <div style="max-width:1180px; margin:0 auto; padding:15px clamp(22px,5vw,72px); display:flex; align-items:center; justify-content:space-between; gap:20px;">
-      <a href="index.html" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; letter-spacing:-.01em; color:var(--foam-white); display:flex; align-items:baseline; gap:9px;">
-        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2)); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent2,var(--accent));">Pool Care</span>
-      </a>
-      <div id="ow-links" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
-        <a href="index.html" class="ow-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Home</a>
-        <a href="services.html" class="ow-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Services</a>
-        <a href="pricing.html" class="ow-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pricing</a>
-        <a href="#top" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:var(--accent2,var(--accent));">Our Work</a>
-        <a href="about.html" class="ow-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">About</a>
-        <a href="pool-school.html" class="ow-nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pool School</a>
-      </div>
-      <button id="ow-menu-btn" aria-label="Menu" style="cursor:pointer; flex:none; width:44px; height:44px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); display:none; align-items:center; justify-content:center; gap:4px; flex-direction:column;">
-        <span id="ow-menu-l1" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
-        <span id="ow-menu-l2" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); opacity:1; transition:opacity .2s ease;"></span>
-        <span id="ow-menu-l3" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
-      </button>
-      <div id="ow-menu-backdrop" onclick="owCloseMenu()" style="display:none; position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
-      <div id="ow-menu-panel" style="display:none; position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
-        <a href="index.html" onclick="owCloseMenu()" class="ow-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Home</a>
-        <a href="services.html" onclick="owCloseMenu()" class="ow-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Services</a>
-        <a href="pricing.html" onclick="owCloseMenu()" class="ow-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pricing</a>
-        <a href="#top" onclick="owCloseMenu()" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--accent2,var(--accent)); background:rgba(127,227,218,.08);">Our Work</a>
-        <a href="about.html" onclick="owCloseMenu()" class="ow-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">About</a>
-        <a href="pool-school.html" onclick="owCloseMenu()" class="ow-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pool School</a>
-        <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
-        <a href="index.html" onclick="owCloseMenu()" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Rescue my pool</a>
-      </div>
-      <a href="index.html" class="ow-cta-pill" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 8px 24px rgba(30,180,170,.3);">Rescue my pool</a>
+  <!-- ============ NAV (canonical geometry — matches index.html's #pc-nav) ============ -->
+  <nav id="nav" style="position:fixed; top:0; left:0; right:0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
+    <a href="index.html" aria-label="Meridian Pool Care — home" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.01em; color:var(--foam-white); display:flex; align-items:baseline; gap:9px;">
+      <span style="width:9px; height:9px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 12px var(--accent-2); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent);">Pool Care</span>
+    </a>
+    <div id="nav-links" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
+      <a class="pc-nav-link" href="index.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Home</a>
+      <a class="pc-nav-link" href="services.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Services</a>
+      <a class="pc-nav-link" href="pricing.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pricing</a>
+      <a href="our-work.html" aria-current="page" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:var(--accent);">Our Work</a>
+      <a class="pc-nav-link" href="about.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">About</a>
+      <a class="pc-nav-link" href="pool-school.html" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pool School</a>
     </div>
+    <button id="hamburger" aria-label="Menu" aria-expanded="false" style="display:none; cursor:pointer; flex:none; width:44px; height:44px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); align-items:center; justify-content:center; gap:4px; flex-direction:column;">
+      <span id="menu-line1" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+      <span id="menu-linemid" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); opacity:1; transition:opacity .2s ease;"></span>
+      <span id="menu-line3" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transform:none; transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+    </button>
+    <div id="menu-wrap" style="display:none;">
+      <div id="menu-overlay" style="position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
+      <div style="position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; display:flex; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
+        <a class="pc-menu-link menu-close" href="index.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Home</a>
+        <a class="pc-menu-link menu-close" href="services.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Services</a>
+        <a class="pc-menu-link menu-close" href="pricing.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pricing</a>
+        <a class="menu-close" href="our-work.html" aria-current="page" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--accent); background:rgba(127,227,218,.08);">Our Work</a>
+        <a class="pc-menu-link menu-close" href="about.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">About</a>
+        <a class="pc-menu-link menu-close" href="pool-school.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pool School</a>
+        <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
+        <a class="menu-close" href="contact.html" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Rescue my pool</a>
+      </div>
+    </div>
+    <a href="contact.html" class="ow-cta-pill" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 6px 18px rgba(30,180,170,.38);">Rescue my pool</a>
   </nav>
 
   <!-- ============ CONTENT ============ -->
   <main id="main" style="position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 clamp(22px,5vw,72px) clamp(60px,10vh,120px);">
 
-    <!-- HERO -->
+    <!-- HERO — entrance is pure CSS (.ow-hero-in), never gated behind JS -->
     <section id="top" data-screen-label="Our Work hero" style="padding:clamp(118px,20vh,196px) 0 clamp(28px,5vh,56px);">
-      <div data-reveal>
-        <div style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
-          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2));"></span>
+      <div>
+        <div class="ow-hero-in" style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
+          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 12px var(--accent-2);"></span>
           <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#dbeef0; font-weight:600;">Our Work</span>
         </div>
-        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">The proof is<br />in the water.</h1>
-        <p style="max-width:600px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">Drag the handle. Every one of these started as a backyard someone had given up on — real pools, real Hill Country addresses, real turnarounds.</p>
+        <h1 class="ow-hero-in" style="animation-delay:.1s; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">The proof is<br />in the water.</h1>
+        <p class="ow-hero-in" style="animation-delay:.2s; max-width:600px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">Drag the handle. Every one of these started as a backyard someone had given up on — real pools, real Hill Country addresses, real turnarounds.</p>
       </div>
     </section>
 
-    <!-- FEATURED BEFORE / AFTER SLIDER -->
+    <!-- FEATURED RESCUE — same-photo before/after. js/rescue-slider.js grades the
+         LEFT side of this one photo into the swamp "before" procedurally, so the
+         story stays truthful for any buyer's photo. Buyers: swap the <img> below. -->
     <section data-screen-label="Before / after" style="padding-bottom:clamp(20px,4vh,40px);">
       <div data-reveal>
-        <div id="ow-slider" style="position:relative; width:100%; height:clamp(320px,54vh,580px); border-radius:24px; overflow:hidden; border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 80px rgba(3,16,20,.55); cursor:ew-resize; user-select:none; touch-action:none;">
-          <!-- AFTER (base) -->
-          <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="After — crystal clear" width="1600" height="1067" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
-          <div style="position:absolute; top:18px; right:18px; padding:7px 14px; border-radius:999px; background:rgba(6,40,34,.6); border:1px solid rgba(127,227,218,.5); backdrop-filter:blur(6px); font-family:'Manrope',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em; color:#cdf2ec;">AFTER</div>
-          <!-- BEFORE (clipped overlay) -->
-          <div id="ow-slider-clip" style="position:absolute; inset:0; clip-path:inset(0 50% 0 0);">
-            <img src="https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Before — full swamp" width="1600" height="1067" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:saturate(1.15) brightness(.92);" />
-            <div style="position:absolute; inset:0; background:linear-gradient(120deg, rgba(38,52,16,.42), rgba(20,34,8,.3)); pointer-events:none;"></div>
-            <div style="position:absolute; top:18px; left:18px; padding:7px 14px; border-radius:999px; background:rgba(24,32,8,.6); border:1px solid rgba(190,210,140,.5); backdrop-filter:blur(6px); font-family:'Manrope',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em; color:#e2ecc0;">BEFORE</div>
-          </div>
-          <!-- HANDLE -->
-          <div id="ow-slider-handle" style="position:absolute; top:0; bottom:0; left:50%; width:2px; margin-left:-1px; background:rgba(255,255,255,.9); box-shadow:0 0 18px rgba(0,0,0,.5); pointer-events:none;">
-            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px; border-radius:50%; background:rgba(8,24,28,.7); border:2px solid #fff; backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; gap:2px; box-shadow:0 6px 20px rgba(0,0,0,.5);">
-              <span style="color:#fff; font-size:15px; line-height:1;">‹</span><span style="color:#fff; font-size:15px; line-height:1;">›</span>
+        <div id="ow-slider" style="position:relative; width:100%; height:clamp(320px,54vh,580px); border-radius:24px; overflow:hidden; border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 80px rgba(3,16,20,.55); cursor:ew-resize; user-select:none; -webkit-user-select:none; touch-action:none; background:var(--deep-water);">
+          <img src="assets/photos/ow-featured.jpeg" alt="Crystal-clear freeform pool wrapped in limestone coping and tiered planting beds behind a white two-story home — weekly full-service care, Cedar Park" width="1600" height="1067" decoding="async" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
+          <!-- canvas (WebGL) or graded clone (fallback) is inserted here by js/rescue-slider.js -->
+          <div style="position:absolute; top:18px; left:18px; padding:7px 14px; border-radius:999px; background:rgba(24,32,8,.6); border:1px solid rgba(190,210,140,.5); backdrop-filter:blur(6px); font-family:'Manrope',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em; color:#e2ecc0; pointer-events:none;">BEFORE</div>
+          <div style="position:absolute; top:18px; right:18px; padding:7px 14px; border-radius:999px; background:rgba(6,40,34,.6); border:1px solid rgba(127,227,218,.5); backdrop-filter:blur(6px); font-family:'Manrope',sans-serif; font-weight:700; font-size:12px; letter-spacing:.14em; color:#cdf2ec; pointer-events:none;">AFTER</div>
+          <div id="ow-slider-handle" role="slider" tabindex="0" aria-label="Reveal the before or after state of this pool" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" style="position:absolute; top:0; bottom:0; left:50%; width:2px; margin-left:-1px; background:rgba(255,255,255,.9); box-shadow:0 0 18px rgba(0,0,0,.5);">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px; border-radius:50%; background:rgba(8,24,28,.7); border:2px solid var(--accent); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; gap:2px; box-shadow:0 6px 20px rgba(0,0,0,.5);">
+              <span aria-hidden="true" style="color:var(--foam-bright); font-size:15px; line-height:1;">‹</span><span aria-hidden="true" style="color:var(--foam-bright); font-size:15px; line-height:1;">›</span>
             </div>
           </div>
         </div>
-        <div style="display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px 20px; margin-top:18px;">
-          <div>
-            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2.2vw,26px); color:var(--foam-white); letter-spacing:-.01em;">Cedar Park Green-to-Glass</span>
-            <span style="font-size:14px; color:rgba(214,240,236,.6); margin-left:12px;">Rescue Nº 1,847 · reclaimed in 4 days · no drain</span>
-          </div>
-          <span style="font-size:13px; color:rgba(214,240,236,.6);">Drag to reveal ↔</span>
+        <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 20px; margin-top:18px;">
+          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2.2vw,26px); color:var(--foam-white); letter-spacing:-.01em;">Cedar Park Green-to-Glass</span>
+          <span style="font-size:14px; color:rgba(236,246,228,.7);">Rescue Nº 1,847 · reclaimed in 4 days · no drain</span>
         </div>
+        <p style="max-width:620px; margin:12px 0 0; font-size:clamp(15px,1.3vw,18px); line-height:1.62; color:rgba(236,246,228,.78);">Nineteen hundred rescues across the Hill Country — <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.08em; letter-spacing:0; color:#a9efe6;">average green-to-clean, four days.</span></p>
       </div>
     </section>
 
-    <!-- STATS STRIP -->
-    <section data-reveal data-screen-label="Stats" style="margin:clamp(40px,7vh,80px) 0; padding:clamp(28px,4vw,44px) clamp(24px,4vw,48px); border-radius:24px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px); display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:26px 20px;">
-      <div style="text-align:center;">
-        <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,4vw,52px); line-height:1; letter-spacing:-.02em; color:var(--foam-white);">1,900+</div>
-        <div style="font-size:13px; line-height:1.4; color:rgba(214,240,236,.62); margin-top:8px;">pools rescued</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,4vw,52px); line-height:1; letter-spacing:-.02em; color:var(--foam-white);">4 days</div>
-        <div style="font-size:13px; line-height:1.4; color:rgba(214,240,236,.62); margin-top:8px;">average green-to-clean</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,4vw,52px); line-height:1; letter-spacing:-.02em; color:var(--foam-white);">98%</div>
-        <div style="font-size:13px; line-height:1.4; color:rgba(214,240,236,.62); margin-top:8px;">stay year over year</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,4vw,52px); line-height:1; letter-spacing:-.02em; color:var(--foam-white);">4.9★</div>
-        <div style="font-size:13px; line-height:1.4; color:rgba(214,240,236,.62); margin-top:8px;">600+ verified reviews</div>
-      </div>
-    </section>
-
-    <!-- GALLERY -->
-    <section data-screen-label="Gallery" style="padding-top:clamp(20px,4vh,44px);">
+    <!-- GALLERY — flex-weighted accordion, same system as index.html's #pc-jobs -->
+    <section data-screen-label="Gallery" style="padding-top:clamp(80px,12vh,160px);">
       <div data-reveal style="margin-bottom:clamp(28px,4.5vh,44px);">
-        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 16px;">Recent rescues</p>
-        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">Backyards we brought back.</h2>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">Backyards we <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">brought back.</span></h2>
+        <p style="font-size:15px; color:rgba(236,246,228,.7); margin:14px 0 0;">Hover, tap, or tab through a rescue to open its story.</p>
       </div>
-      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;">
-        <div class="ow-job-card" style="display:flex; flex-direction:column; border-radius:20px; overflow:hidden; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="position:relative; height:220px; overflow:hidden;">
-            <img src="https://images.pexels.com/photos/261327/pexels-photo-261327.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Cedar Park Green-to-Glass" width="1400" height="933" loading="lazy" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
-            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.1), rgba(4,12,4,.5)); pointer-events:none;"></div>
-            <div style="position:absolute; top:14px; left:14px; padding:6px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec;">Nº 1,847 · 4 days</div>
+      <div data-reveal id="ow-jobs" style="display:flex; flex-direction:row; gap:12px; width:100%; height:clamp(420px,56vh,540px);">
+        <div class="ow-job" data-i="0" tabindex="0" role="button" aria-expanded="true" style="position:relative; border-radius:16px; overflow:hidden; cursor:pointer; background:#0c1f12; flex:3.6 1 0%; height:100%; min-width:0; transition:flex .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1);">
+          <img class="ow-job-img" src="assets/photos/ow-1.jpeg" width="1600" height="1068" alt="Rectangular pool holding a hard, clean edge beside a cedar-slat pergola — swim-ready again before the weekend cookout, Lakeway" loading="lazy" decoding="async" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.03); filter:brightness(1) saturate(1.05); transition:transform .8s cubic-bezier(.2,.7,.2,1), filter .6s ease;">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.5) 0%, rgba(4,12,4,0) 34%, rgba(4,12,4,.16) 58%, rgba(4,12,4,.92) 100%); pointer-events:none;"></div>
+          <div class="ow-job-collapsed" style="position:absolute; left:0; right:0; bottom:0; padding:22px 12px; display:flex; justify-content:center; opacity:0; transition:opacity .35s ease; pointer-events:none;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; line-height:1.16; letter-spacing:.005em; color:var(--foam-white); text-align:center; text-wrap:balance; text-shadow:0 2px 14px rgba(3,10,3,.85);">Lakeway</span>
           </div>
-          <div style="padding:20px 22px 24px;">
-            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Cedar Park Green-to-Glass</div>
-            <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Full swamp to swim-ready — no draining, no refill bill.</p>
+          <div class="ow-job-active" style="position:absolute; left:0; right:0; bottom:0; padding:clamp(20px,2.4vw,30px); max-width:480px; opacity:1; transform:translateY(0); transition:opacity .55s ease .05s, transform .55s cubic-bezier(.2,.7,.2,1) .05s; pointer-events:auto;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,26px); letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px; text-shadow:0 2px 14px rgba(3,10,3,.75);">Lakeway Overnight Turnaround</div>
+            <div style="display:inline-block; padding:5px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec; margin-bottom:10px;">Nº 1,802 · 3 days</div>
+            <p style="font-size:14px; line-height:1.55; color:rgba(234,250,246,.9); margin:0; text-shadow:0 1px 10px rgba(3,10,3,.6);">Storm-dumped leaves and a dead pump, fixed before the weekend cookout.</p>
           </div>
+          <div class="ow-job-ring" style="position:absolute; inset:0; border-radius:16px; border:1.5px solid rgba(127,227,218,.8); box-shadow:0 20px 54px rgba(6,50,40,.45), inset 0 0 40px rgba(127,227,218,.12); pointer-events:none; transition:border-color .55s ease, box-shadow .55s ease;"></div>
         </div>
-        <div class="ow-job-card" style="display:flex; flex-direction:column; border-radius:20px; overflow:hidden; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="position:relative; height:220px; overflow:hidden;">
-            <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Lakeway Overnight Turnaround" width="1400" height="933" loading="lazy" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
-            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.1), rgba(4,12,4,.5)); pointer-events:none;"></div>
-            <div style="position:absolute; top:14px; left:14px; padding:6px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec;">Nº 1,802 · 3 days</div>
+        <div class="ow-job" data-i="1" tabindex="0" role="button" aria-expanded="false" style="position:relative; border-radius:16px; overflow:hidden; cursor:pointer; background:#0c1f12; flex:1 1 0%; height:100%; min-width:0; transition:flex .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1);">
+          <img class="ow-job-img" src="assets/photos/ow-2.jpeg" width="1100" height="1467" alt="Quiet backyard plunge pool off a weathered gray deck, back to glass after flash-flood runoff — Dripping Springs" loading="lazy" decoding="async" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.08); filter:brightness(.5) saturate(.85); transition:transform .8s cubic-bezier(.2,.7,.2,1), filter .6s ease;">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.5) 0%, rgba(4,12,4,0) 34%, rgba(4,12,4,.16) 58%, rgba(4,12,4,.92) 100%); pointer-events:none;"></div>
+          <div class="ow-job-collapsed" style="position:absolute; left:0; right:0; bottom:0; padding:22px 12px; display:flex; justify-content:center; opacity:1; transition:opacity .35s ease; pointer-events:none;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; line-height:1.16; letter-spacing:.005em; color:var(--foam-white); text-align:center; text-wrap:balance; text-shadow:0 2px 14px rgba(3,10,3,.85);">Dripping Springs</span>
           </div>
-          <div style="padding:20px 22px 24px;">
-            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Lakeway Overnight Turnaround</div>
-            <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Storm-dumped leaves and a dead pump, fixed before the weekend cookout.</p>
+          <div class="ow-job-active" style="position:absolute; left:0; right:0; bottom:0; padding:clamp(20px,2.4vw,30px); max-width:480px; opacity:0; transform:translateY(14px); transition:opacity .55s ease .05s, transform .55s cubic-bezier(.2,.7,.2,1) .05s; pointer-events:none;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,26px); letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px; text-shadow:0 2px 14px rgba(3,10,3,.75);">Dripping Springs Storm Recovery</div>
+            <div style="display:inline-block; padding:5px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec; margin-bottom:10px;">Nº 1,775 · 5 days</div>
+            <p style="font-size:14px; line-height:1.55; color:rgba(234,250,246,.9); margin:0; text-shadow:0 1px 10px rgba(3,10,3,.6);">Flash-flood runoff turned this pool to mud. Five days later: glass.</p>
           </div>
+          <div class="ow-job-ring" style="position:absolute; inset:0; border-radius:16px; border:1.5px solid rgba(127,227,218,0); box-shadow:none; pointer-events:none; transition:border-color .55s ease, box-shadow .55s ease;"></div>
         </div>
-        <div class="ow-job-card" style="display:flex; flex-direction:column; border-radius:20px; overflow:hidden; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="position:relative; height:220px; overflow:hidden;">
-            <img src="https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&w=1400&q=75" alt="Dripping Springs Storm Recovery" width="1400" height="933" loading="lazy" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
-            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.1), rgba(4,12,4,.5)); pointer-events:none;"></div>
-            <div style="position:absolute; top:14px; left:14px; padding:6px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec;">Nº 1,775 · 5 days</div>
+        <div class="ow-job" data-i="2" tabindex="0" role="button" aria-expanded="false" style="position:relative; border-radius:16px; overflow:hidden; cursor:pointer; background:#0c1f12; flex:1 1 0%; height:100%; min-width:0; transition:flex .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1);">
+          <img class="ow-job-img" src="assets/photos/ow-3.jpeg" width="1500" height="1003" alt="Mosaic-tiled pool and sun deck fronting a brick two-story, mustard bloom gone without a drain — Bee Cave" loading="lazy" decoding="async" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.08); filter:brightness(.5) saturate(.85); transition:transform .8s cubic-bezier(.2,.7,.2,1), filter .6s ease;">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.5) 0%, rgba(4,12,4,0) 34%, rgba(4,12,4,.16) 58%, rgba(4,12,4,.92) 100%); pointer-events:none;"></div>
+          <div class="ow-job-collapsed" style="position:absolute; left:0; right:0; bottom:0; padding:22px 12px; display:flex; justify-content:center; opacity:1; transition:opacity .35s ease; pointer-events:none;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; line-height:1.16; letter-spacing:.005em; color:var(--foam-white); text-align:center; text-wrap:balance; text-shadow:0 2px 14px rgba(3,10,3,.85);">Bee Cave</span>
           </div>
-          <div style="padding:20px 22px 24px;">
-            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Dripping Springs Storm Recovery</div>
-            <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Flash-flood runoff turned this pool to mud. Five days later: glass.</p>
+          <div class="ow-job-active" style="position:absolute; left:0; right:0; bottom:0; padding:clamp(20px,2.4vw,30px); max-width:480px; opacity:0; transform:translateY(14px); transition:opacity .55s ease .05s, transform .55s cubic-bezier(.2,.7,.2,1) .05s; pointer-events:none;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,26px); letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px; text-shadow:0 2px 14px rgba(3,10,3,.75);">Bee Cave Mustard Bloom</div>
+            <div style="display:inline-block; padding:5px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec; margin-bottom:10px;">Nº 1,690 · 4 days</div>
+            <p style="font-size:14px; line-height:1.55; color:rgba(234,250,246,.9); margin:0; text-shadow:0 1px 10px rgba(3,10,3,.6);">Chlorine-resistant mustard algae, triple-shocked and gone for good.</p>
           </div>
+          <div class="ow-job-ring" style="position:absolute; inset:0; border-radius:16px; border:1.5px solid rgba(127,227,218,0); box-shadow:none; pointer-events:none; transition:border-color .55s ease, box-shadow .55s ease;"></div>
         </div>
-        <div class="ow-job-card" style="display:flex; flex-direction:column; border-radius:20px; overflow:hidden; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="position:relative; height:220px; overflow:hidden;">
-            <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1400&q=75" alt="Bee Cave Mustard Bloom" width="1400" height="933" loading="lazy" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
-            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.1), rgba(4,12,4,.5)); pointer-events:none;"></div>
-            <div style="position:absolute; top:14px; left:14px; padding:6px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec;">Nº 1,690 · 4 days</div>
+        <div class="ow-job" data-i="3" tabindex="0" role="button" aria-expanded="false" style="position:relative; border-radius:16px; overflow:hidden; cursor:pointer; background:#0c1f12; flex:1 1 0%; height:100%; min-width:0; transition:flex .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1);">
+          <img class="ow-job-img" src="assets/photos/ow-4.jpeg" width="1200" height="1600" alt="Sky-blue pool brought back from vacant-home green behind a stucco single-story with a tile roof, Spicewood" loading="lazy" decoding="async" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.08); filter:brightness(.5) saturate(.85); transition:transform .8s cubic-bezier(.2,.7,.2,1), filter .6s ease;">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.5) 0%, rgba(4,12,4,0) 34%, rgba(4,12,4,.16) 58%, rgba(4,12,4,.92) 100%); pointer-events:none;"></div>
+          <div class="ow-job-collapsed" style="position:absolute; left:0; right:0; bottom:0; padding:22px 12px; display:flex; justify-content:center; opacity:1; transition:opacity .35s ease; pointer-events:none;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; line-height:1.16; letter-spacing:.005em; color:var(--foam-white); text-align:center; text-wrap:balance; text-shadow:0 2px 14px rgba(3,10,3,.85);">Spicewood</span>
           </div>
-          <div style="padding:20px 22px 24px;">
-            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Bee Cave Mustard Bloom</div>
-            <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Chlorine-resistant mustard algae, triple-shocked and gone for good.</p>
+          <div class="ow-job-active" style="position:absolute; left:0; right:0; bottom:0; padding:clamp(20px,2.4vw,30px); max-width:480px; opacity:0; transform:translateY(14px); transition:opacity .55s ease .05s, transform .55s cubic-bezier(.2,.7,.2,1) .05s; pointer-events:none;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,26px); letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px; text-shadow:0 2px 14px rgba(3,10,3,.75);">Spicewood Vacant-Home Rescue</div>
+            <div style="display:inline-block; padding:5px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec; margin-bottom:10px;">Nº 1,558 · 6 days</div>
+            <p style="font-size:14px; line-height:1.55; color:rgba(234,250,246,.9); margin:0; text-shadow:0 1px 10px rgba(3,10,3,.6);">Eight months untouched — reclaimed without a single truck of fresh water.</p>
           </div>
+          <div class="ow-job-ring" style="position:absolute; inset:0; border-radius:16px; border:1.5px solid rgba(127,227,218,0); box-shadow:none; pointer-events:none; transition:border-color .55s ease, box-shadow .55s ease;"></div>
         </div>
-        <div class="ow-job-card" style="display:flex; flex-direction:column; border-radius:20px; overflow:hidden; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); transition:border-color .3s ease, transform .3s ease;">
-          <div style="position:relative; height:220px; overflow:hidden;">
-            <img src="https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Spicewood Vacant-Home Rescue" width="1400" height="933" loading="lazy" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
-            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.1), rgba(4,12,4,.5)); pointer-events:none;"></div>
-            <div style="position:absolute; top:14px; left:14px; padding:6px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec;">Nº 1,558 · 6 days</div>
+        <div class="ow-job" data-i="4" tabindex="0" role="button" aria-expanded="false" style="position:relative; border-radius:16px; overflow:hidden; cursor:pointer; background:#0c1f12; flex:1 1 0%; height:100%; min-width:0; transition:flex .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1);">
+          <img class="ow-job-img" src="assets/photos/ow-5.jpeg" width="1600" height="1068" alt="Turquoise lap pool running along ipe decking at a modern build off Parmer Lane" loading="lazy" decoding="async" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.08); filter:brightness(.5) saturate(.85); transition:transform .8s cubic-bezier(.2,.7,.2,1), filter .6s ease;">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.5) 0%, rgba(4,12,4,0) 34%, rgba(4,12,4,.16) 58%, rgba(4,12,4,.92) 100%); pointer-events:none;"></div>
+          <div class="ow-job-collapsed" style="position:absolute; left:0; right:0; bottom:0; padding:22px 12px; display:flex; justify-content:center; opacity:1; transition:opacity .35s ease; pointer-events:none;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; line-height:1.16; letter-spacing:.005em; color:var(--foam-white); text-align:center; text-wrap:balance; text-shadow:0 2px 14px rgba(3,10,3,.85);">Parmer Lane</span>
           </div>
-          <div style="padding:20px 22px 24px;">
-            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:20px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Spicewood Vacant-Home Rescue</div>
-            <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Eight months untouched — reclaimed without a single truck of fresh water.</p>
+          <div class="ow-job-active" style="position:absolute; left:0; right:0; bottom:0; padding:clamp(20px,2.4vw,30px); max-width:480px; opacity:0; transform:translateY(14px); transition:opacity .55s ease .05s, transform .55s cubic-bezier(.2,.7,.2,1) .05s; pointer-events:none;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,26px); letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px; text-shadow:0 2px 14px rgba(3,10,3,.75);">Parmer Lane Lap-Pool Revival</div>
+            <div style="display:inline-block; padding:5px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec; margin-bottom:10px;">Nº 1,733 · 2 days</div>
+            <p style="font-size:14px; line-height:1.55; color:rgba(234,250,246,.9); margin:0; text-shadow:0 1px 10px rgba(3,10,3,.6);">A season empty between owners — balanced and back to morning laps in two days.</p>
           </div>
+          <div class="ow-job-ring" style="position:absolute; inset:0; border-radius:16px; border:1.5px solid rgba(127,227,218,0); box-shadow:none; pointer-events:none; transition:border-color .55s ease, box-shadow .55s ease;"></div>
+        </div>
+        <div class="ow-job" data-i="5" tabindex="0" role="button" aria-expanded="false" style="position:relative; border-radius:16px; overflow:hidden; cursor:pointer; background:#0c1f12; flex:1 1 0%; height:100%; min-width:0; transition:flex .6s cubic-bezier(.4,0,.2,1), height .6s cubic-bezier(.4,0,.2,1);">
+          <img class="ow-job-img" src="assets/photos/ow-6.jpeg" width="1100" height="1467" alt="Green-glass mosaic pool catching morning sun against a limestone privacy wall, Steiner Ranch" loading="lazy" decoding="async" draggable="false" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:scale(1.08); filter:brightness(.5) saturate(.85); transition:transform .8s cubic-bezier(.2,.7,.2,1), filter .6s ease;">
+          <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,12,4,.5) 0%, rgba(4,12,4,0) 34%, rgba(4,12,4,.16) 58%, rgba(4,12,4,.92) 100%); pointer-events:none;"></div>
+          <div class="ow-job-collapsed" style="position:absolute; left:0; right:0; bottom:0; padding:22px 12px; display:flex; justify-content:center; opacity:1; transition:opacity .35s ease; pointer-events:none;">
+            <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; line-height:1.16; letter-spacing:.005em; color:var(--foam-white); text-align:center; text-wrap:balance; text-shadow:0 2px 14px rgba(3,10,3,.85);">Steiner Ranch</span>
+          </div>
+          <div class="ow-job-active" style="position:absolute; left:0; right:0; bottom:0; padding:clamp(20px,2.4vw,30px); max-width:480px; opacity:0; transform:translateY(14px); transition:opacity .55s ease .05s, transform .55s cubic-bezier(.2,.7,.2,1) .05s; pointer-events:none;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:clamp(19px,2vw,26px); letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px; text-shadow:0 2px 14px rgba(3,10,3,.75);">Steiner Ranch Spring Opening</div>
+            <div style="display:inline-block; padding:5px 12px; border-radius:999px; background:rgba(6,30,26,.62); border:1px solid rgba(127,227,218,.4); backdrop-filter:blur(6px); font-size:11.5px; font-weight:600; letter-spacing:.06em; color:#cdf2ec; margin-bottom:10px;">Nº 1,914 · 3 days</div>
+            <p style="font-size:14px; line-height:1.55; color:rgba(234,250,246,.9); margin:0; text-shadow:0 1px 10px rgba(3,10,3,.6);">Winter cover came off to pollen soup. Clear before spring break.</p>
+          </div>
+          <div class="ow-job-ring" style="position:absolute; inset:0; border-radius:16px; border:1.5px solid rgba(127,227,218,0); box-shadow:none; pointer-events:none; transition:border-color .55s ease, box-shadow .55s ease;"></div>
         </div>
       </div>
-      <!-- Template note (not shown to site visitors): photography via Pexels & Unsplash — swap in your own before & after photos before launch. -->
+      <!-- Template note (not shown to site visitors): photos are local Pexels/Wikimedia/Flickr assets (see assets/photos) — swap in your own before & after photos before launch. -->
     </section>
 
     <!-- REVIEWS -->
-    <section data-screen-label="Reviews" style="padding-top:clamp(64px,11vh,130px);">
+    <section data-screen-label="Reviews" style="padding-top:clamp(80px,12vh,160px);">
       <div data-reveal style="text-align:center; margin-bottom:clamp(30px,5vh,50px);">
-        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 16px;">Reviews</p>
-        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 14px;">What the neighbors say.</h2>
-        <div style="display:inline-flex; align-items:center; gap:10px; font-size:15px; color:rgba(214,240,236,.72);"><span style="color:var(--accent,var(--accent-2)); font-size:17px; letter-spacing:2px;">★★★★★</span>4.9 average · 600+ reviews</div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 14px;">What the neighbors say.</h2>
+        <p style="font-size:15px; color:rgba(236,246,228,.72); margin:0;">4.9 average across 600+ verified reviews.</p>
       </div>
       <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px;">
-        <div style="display:flex; flex-direction:column; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="color:var(--accent,var(--accent-2)); font-size:15px; letter-spacing:2px; margin-bottom:16px;">★★★★★</div>
-          <p style="font-family:'Bricolage Grotesque',sans-serif; font-weight:500; font-size:18px; line-height:1.42; letter-spacing:-.01em; color:#eefbf8; margin:0 0 20px;">“They pulled our pool back from full swamp in four days — and it's stayed glass ever since.”</p>
-          <div style="margin-top:auto; font-size:13.5px; color:rgba(214,240,236,.62);">The Hendersons · Rescue Nº 1,847</div>
-        </div>
-        <div style="display:flex; flex-direction:column; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="color:var(--accent,var(--accent-2)); font-size:15px; letter-spacing:2px; margin-bottom:16px;">★★★★★</div>
-          <p style="font-family:'Bricolage Grotesque',sans-serif; font-weight:500; font-size:18px; line-height:1.42; letter-spacing:-.01em; color:#eefbf8; margin:0 0 20px;">“Weekly visits, one point of contact, chemistry logged every time. We stopped thinking about the pool at all.”</p>
-          <div style="margin-top:auto; font-size:13.5px; color:rgba(214,240,236,.62);">Dana &amp; Marc R. · Complete since 2023</div>
-        </div>
-        <div style="display:flex; flex-direction:column; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="color:var(--accent,var(--accent-2)); font-size:15px; letter-spacing:2px; margin-bottom:16px;">★★★★★</div>
-          <p style="font-family:'Bricolage Grotesque',sans-serif; font-weight:500; font-size:18px; line-height:1.42; letter-spacing:-.01em; color:#eefbf8; margin:0 0 20px;">“Mustard algae had beaten three other companies. Meridian triple-shocked it and it never came back.”</p>
-          <div style="margin-top:auto; font-size:13.5px; color:rgba(214,240,236,.62);">The Alvarados · Rescue Nº 1,690</div>
-        </div>
-        <div style="display:flex; flex-direction:column; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="color:var(--accent,var(--accent-2)); font-size:15px; letter-spacing:2px; margin-bottom:16px;">★★★★★</div>
-          <p style="font-family:'Bricolage Grotesque',sans-serif; font-weight:500; font-size:18px; line-height:1.42; letter-spacing:-.01em; color:#eefbf8; margin:0 0 20px;">“I got my Saturdays back. That's the whole review.”</p>
-          <div style="margin-top:auto; font-size:13.5px; color:rgba(214,240,236,.62);">Priya K. · Essential since 2024</div>
-        </div>
-        <div style="display:flex; flex-direction:column; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="color:var(--accent,var(--accent-2)); font-size:15px; letter-spacing:2px; margin-bottom:16px;">★★★★★</div>
-          <p style="font-family:'Bricolage Grotesque',sans-serif; font-weight:500; font-size:18px; line-height:1.42; letter-spacing:-.01em; color:#eefbf8; margin:0 0 20px;">“They caught a failing pump motor a month before it would have quit on us in July. That call paid for the year.”</p>
-          <div style="margin-top:auto; font-size:13.5px; color:rgba(214,240,236,.62);">The Okonkwos · Complete since 2022</div>
-        </div>
-        <div style="display:flex; flex-direction:column; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="color:var(--accent,var(--accent-2)); font-size:15px; letter-spacing:2px; margin-bottom:16px;">★★★★★</div>
-          <p style="font-family:'Bricolage Grotesque',sans-serif; font-weight:500; font-size:18px; line-height:1.42; letter-spacing:-.01em; color:#eefbf8; margin:0 0 20px;">“Bought a house with a pool that had sat empty all winter. They reclaimed it without draining a drop.”</p>
-          <div style="margin-top:auto; font-size:13.5px; color:rgba(214,240,236,.62);">The Reyes Family · Rescue Nº 1,558</div>
-        </div>
+        <figure style="display:flex; flex-direction:column; margin:0; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
+          <blockquote style="margin:0 0 20px; font-family:'Manrope',sans-serif; font-weight:600; font-size:clamp(17px,1.6vw,20px); line-height:1.5; letter-spacing:-.005em; color:#eefbf8;">“They pulled our pool back from full swamp in four days — and it's stayed glass ever since.”</blockquote>
+          <figcaption style="margin-top:auto;"><span style="display:inline-block; padding:6px 13px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); font-size:12.5px; font-weight:600; color:rgba(234,250,246,.85);">The Hendersons · Rescue Nº 1,847</span></figcaption>
+        </figure>
+        <figure style="display:flex; flex-direction:column; margin:0; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
+          <blockquote style="margin:0 0 20px; font-family:'Manrope',sans-serif; font-weight:600; font-size:clamp(17px,1.6vw,20px); line-height:1.5; letter-spacing:-.005em; color:#eefbf8;">“Weekly visits, one point of contact, chemistry logged every time. We stopped thinking about the pool at all.”</blockquote>
+          <figcaption style="margin-top:auto;"><span style="display:inline-block; padding:6px 13px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); font-size:12.5px; font-weight:600; color:rgba(234,250,246,.85);">Dana &amp; Marc R. · Complete since 2023</span></figcaption>
+        </figure>
+        <figure style="display:flex; flex-direction:column; margin:0; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
+          <blockquote style="margin:0 0 20px; font-family:'Manrope',sans-serif; font-weight:600; font-size:clamp(17px,1.6vw,20px); line-height:1.5; letter-spacing:-.005em; color:#eefbf8;">“Mustard algae had beaten three other companies. Meridian triple-shocked it and it never came back.”</blockquote>
+          <figcaption style="margin-top:auto;"><span style="display:inline-block; padding:6px 13px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); font-size:12.5px; font-weight:600; color:rgba(234,250,246,.85);">The Alvarados · Rescue Nº 1,690</span></figcaption>
+        </figure>
+        <figure style="display:flex; flex-direction:column; margin:0; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
+          <blockquote style="margin:0 0 20px; font-family:'Manrope',sans-serif; font-weight:600; font-size:clamp(17px,1.6vw,20px); line-height:1.5; letter-spacing:-.005em; color:#eefbf8;">“I got my Saturdays back. That's the whole review.”</blockquote>
+          <figcaption style="margin-top:auto;"><span style="display:inline-block; padding:6px 13px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); font-size:12.5px; font-weight:600; color:rgba(234,250,246,.85);">Priya K. · Essential since 2024</span></figcaption>
+        </figure>
+        <figure style="display:flex; flex-direction:column; margin:0; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
+          <blockquote style="margin:0 0 20px; font-family:'Manrope',sans-serif; font-weight:600; font-size:clamp(17px,1.6vw,20px); line-height:1.5; letter-spacing:-.005em; color:#eefbf8;">“They caught a failing pump motor a month before it would have quit on us in July. That call paid for the year.”</blockquote>
+          <figcaption style="margin-top:auto;"><span style="display:inline-block; padding:6px 13px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); font-size:12.5px; font-weight:600; color:rgba(234,250,246,.85);">The Okonkwos · Complete since 2022</span></figcaption>
+        </figure>
+        <figure style="display:flex; flex-direction:column; margin:0; padding:28px 28px 26px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">
+          <blockquote style="margin:0 0 20px; font-family:'Manrope',sans-serif; font-weight:600; font-size:clamp(17px,1.6vw,20px); line-height:1.5; letter-spacing:-.005em; color:#eefbf8;">“Bought a house with a pool that had sat empty all winter. They reclaimed it without draining a drop.”</blockquote>
+          <figcaption style="margin-top:auto;"><span style="display:inline-block; padding:6px 13px; border-radius:999px; background:rgba(10,44,56,.55); border:1px solid rgba(150,230,225,.2); font-size:12.5px; font-weight:600; color:rgba(234,250,246,.85);">The Reyes Family · Rescue Nº 1,558</span></figcaption>
+        </figure>
       </div>
     </section>
 
@@ -276,7 +277,7 @@
     <section data-reveal data-screen-label="Work CTA" style="margin-top:clamp(60px,10vh,120px); padding:clamp(40px,6vw,66px); border-radius:28px; background:linear-gradient(135deg, rgba(12,52,66,.62), rgba(8,30,38,.5)); border:1px solid rgba(127,227,218,.3); text-align:center; backdrop-filter:blur(10px);">
       <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,4vw,52px); line-height:1.02; letter-spacing:-.02em; color:var(--foam-white); margin:0 0 14px; text-wrap:balance;">Your pool could be next.</h2>
       <p style="font-size:17px; line-height:1.6; color:rgba(214,240,236,.78); margin:0 auto 30px; max-width:520px;">Send us a photo of the water today. We will tell you exactly what it takes to bring it back.</p>
-      <a href="index.html" class="ow-cta-btn" style="display:inline-block; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:16px 30px; border-radius:999px; box-shadow:0 14px 40px rgba(30,180,170,.36); transition:transform .3s ease;">Start my rescue →</a>
+      <a href="contact.html?intent=rescue" class="ow-cta-btn" style="display:inline-block; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:16px 30px; border-radius:999px; box-shadow:0 14px 40px rgba(30,180,170,.36); transition:transform .3s ease;">Start my rescue →</a>
     </section>
 
     <!-- FOOTER -->
@@ -288,82 +289,14 @@
   </main>
 </div>
 
-<script src="js/config.js"></script>
+<script src="js/config.js?v=2026.07"></script>
+<script defer src="js/rescue-slider.js"></script>
 <script>
 (function () {
-  var PAL = {
-    Lagoon:   { a: '#5fd0c8', b: '#7fe3da' },
-    Aqua:     { a: '#74e4d8', b: '#9df0e7' },
-    Sapphire: { a: '#5aa9e6', b: '#8fc7f2' },
-  };
-  var PALETTE = 'Lagoon';   // design-time prop default
-  var DEFAULT_SPLIT = 50;   // design-time prop default
-  var SHOW_REVIEWS = true;  // design-time prop default (reviews are always rendered on this page)
+  'use strict';
 
-  var root = document.getElementById('ow-root');
-  var nav = document.getElementById('ow-nav');
-  var links = document.getElementById('ow-links');
-  var menuBtn = document.getElementById('ow-menu-btn');
-  var menuBackdrop = document.getElementById('ow-menu-backdrop');
-  var menuPanel = document.getElementById('ow-menu-panel');
-  var menuL1 = document.getElementById('ow-menu-l1');
-  var menuL2 = document.getElementById('ow-menu-l2');
-  var menuL3 = document.getElementById('ow-menu-l3');
-  var slider = document.getElementById('ow-slider');
-  var sliderClip = document.getElementById('ow-slider-clip');
-  var sliderHandle = document.getElementById('ow-slider-handle');
-
-  var state = { isNarrow: false, sliderPct: DEFAULT_SPLIT, menuOpen: false };
-  var dragging = false;
-
-  function applyAccent() {
-    var p = PAL[PALETTE] || PAL.Lagoon;
-    root.style.setProperty('--accent', p.a);
-    root.style.setProperty('--accent2', p.b);
-  }
-
-  function renderMenu() {
-    var narrow = state.isNarrow;
-    menuBtn.style.display = narrow ? 'flex' : 'none';
-    links.style.display = narrow ? 'none' : 'flex';
-    var open = state.menuOpen && narrow;
-    menuBackdrop.style.display = open ? 'block' : 'none';
-    menuPanel.style.display = open ? 'flex' : 'none';
-    menuL1.style.transform = state.menuOpen ? 'translateY(5.5px) rotate(45deg)' : 'none';
-    menuL2.style.opacity = state.menuOpen ? '0' : '1';
-    menuL3.style.transform = state.menuOpen ? 'translateY(-5.5px) rotate(-45deg)' : 'none';
-  }
-
-  function setNarrow(isNarrow) {
-    state.isNarrow = isNarrow;
-    if (isNarrow === false) state.menuOpen = false;
-    renderMenu();
-  }
-
-  window.owCloseMenu = function () {
-    var wasOpen = state.menuOpen;
-    state.menuOpen = false;
-    renderMenu();
-    if (wasOpen) menuBtn.focus();
-  };
-  menuBtn.addEventListener('click', function () {
-    state.menuOpen = !state.menuOpen;
-    renderMenu();
-    if (state.menuOpen) {
-      var firstLink = menuPanel.querySelector('a');
-      if (firstLink) firstLink.focus();
-    }
-  });
-  document.addEventListener('keydown', function (e) {
-    if ((e.key === 'Escape' || e.key === 'Esc') && state.menuOpen) {
-      window.owCloseMenu();
-    }
-  });
-
-  var mq = matchMedia('(max-width: 860px)');
-  setNarrow(mq.matches);
-  mq.addEventListener('change', function (e) { setNarrow(e.matches); });
-
+  // ---- nav frost (same thresholds/values as index.html) ----
+  var nav = document.getElementById('nav');
   function onScroll() {
     var solid = window.scrollY > 40;
     nav.style.background = solid ? 'rgba(4,20,27,0.72)' : 'rgba(4,20,27,0)';
@@ -374,61 +307,109 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  function setSliderPct(pct) {
-    pct = Math.max(0, Math.min(100, pct));
-    state.sliderPct = pct;
-    sliderClip.style.clipPath = 'inset(0 ' + (100 - pct).toFixed(2) + '% 0 0)';
-    sliderHandle.style.left = pct.toFixed(2) + '%';
-  }
+  // ---- responsive nav / menu (index.html's structure and 900px breakpoint) ----
+  var state = { isNarrow: false, menuOpen: false, activeJob: 0 };
+  var navLinks = document.getElementById('nav-links');
+  var hamburger = document.getElementById('hamburger');
+  var menuWrap = document.getElementById('menu-wrap');
+  var line1 = document.getElementById('menu-line1');
+  var lineMid = document.getElementById('menu-linemid');
+  var line3 = document.getElementById('menu-line3');
 
-  function sliderMove(e) {
-    var r = slider.getBoundingClientRect();
-    var p = ((e.clientX - r.left) / r.width) * 100;
-    setSliderPct(p);
+  function renderNav() {
+    navLinks.style.display = state.isNarrow ? 'none' : 'flex';
+    hamburger.style.display = state.isNarrow ? 'flex' : 'none';
+    menuWrap.style.display = (state.menuOpen && state.isNarrow) ? 'block' : 'none';
+    hamburger.setAttribute('aria-expanded', state.menuOpen ? 'true' : 'false');
+    line1.style.transform = state.menuOpen ? 'translateY(5.5px) rotate(45deg)' : 'none';
+    lineMid.style.opacity = state.menuOpen ? '0' : '1';
+    line3.style.transform = state.menuOpen ? 'translateY(-5.5px) rotate(-45deg)' : 'none';
   }
-
-  function onMove(e) { if (dragging) sliderMove(e); }
-  function onUp() {
-    dragging = false;
-    window.removeEventListener('pointermove', onMove);
-    window.removeEventListener('pointerup', onUp);
+  function openMenu() {
+    state.menuOpen = true;
+    renderNav();
+    var first = menuWrap.querySelector('a');
+    if (first) first.focus();
   }
-  slider.addEventListener('pointerdown', function (e) {
-    dragging = true;
-    sliderMove(e);
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp);
+  function closeMenu(refocus) {
+    var wasOpen = state.menuOpen;
+    state.menuOpen = false;
+    renderNav();
+    if (wasOpen && refocus) hamburger.focus();
+  }
+  hamburger.addEventListener('click', function () { if (state.menuOpen) closeMenu(true); else openMenu(); });
+  document.getElementById('menu-overlay').addEventListener('click', function () { closeMenu(true); });
+  [].slice.call(document.querySelectorAll('.menu-close')).forEach(function (a) {
+    a.addEventListener('click', function () { closeMenu(false); });
   });
+  window.addEventListener('keydown', function (e) { if (e.key === 'Escape' && state.menuOpen) closeMenu(true); });
 
-  applyAccent();
-  setSliderPct(DEFAULT_SPLIT);
+  var mq = matchMedia('(max-width: 900px)');
+  state.isNarrow = mq.matches;
+  renderNav();
+  var onMq = function (e) { state.isNarrow = e.matches; state.menuOpen = false; renderNav(); updateJobs(); };
+  if (mq.addEventListener) mq.addEventListener('change', onMq); else mq.addListener(onMq);
 
-  var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function initReveal() {
-    var els = root.querySelectorAll('[data-reveal]');
-    if (prefersReducedMotion) {
-      els.forEach(function (el) { el.style.opacity = '1'; el.style.transform = 'none'; });
-      return;
-    }
-    var io = new IntersectionObserver(function (ents) {
-      ents.forEach(function (en) {
-        if (en.isIntersecting) {
-          en.target.style.opacity = '1';
-          en.target.style.transform = 'none';
-          io.unobserve(en.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
-    els.forEach(function (el) {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(28px)';
-      el.style.transition = 'opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)';
-      el.style.transitionDelay = (el.dataset.delay || 0) + 'ms';
-      el.style.willChange = 'opacity, transform';
-      io.observe(el);
+  // ---- gallery accordion (ported from index.html's #pc-jobs system) ----
+  var jobsContainer = document.getElementById('ow-jobs');
+  var jobEls = [].slice.call(document.querySelectorAll('.ow-job'));
+  function updateJobs() {
+    var narrow = state.isNarrow;
+    jobsContainer.style.flexDirection = narrow ? 'column' : 'row';
+    jobsContainer.style.height = narrow ? 'auto' : 'clamp(420px,56vh,540px)';
+    jobEls.forEach(function (el, i) {
+      var active = state.activeJob === i;
+      el.style.flex = narrow ? '0 0 auto' : (active ? '3.6 1 0%' : '1 1 0%');
+      el.style.height = narrow ? (active ? 'clamp(260px,46vh,360px)' : '76px') : '100%';
+      el.setAttribute('aria-expanded', active ? 'true' : 'false');
+      var img = el.querySelector('.ow-job-img');
+      img.style.transform = active ? 'scale(1.03)' : 'scale(1.08)';
+      img.style.filter = active ? 'brightness(1) saturate(1.05)' : 'brightness(.5) saturate(.85)';
+      el.querySelector('.ow-job-collapsed').style.opacity = active ? '0' : '1';
+      var act = el.querySelector('.ow-job-active');
+      act.style.opacity = active ? '1' : '0';
+      act.style.transform = active ? 'translateY(0)' : 'translateY(14px)';
+      act.style.pointerEvents = active ? 'auto' : 'none';
+      var ring = el.querySelector('.ow-job-ring');
+      ring.style.borderColor = 'rgba(127,227,218,' + (active ? '.8' : '0') + ')';
+      ring.style.boxShadow = active ? '0 20px 54px rgba(6,50,40,.45), inset 0 0 40px rgba(127,227,218,.12)' : 'none';
     });
   }
-  requestAnimationFrame(initReveal);
+  jobEls.forEach(function (el) {
+    var activate = function () {
+      var i = +el.getAttribute('data-i');
+      if (i !== state.activeJob) { state.activeJob = i; updateJobs(); }
+    };
+    el.addEventListener('click', activate);
+    el.addEventListener('mouseenter', activate);
+    el.addEventListener('focus', activate); // keyboard parity: focus opens like hover
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+    });
+  });
+  updateJobs();
+
+  // ---- below-fold reveals (armed by html.rv in <head>; reduced-motion never arms) ----
+  if (document.documentElement.classList.contains('rv')) {
+    var revealEls = [].slice.call(document.querySelectorAll('[data-reveal]'));
+    revealEls.forEach(function (el) {
+      el.style.transitionDelay = Math.min(+(el.dataset.delay || 0), 160) + 'ms';
+    });
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (ents) {
+        ents.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.05, rootMargin: '0px 0px -4% 0px' });
+      revealEls.forEach(function (el) { io.observe(el); });
+    } else {
+      revealEls.forEach(function (el) { el.classList.add('in'); });
+    }
+    // failsafe: nothing may ever stay hidden past 1.5s, whatever the observer did
+    setTimeout(function () {
+      revealEls.forEach(function (el) { el.classList.add('in'); });
+    }, 1500);
+  }
 })();
 </script>
 </body>
