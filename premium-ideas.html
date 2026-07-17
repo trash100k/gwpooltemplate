@@ -44,6 +44,9 @@
   .pi-chip-btn:hover { border-color: rgba(150,230,225,.4) !important; }
   .pi-style-btn:hover { border-color: rgba(150,230,225,.5) !important; }
   .pi-input:focus { border-color: rgba(127,227,218,.55) !important; }
+  .pi-book-cta{ border-bottom:none; transition:transform .2s ease, box-shadow .2s ease; }
+  .pi-book-cta:hover{ color:#052026; border-bottom:none; transform:translateY(-2px); box-shadow:0 18px 42px rgba(30,180,170,.46), 0 6px 16px rgba(0,0,0,.3); }
+  @media (max-width:560px){ .pi-book-cta{ font-size:12.5px !important; padding:12px 16px !important; white-space:normal !important; text-align:center; justify-content:center; max-width:calc(100vw - 28px); left:14px; right:14px !important; } }
   @media (max-width: 1460px) {
     .pi-demos-row, .pi-options-row { flex-direction: column !important; }
     .pi-demo-col, .pi-option-col { width: 100% !important; max-width: 680px; }
@@ -568,6 +571,9 @@
       </div>
     </div>
   </section>
+
+  <!-- ============================================================ FLOATING RETURN-TO-BOOKING CTA ============================================================ -->
+  <a href="get-this-site.html#book" class="pi-book-cta" style="position:fixed; right:clamp(14px,3vw,28px); bottom:clamp(14px,3vw,28px); z-index:9999; display:flex; align-items:center; gap:8px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; letter-spacing:-.005em; color:#052026; background:linear-gradient(135deg,var(--cta-from,#8ef0e6),var(--cta-to,#37c7bf)); padding:14px 22px; border-radius:999px; box-shadow:0 14px 34px rgba(30,180,170,.38), 0 4px 14px rgba(0,0,0,.28); white-space:nowrap;">Done styling? Book your territory call →</a>
 </main>
 <script src="js/config.js?v=2026.07"></script>
 <script src="js/forge-lead.js"></script>
