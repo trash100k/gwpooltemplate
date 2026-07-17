@@ -515,7 +515,7 @@ function closeMenu() {
 
 // Update menu UI
 function updateMenuUI() {
-  menuBtn.setAttribute('aria-expanded', state.menuOpen ? 'true' : 'false');
+  hamburger.setAttribute('aria-expanded', state.menuOpen ? 'true' : 'false');
   if (state.menuOpen) {
     menuOverlay.style.display = 'block';
     mobileMenu.style.display = 'flex';
