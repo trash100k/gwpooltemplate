@@ -45,8 +45,8 @@
   .gw-cta-hover:hover { color: var(--cta-ink); }
   .gw-border-hover:hover { border-color: var(--accent-2); }
   .gw-faq-toggle { cursor: pointer; }
-  /* [hidden] must beat inline display:flex on the exit overlay, or it can never be dismissed */
-  #gts-exit-overlay[hidden] { display: none !important; }
+  /* [hidden] must beat inline display:flex on these overlays, or they can never be dismissed */
+  #gts-exit-overlay[hidden], #gw-mobile-menu[hidden] { display: none !important; }
   a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .mpc-skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--deep-water);color:var(--foam-bright);padding:12px 18px;border-radius:0 0 10px 0;font-family:'Manrope',sans-serif;font-weight:600;font-size:14px;}
   .mpc-skip:focus{left:0;}
