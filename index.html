@@ -269,7 +269,9 @@
     </section>
 
     <!-- ---------- THE CRAWL · what grows while you wait (Star Wars style) ---------- -->
-    <section id="care-crawl" data-chapter="" data-screen-label="The water" style="position:relative; min-height:170vh; overflow:hidden;">
+    <section id="care-crawl" data-chapter="" data-screen-label="The water" style="position:relative; height:230vh;">
+      <!-- pinned screen: the crawl plays on a stationary 100vh stage while the section provides the scroll span -->
+      <div style="position:sticky; top:0; height:100vh; overflow:hidden;">
 
       <!-- faint glow at the vanishing point -->
       <div aria-hidden="true" style="position:absolute; top:5%; left:50%; transform:translateX(-50%); width:min(660px,82vw); height:240px; background:radial-gradient(62% 100% at 50% 0%, rgba(244,209,61,.12), transparent 72%); pointer-events:none;"></div>
@@ -280,7 +282,7 @@
       <p data-reveal="" style="position:absolute; top:clamp(16px,2.6vh,32px); left:0; right:0; z-index:3; text-align:center; margin:0; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#c6d68e; font-weight:600;">02 — Meanwhile, in the water you didn't touch</p>
 
       <!-- crawl stage -->
-      <div style="position:absolute; inset:0; z-index:2; perspective:520px; perspective-origin:50% 44%; overflow:hidden; -webkit-mask-image:linear-gradient(to top, transparent 2%, #000 16%, #000 64%, transparent 96%); mask-image:linear-gradient(to top, transparent 2%, #000 16%, #000 64%, transparent 96%);">
+      <div style="position:absolute; inset:0; z-index:2; perspective:520px; perspective-origin:50% 44%; overflow:hidden; -webkit-mask-image:linear-gradient(to top, transparent 2%, #000 16%, #000 58%, transparent 88%); mask-image:linear-gradient(to top, transparent 2%, #000 16%, #000 58%, transparent 88%);">
         <div id="pc-crawl" style="position:absolute; left:50%; bottom:0; width:min(78vw, 880px); transform-origin:50% 100%; transform:translateX(-50%) rotateX(30deg) translateY(66%); will-change:transform;">
 
           <div style="text-align:center; margin-bottom:60px;">
@@ -298,6 +300,7 @@
           </div>
 
         </div>
+      </div>
       </div>
     </section>
 
@@ -1231,7 +1234,8 @@
     if (crawl && crawlSection) {
       var r = crawlSection.getBoundingClientRect();
       var vh = stage.clientHeight || 1;
-      var q = (vh - r.top) / (vh + r.height);
+      // 230vh section - 100vh pinned screen: q is progress through the sticky span
+      var q = -r.top / Math.max(1, r.height - vh);
       q = q < 0 ? 0 : q > 1 ? 1 : q;
       var H = crawl.offsetHeight || 1;
       var tyIn = ((H - 0.42 * vh) / H) * 100;   // title lands low in frame — big, near the viewer
@@ -1239,11 +1243,11 @@
       var tyStart = 102, tyEnd = tyOut - 45;     // start fully below the fold; exit recedes away
       var ss = function (t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * t * (t * (t * 6 - 15) + 10); };
       var ty;
-      if (q < 0.10) ty = tyStart + (tyIn - tyStart) * ss(q / 0.10);          // enter
-      else if (q < 0.24) ty = tyIn;                                          // hold — title landed
-      else if (q < 0.72) ty = tyIn + (tyOut - tyIn) * ((q - 0.24) / 0.48);   // travel through the list
-      else if (q < 0.86) ty = tyOut;                                         // hold — closing line rests
-      else ty = tyOut + (tyEnd - tyOut) * ss((q - 0.86) / 0.14);             // exit into the turn
+      if (q < 0.06) ty = tyStart + (tyIn - tyStart) * ss(q / 0.06);          // enter — title rises to meet you
+      else if (q < 0.18) ty = tyIn;                                          // hold — title landed on a still stage
+      else if (q < 0.84) ty = tyIn + (tyOut - tyIn) * ((q - 0.18) / 0.66);   // travel — the list crawls the pinned screen
+      else if (q < 0.93) ty = tyOut;                                         // hold — closing line rests
+      else ty = tyOut + (tyEnd - tyOut) * ss((q - 0.93) / 0.07);             // exit into the turn
       var tilt = reduce ? 0 : 30;
       crawl.style.transform = 'translateX(-50%) rotateX(' + tilt + 'deg) translateY(' + ty.toFixed(2) + '%)';
       if (!_crawlInit) { _crawlInit = true; if (reduce) { var t2 = crawl.querySelector('h2'); if (t2) t2.style.filter = 'none'; } }
