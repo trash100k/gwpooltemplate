@@ -43,6 +43,32 @@
   @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
   @keyframes pc-fc-clear { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 0 100%); } }
 
+  /* ---- Cannonball Gate (chapter 03) — states scrubbed by water clarity ---- */
+  .pc-strand { fill: none; stroke: var(--gold); stroke-opacity: .78; stroke-width: 3.2; stroke-linecap: round;
+    transition: transform .65s cubic-bezier(.16,1,.3,1), opacity .5s ease-out; }
+  .pc-gate-mote { position: absolute; border-radius: 50%; background: rgba(174,189,109,.75); filter: blur(1.5px);
+    opacity: var(--gate-murk, 0); transition: opacity .4s ease-out; }
+  #pc-gate-sign { transform: translateX(-50%); transition: transform .65s cubic-bezier(.16,1,.3,1), opacity .5s ease-out; }
+  #pc-gate-stamp { opacity: 0; pointer-events: none; }
+  #pc-gate-caustics { animation: pc-gate-drift 11s ease-in-out infinite alternate; }
+  @keyframes pc-gate-drift { from { transform: translate3d(-2.5%, -1.5%, 0); } to { transform: translate3d(2.5%, 1.8%, 0); } }
+  /* strand 1 lets go past swamp; strand 2 past murky; the halves of strand 3 hold to the end */
+  .pc-s1 { transform-origin: 50% 0; }
+  .pc-s2 { transform-origin: 50% 0; }
+  .pc-s3l { transform-origin: 0 38%; }
+  .pc-s3r { transform-origin: 100% 38%; }
+  #pc-gate[data-state="murky"] .pc-s1,
+  #pc-gate[data-state="clearing"] .pc-s1, #pc-gate[data-state="crystal"] .pc-s1, #pc-gate[data-state="approved"] .pc-s1 { transform: translateY(30px); opacity: 0; }
+  #pc-gate[data-state="clearing"] .pc-s2, #pc-gate[data-state="crystal"] .pc-s2, #pc-gate[data-state="approved"] .pc-s2 { transform: translateY(30px); opacity: 0; }
+  #pc-gate[data-state="clearing"] #pc-gate-sign { transform: translateX(-50%) rotate(-8deg); }
+  #pc-gate[data-state="crystal"] #pc-gate-sign { transform: translateX(-50%) rotate(-13deg) translateY(4px); }
+  #pc-gate[data-state="approved"] .pc-s3l { transform: rotate(34deg) translateY(6px); opacity: 0; }
+  #pc-gate[data-state="approved"] .pc-s3r { transform: rotate(-34deg) translateY(6px); opacity: 0; }
+  #pc-gate[data-state="approved"] #pc-gate-sign { transform: translateX(-58%) rotate(-26deg) translateY(190%); opacity: 0; }
+  #pc-gate[data-state="approved"] #pc-gate-stamp { opacity: 1; }
+  #pc-gate[data-snap="1"][data-state="approved"] #pc-gate-stamp { animation: pc-gate-stamp .5s cubic-bezier(.19,1,.22,1) both; }
+  @keyframes pc-gate-stamp { from { opacity: 0; transform: translate(-50%,-50%) rotate(-7deg) scale(1.75); } to { opacity: 1; transform: translate(-50%,-50%) rotate(-7deg) scale(1); } }
+
   /* :hover / :focus rules ported from the prototype's hover/focus authoring attributes */
   .pc-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 38px rgba(30,180,170,.55); }
   .pc-hero-secondary:hover { background: rgba(20,34,12,.6); transform: translateY(-3px); }
@@ -84,12 +110,15 @@
     .pc-float,
     .pc-drift,
     #pc-cue span,
+    #pc-gate-caustics,
     #pc-crawl h2,
     #pc-badge-wrap img,
     #pc-badge-wrap [aria-hidden="true"],
     .gw-ablaze-el {
       animation: none !important;
     }
+    .pc-strand, #pc-gate-sign, .pc-gate-mote { transition: none !important; }
+    #pc-gate[data-snap="1"][data-state="approved"] #pc-gate-stamp { animation: none !important; }
 
     /* entrance reveals stay (content visibility depends on them) but resolve instantly */
     .pc-rise,
@@ -307,8 +336,27 @@
     <!-- ---------- THE TURN · live clarity counter ---------- -->
     <section id="care-turn" data-chapter="" data-screen-label="The turn" style="position:relative; min-height:112vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:clamp(60px,10vh,120px) clamp(22px,5vw,72px);">
       <p data-reveal="" style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin:0 0 clamp(18px,3vh,30px);">03 — The turn</p>
-      <div id="pc-turnpct" style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(96px,19vw,270px); line-height:.9; letter-spacing:-.045em; color:var(--foam-white); text-shadow:0 10px 80px rgba(3,20,28,.6);">8%</div>
-      <div id="pc-turnlabel" aria-live="polite" style="font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:rgba(214,240,236,.6); margin:clamp(14px,2.5vh,24px) 0 clamp(30px,5vh,52px);">water clarity — keep scrolling</div>
+      <!-- THE CANNONBALL GATE — clarity made physical: the warning loses its grip as the water clears -->
+      <div id="pc-gate" data-state="approved" aria-hidden="true" style="position:relative; width:min(76vw,560px); height:clamp(240px,34vh,320px); margin:0 auto;">
+        <div style="position:absolute; inset:0; border-radius:24px; overflow:hidden; border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 80px rgba(3,16,20,.5), inset 0 1px 0 rgba(255,255,255,.05); background:linear-gradient(180deg, rgba(6,26,33,.9), var(--gate-w, #5fd0c8) 130%);">
+          <div id="pc-gate-caustics" style="position:absolute; inset:-12%; opacity:var(--gate-caus,.9); filter:url(#waterRipple); background:radial-gradient(38% 30% at 24% 36%, rgba(190,255,248,.22), transparent 70%), radial-gradient(30% 26% at 64% 58%, rgba(160,245,236,.18), transparent 70%), radial-gradient(34% 30% at 44% 80%, rgba(190,255,248,.14), transparent 70%);"></div>
+          <div id="pc-gate-murk" style="position:absolute; inset:0; opacity:var(--gate-murk,0); background:linear-gradient(180deg, rgba(74,88,30,.88), rgba(52,64,22,.94));"></div>
+          <span class="pc-gate-mote" style="left:22%; top:34%; width:7px; height:7px;"></span>
+          <span class="pc-gate-mote" style="left:63%; top:52%; width:5px; height:5px;"></span>
+          <span class="pc-gate-mote" style="left:44%; top:72%; width:6px; height:6px;"></span>
+        </div>
+        <svg viewBox="0 0 560 90" preserveAspectRatio="none" style="position:absolute; top:7%; left:-2%; width:104%; height:34%; overflow:visible; pointer-events:none;">
+          <path class="pc-strand pc-s1" d="M0,14 Q280,44 560,14" pathLength="1"></path>
+          <path class="pc-strand pc-s2" d="M0,24 Q280,54 560,24" pathLength="1"></path>
+          <path class="pc-strand pc-s3l" d="M0,34 Q150,27 280,23" pathLength="1"></path>
+          <path class="pc-strand pc-s3r" d="M560,34 Q410,27 280,23" pathLength="1"></path>
+        </svg>
+        <div id="pc-gate-sign" style="position:absolute; left:50%; top:13%; transform-origin:22% -8%; background:var(--gold); color:var(--cta-ink); border-radius:8px; padding:14px 22px 15px; box-shadow:0 14px 34px rgba(3,12,6,.5); font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(20px,3.4vw,34px); letter-spacing:.1em; line-height:1; white-space:nowrap;">
+          <span aria-hidden="true" style="position:absolute; top:6px; left:9px; width:6px; height:6px; border-radius:50%; background:rgba(30,24,4,.55); box-shadow:inset 0 1px 1px rgba(0,0,0,.6);"></span>
+          <span aria-hidden="true" style="position:absolute; top:6px; right:9px; width:6px; height:6px; border-radius:50%; background:rgba(30,24,4,.55); box-shadow:inset 0 1px 1px rgba(0,0,0,.6);"></span>POOL CLOSED</div>
+        <div id="pc-gate-stamp" style="position:absolute; left:50%; top:54%; transform:translate(-50%,-50%) rotate(-7deg); border:3px solid var(--accent); color:var(--accent); background:rgba(4,20,27,.4); border-radius:12px; padding:12px 22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:clamp(17px,2.6vw,27px); letter-spacing:.12em; white-space:nowrap; text-shadow:0 0 22px rgba(127,227,218,.45); box-shadow:0 0 34px rgba(30,180,170,.25), inset 0 0 22px rgba(30,180,170,.12);">CANNONBALL APPROVED</div>
+      </div>
+      <div id="pc-turnlabel" aria-live="polite" style="font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:rgba(214,240,236,.6); margin:clamp(14px,2.5vh,24px) 0 clamp(30px,5vh,52px);">keep scrolling — the water is turning</div>
       <h2 data-reveal="" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.6vw,58px); line-height:1.04; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 16px; text-wrap:balance;">This is <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">where we come in.</span></h2>
       <p data-reveal="" data-delay="80" style="font-size:clamp(16px,1.4vw,19px); line-height:1.62; color:rgba(224,247,242,.78); margin:0; max-width:520px;">One crew. One visit a week. The whole ritual, every time — and the water never gets a vote.</p>
 
@@ -808,7 +856,9 @@
   var cue = document.getElementById('pc-cue');
   var dirtyOverlay = document.getElementById('pc-dirty');
   var waterline = document.getElementById('pc-waterline');
-  var turnPct = document.getElementById('pc-turnpct');
+  var gate = document.getElementById('pc-gate');
+  var turnSec = document.getElementById('care-turn');
+  var _gateBand = '', _lastGp = -1;
   var turnLabel = document.getElementById('pc-turnlabel');
   var cannonballed = false;
   var carouselTrack = document.getElementById('pc-carousel');
@@ -1210,8 +1260,6 @@
       if (hudPct) { hudPct.textContent = pct + '%'; hudPct.style.color = col; }
       if (hudFill) { hudFill.style.height = pct + '%'; hudFill.style.background = col; }
       if (hudWord) hudWord.textContent = pct < 22 ? 'Swamp' : pct < 48 ? 'Murky' : pct < 78 ? 'Clearing' : 'Crystal';
-      if (turnPct) turnPct.textContent = pct + '%';
-      if (!cannonballed && pct >= 100 && turnLabel) { cannonballed = true; turnLabel.textContent = '100% — cannonball approved'; }
     }
     if (dirtyOverlay) dirtyOverlay.style.opacity = (1 - cl).toFixed(3);
     if (waterline) waterline.style.opacity = (1 - cl).toFixed(3);
@@ -1228,6 +1276,32 @@
         var dy = (center - (p.top + p.h / 2)) * p.sp;
         p.el.style.transform = 'translate3d(0,' + dy.toFixed(1) + 'px,0)';
       });
+    }
+
+    // ---- cannonball gate — arc runs on section-local progress so the theater completes on screen ----
+    if (gate && turnSec) {
+      var gtr = turnSec.getBoundingClientRect();
+      var gvh = stage.clientHeight || 1;
+      var gq = (gvh * 0.85 - gtr.top) / (gvh * 0.9);
+      gq = gq < 0 ? 0 : gq > 1 ? 1 : gq;
+      var gp = Math.round(gq * 100);
+      if (gp !== _lastGp) {
+        _lastGp = gp;
+        gate.style.setProperty('--gate-w', hexLerp('#aebd6d', '#5fd0c8', gq));
+        gate.style.setProperty('--gate-murk', (1 - gq).toFixed(3));
+        gate.style.setProperty('--gate-caus', Math.max(0, (gq - 0.55) / 0.45).toFixed(3));
+        var gband = gp >= 100 ? 'approved' : gp < 22 ? 'swamp' : gp < 48 ? 'murky' : gp < 78 ? 'clearing' : 'crystal';
+        if (gband !== _gateBand) {
+          _gateBand = gband;
+          gate.setAttribute('data-state', gband);
+          if (turnLabel) turnLabel.textContent =
+            gband === 'approved' ? 'crystal — cannonball approved' :
+            gband === 'swamp' ? 'swamp — nobody\u2019s swimming' :
+            gband === 'murky' ? 'murky — getting there' :
+            gband === 'clearing' ? 'clearing — almost' : 'crystal — one thread left';
+        }
+        if (!cannonballed && gp >= 100) { cannonballed = true; gate.setAttribute('data-snap', '1'); if (!reduce) addRipple(0.5, 0.5, 1.6); }
+      }
     }
 
     // scroll-locked Star Wars crawl — pinned with holds at both ends, mapped to the section passing through
