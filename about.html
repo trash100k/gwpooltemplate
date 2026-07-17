@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
     --swamp-black:#0a1208; --deep-water:#04141b;
@@ -23,6 +23,7 @@
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important;}
     [data-reveal]{opacity:1!important;transform:none!important;}
+    .ab-rise{animation:none!important;}
   }
   html { scroll-behavior: smooth; }
   html, body { margin: 0; padding: 0; background: #04121a; }
@@ -35,14 +36,26 @@
   @keyframes sv-floatB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-34px,26px); } }
   @keyframes gw-menu-in { from { opacity: 0; transform: translateY(-8px) scale(.97); } to { opacity: 1; transform: none; } }
 
-  /* Hover styles for nav links */
-  .nav-link:hover { color: var(--accent2, var(--accent)); }
-
-  /* Hover styles for mobile menu links */
+  .nav-link:hover { color: var(--accent); }
   .mobile-menu-link:hover { background: rgba(127,227,218,.1); }
-
-  /* Hover style for CTA button */
   .cta-button:hover { transform: translateY(-3px); color: var(--cta-ink); }
+
+  /* Hero load-in: pure CSS, no JS gate — content is visible even if JS never runs */
+  @keyframes ab-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .ab-rise { animation: ab-rise .7s cubic-bezier(.2,.7,.2,1) both; }
+
+  /* Below-fold reveals: hidden state exists only when JS adds .rv to the root element;
+     JS also carries a 1.5s failsafe, so content can never be stranded invisible */
+  html.rv [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .55s cubic-bezier(.2,.7,.2,1), transform .55s cubic-bezier(.2,.7,.2,1); }
+  html.rv [data-reveal].in { opacity: 1; transform: none; }
+
+  /* Story row + manifesto ledger: 2-col above 760px, stacked below */
+  .ab-story { display: flex; flex-direction: row; }
+  .ab-ledger-row { display: grid; grid-template-columns: minmax(200px,.9fr) 1.6fr; column-gap: clamp(32px,5vw,72px); align-items: baseline; padding: clamp(24px,3.8vw,38px) 0; border-top: 1px solid rgba(150,230,225,.14); }
+  @media (max-width: 760px) {
+    .ab-story { flex-direction: column; }
+    .ab-ledger-row { grid-template-columns: 1fr; row-gap: 10px; }
+  }
 </style>
 </head>
 <body>
@@ -50,20 +63,13 @@
 <a class="mpc-skip" href="#main">Skip to content</a>
 
 <noscript>
-  <div style="position:fixed; inset:0; z-index:9999; background:var(--swamp-black); color:var(--foam-bright); display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; font-family:sans-serif;">
+  <div style="position:fixed; inset:0; z-index:80; background:var(--swamp-black); color:var(--foam-bright); display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; font-family:sans-serif;">
     <div style="max-width:440px; padding:32px 28px; border-radius:20px; background:rgba(10,34,42,.9); border:1px solid rgba(127,227,218,.3);">
       <p style="margin:0 0 12px; font-size:18px; font-weight:700; color:var(--foam-bright);">JavaScript is required for the full Meridian Pool Care experience.</p>
       <p style="margin:0; font-size:15px; line-height:1.6; color:var(--foam-bright);">To book a visit, call <a href="tel:+15125550143" data-cfg-href="tel" data-cfg="phone" style="color:var(--accent);">(512) 555-0143</a> or email <a href="mailto:care@meridianpools.com" data-cfg-href="mailto" data-cfg="email" style="color:var(--accent);">care@meridianpools.com</a>.</p>
     </div>
   </div>
 </noscript>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <filter id="waterRipple" x="-12%" y="-12%" width="124%" height="124%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.010 0.018" numOctaves="2" seed="7" result="n" />
-    <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G" />
-  </filter>
-</svg>
 
 <div id="root" style="position:relative;">
 
@@ -73,37 +79,35 @@
     <div style="position:absolute; bottom:2%; right:-8%; width:52vw; height:52vw; max-width:720px; max-height:720px; border-radius:50%; background:radial-gradient(circle, rgba(55,199,191,.12), transparent 66%); filter:blur(22px); animation:sv-floatB 27s ease-in-out infinite;"></div>
   </div>
 
-  <!-- ============ NAV ============ -->
-  <nav id="nav" style="position:fixed; top:0; left:0; right:0; z-index:20; border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
-    <div style="max-width:1180px; margin:0 auto; padding:15px clamp(22px,5vw,72px); display:flex; align-items:center; justify-content:space-between; gap:20px;">
-      <a href="index.html" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; letter-spacing:-.01em; color:var(--foam-white); display:flex; align-items:baseline; gap:9px;">
-        <span style="width:9px; height:9px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2)); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent2,var(--accent));">Pool Care</span>
-      </a>
-      <div id="desktopNav" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
-        <a href="index.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Home</a>
-        <a href="services.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Services</a>
-        <a href="pricing.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pricing</a>
-        <a href="our-work.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Our Work</a>
-        <a href="#top" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:var(--accent2,var(--accent));">About</a>
-        <a href="pool-school.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82);">Pool School</a>
-      </div>
-      <button id="menuBtn" aria-label="Menu" style="cursor:pointer; flex:none; width:44px; height:44px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); display:flex; align-items:center; justify-content:center; gap:4px; flex-direction:column;">
-        <span id="menuLine1" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
-        <span id="menuLineMid" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:opacity .2s ease;"></span>
-        <span id="menuLine3" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
-      </button>
-      <a href="contact.html" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 8px 24px rgba(30,180,170,.3);">Rescue my pool</a>
+  <!-- ============ NAV (canonical geometry from index.html's #pc-nav) ============ -->
+  <nav id="nav" style="position:fixed; top:0; left:0; right:0; z-index:20; display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); border-bottom:1px solid rgba(150,230,225,0); transition:background .45s ease, backdrop-filter .45s ease, border-color .45s ease;">
+    <a href="index.html" aria-label="Meridian Pool Care — home" style="text-decoration:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.01em; color:var(--foam-white); display:flex; align-items:baseline; gap:9px;">
+      <span style="width:9px; height:9px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 12px var(--accent-2); align-self:center;"></span>Meridian<span style="font-family:'Manrope',sans-serif; font-weight:600; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent);">Pool Care</span>
+    </a>
+    <div id="desktopNav" style="display:flex; align-items:center; gap:clamp(16px,2.1vw,30px);">
+      <a href="index.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Home</a>
+      <a href="services.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Services</a>
+      <a href="pricing.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Pricing</a>
+      <a href="our-work.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Our Work</a>
+      <a href="about.html" aria-current="page" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:var(--accent);">About</a>
+      <a href="pool-school.html" class="nav-link" style="font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; color:rgba(234,250,246,.82); transition:color .3s ease;">Pool School</a>
     </div>
+    <button id="menuBtn" aria-label="Menu" aria-expanded="false" style="display:none; cursor:pointer; flex:none; width:44px; height:44px; border-radius:50%; background:rgba(10,34,42,.55); border:1px solid rgba(150,230,225,.26); align-items:center; justify-content:center; gap:4px; flex-direction:column;">
+      <span id="menuLine1" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+      <span id="menuLineMid" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:opacity .2s ease;"></span>
+      <span id="menuLine3" style="width:16px; height:1.6px; border-radius:2px; background:var(--foam-bright); transition:transform .3s cubic-bezier(.2,.7,.2,1);"></span>
+    </button>
+    <a href="contact.html" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 6px 18px rgba(30,180,170,.38);">Rescue my pool</a>
   </nav>
 
-  <!-- MOBILE MENU -->
+  <!-- MOBILE MENU (display:none at rest; JS flips to flex on open, none on close) -->
   <div id="menuOverlay" style="display:none; position:fixed; inset:0; z-index:29; background:rgba(4,10,14,.45);"></div>
-  <div id="mobileMenu" style="display:none; position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; display:flex; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
+  <div id="mobileMenu" style="display:none; position:fixed; top:70px; right:clamp(16px,4vw,26px); z-index:30; min-width:200px; border-radius:18px; background:rgba(7,26,33,.94); backdrop-filter:blur(18px) saturate(130%); -webkit-backdrop-filter:blur(18px) saturate(130%); border:1px solid rgba(150,230,225,.22); box-shadow:0 30px 70px rgba(2,10,14,.55); padding:9px; flex-direction:column; gap:2px; animation:gw-menu-in .28s cubic-bezier(.2,.7,.2,1) both;">
     <a href="index.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Home</a>
     <a href="services.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Services</a>
     <a href="pricing.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pricing</a>
     <a href="our-work.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Our Work</a>
-    <a href="#top" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--accent2,var(--accent)); background:rgba(127,227,218,.08);">About</a>
+    <a href="about.html" aria-current="page" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; color:var(--accent); background:rgba(127,227,218,.08);">About</a>
     <a href="pool-school.html" class="mobile-menu-link" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pool School</a>
     <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
     <a href="contact.html" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Rescue my pool</a>
@@ -112,109 +116,96 @@
   <!-- ============ CONTENT ============ -->
   <main id="main" style="position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 clamp(22px,5vw,72px) clamp(60px,10vh,120px);">
 
-    <!-- HERO -->
+    <!-- HERO (pure CSS load-in — never JS-gated) -->
     <section id="top" data-screen-label="About hero" style="padding:clamp(118px,20vh,196px) 0 clamp(30px,5vh,56px);">
-      <div data-reveal>
-        <div style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
-          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent,var(--accent-2)); box-shadow:0 0 12px var(--accent,var(--accent-2));"></span>
+      <div>
+        <div class="ab-rise" style="display:inline-flex; align-items:center; gap:10px; padding:8px 15px; border:1px solid rgba(150,230,225,.28); border-radius:999px; background:rgba(8,28,34,.42); backdrop-filter:blur(6px); margin-bottom:24px;">
+          <span style="width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent);"></span>
           <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#dbeef0; font-weight:600;">About Meridian</span>
         </div>
-        <h1 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">We keep the<br />water honest.</h1>
-        <p style="max-width:620px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">A small crew of Austin water techs who believe a pool should be the easiest thing you own — not another chore, and never a swamp.</p>
+        <h1 class="ab-rise" style="animation-delay:.1s; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">We keep the<br />water honest.</h1>
+        <p class="ab-rise" style="animation-delay:.2s; max-width:620px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">A small crew of Austin water techs who believe a pool should be the easiest thing you own — not another chore, and never a swamp.</p>
       </div>
     </section>
 
     <!-- STORY -->
     <section data-screen-label="Story" style="padding:clamp(20px,4vh,44px) 0 clamp(40px,7vh,80px);">
-      <div data-reveal id="storySection" style="display:flex; flex-direction:row; gap:clamp(28px,4vw,60px); align-items:center;">
+      <div data-reveal class="ab-story" style="gap:clamp(28px,4vw,60px); align-items:center;">
         <div style="flex:1.15 1 0%; min-width:0;">
-          <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 18px;">Our story</p>
           <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,4vw,48px); line-height:1.05; letter-spacing:-.02em; color:var(--foam-white); margin:0 0 20px; text-wrap:balance;">It started with one pool nobody would touch.</h2>
           <p style="font-size:16px; line-height:1.65; color:rgba(232,244,240,.78); margin:0 0 16px;">Meridian began in 2016, when our founder inherited a backyard pool that had gone full swamp — and got quoted a drain-and-refill by every company in town. He learned the chemistry instead, brought it back without losing a drop, and realized most pools never had to get that far in the first place.</p>
           <p style="font-size:16px; line-height:1.65; color:rgba(232,244,240,.78); margin:0;">Nearly 10 years later we've rescued more than 1,900 pools across the Hill Country — and the whole company still runs on one idea: show up, stay ahead of the water, and never hand you a surprise.</p>
         </div>
         <div style="flex:.85 1 0%; min-width:0; width:100%;">
           <div style="position:relative; border-radius:22px; overflow:hidden; border:1px solid rgba(150,230,225,.18); box-shadow:0 26px 64px rgba(3,16,20,.5);">
-            <img src="https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="A Meridian pool, kept clear" loading="lazy" draggable="false" width="1400" height="933" style="display:block; width:100%; height:clamp(280px,38vw,420px); object-fit:cover;" />
+            <img src="assets/photos/about-wide.jpeg" alt="Afternoon sun on a backyard pool, wicker loungers, and a hand-painted garden wall — the kind of yard we've looked after since our first summer" loading="lazy" decoding="async" draggable="false" width="1500" height="1001" style="display:block; width:100%; height:clamp(280px,38vw,420px); object-fit:cover;" />
             <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(4,14,18,.08), rgba(4,14,18,.42)); pointer-events:none;"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- VALUES -->
+    <!-- VALUES: manifesto ledger — four claims, four proofs, hairline rows -->
     <section data-screen-label="Values" style="padding-top:clamp(20px,4vh,44px);">
-      <div data-reveal style="margin-bottom:clamp(28px,4.5vh,44px);">
-        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 16px;">What we stand on</p>
-        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">Four promises.</h2>
+      <div data-reveal style="margin-bottom:clamp(14px,2.5vh,24px);">
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">We stand on <span style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:0;">four promises.</span></h2>
       </div>
-      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
-        <div style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">01</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px;">Show up</div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Same day, every week. If we say Tuesday, it is Tuesday — rain, heat, or holiday.</p>
+      <div data-reveal>
+        <div class="ab-ledger-row">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(24px,3.2vw,34px); line-height:1.05; letter-spacing:-.02em; color:var(--foam-white); margin:0;">Show up.</h3>
+          <p style="font-size:clamp(15px,1.3vw,17px); line-height:1.62; color:rgba(236,246,228,.74); margin:0; max-width:56ch;">Same day, every week. If we say Tuesday, it is Tuesday — rain, heat, or holiday.</p>
         </div>
-        <div style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">02</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px;">No surprises</div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Chemicals and photo reports are included. The bill is the number we quoted. Always.</p>
+        <div class="ab-ledger-row">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(24px,3.2vw,34px); line-height:1.05; letter-spacing:-.02em; color:var(--foam-white); margin:0;">No surprises.</h3>
+          <p style="font-size:clamp(15px,1.3vw,17px); line-height:1.62; color:rgba(236,246,228,.74); margin:0; max-width:56ch;">Chemicals and photo reports are included. The bill is the number we quoted. Always.</p>
         </div>
-        <div style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">03</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px;">Own the water</div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">If it turns on our watch, we fix it free. Staying ahead of the algae is our job, not yours.</p>
+        <div class="ab-ledger-row">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(24px,3.2vw,34px); line-height:1.05; letter-spacing:-.02em; color:var(--foam-white); margin:0;">Own the water.</h3>
+          <p style="font-size:clamp(15px,1.3vw,17px); line-height:1.62; color:rgba(236,246,228,.74); margin:0; max-width:56ch;">If it turns on our watch, we fix it free. Staying ahead of the algae is our job, not yours.</p>
         </div>
-        <div style="display:flex; flex-direction:column; padding:28px 26px 30px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent,var(--accent-2)); margin-bottom:14px;">04</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:22px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:10px;">Local hands</div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Austin-born crews who know Hill Country water, hard fills, brutal heat, and flash storms.</p>
+        <div class="ab-ledger-row" style="border-bottom:1px solid rgba(150,230,225,.14);">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(24px,3.2vw,34px); line-height:1.05; letter-spacing:-.02em; color:var(--foam-white); margin:0;">Local hands.</h3>
+          <p style="font-size:clamp(15px,1.3vw,17px); line-height:1.62; color:rgba(236,246,228,.74); margin:0; max-width:56ch;">Austin-born crews who know Hill Country water, hard fills, brutal heat, and flash storms.</p>
         </div>
       </div>
     </section>
 
-    <!-- TEAM -->
+    <!-- TEAM: typographic roster — no cards, no avatars. ponytail: names carry it; real headshots are a per-buyer upgrade -->
     <section data-screen-label="Team" style="padding-top:clamp(64px,11vh,130px);">
-      <div data-reveal style="margin-bottom:clamp(28px,4.5vh,44px);">
-        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 16px;">The crew</p>
-        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 12px;">The hands in your backyard.</h2>
+      <div data-reveal style="margin-bottom:clamp(20px,3.5vh,34px);">
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 12px;">The hands in your backyard.</h2>
         <p style="font-size:16px; line-height:1.6; color:rgba(214,240,236,.7); margin:0; max-width:560px;">The same faces, week after week — every one a certified pool operator, bonded and background-checked.</p>
       </div>
-      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px;">
-        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:var(--cta-ink); margin-bottom:16px;">MR</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:var(--foam-white);">Marco Reyes</div>
-          <div style="font-size:13.5px; color:var(--accent2,var(--accent)); font-weight:600; margin-top:3px;">Founder & Lead Tech</div>
-          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Learned the chemistry on his own green pool. Still runs a route every week.</p>
+      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:0 clamp(24px,4vw,48px);">
+        <div style="border-top:1px solid rgba(150,230,225,.14); padding:20px 0 24px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.01em; color:var(--foam-white);">Marco Reyes</div>
+          <div style="font-size:13.5px; color:var(--accent); font-weight:600; margin-top:3px;">Founder & Lead Tech</div>
+          <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.7); margin:10px 0 0;">Learned the chemistry on his own green pool. Still runs a route every week.</p>
         </div>
-        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:var(--cta-ink); margin-bottom:16px;">DW</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:var(--foam-white);">Dana Whitfield</div>
-          <div style="font-size:13.5px; color:var(--accent2,var(--accent)); font-weight:600; margin-top:3px;">Operations</div>
-          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Keeps 14 crews on schedule and every gate code straight.</p>
+        <div style="border-top:1px solid rgba(150,230,225,.14); padding:20px 0 24px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.01em; color:var(--foam-white);">Dana Whitfield</div>
+          <div style="font-size:13.5px; color:var(--accent); font-weight:600; margin-top:3px;">Operations</div>
+          <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.7); margin:10px 0 0;">Keeps 14 crews on schedule and every gate code straight.</p>
         </div>
-        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:var(--cta-ink); margin-bottom:16px;">TA</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:var(--foam-white);">Theo Alvarez</div>
-          <div style="font-size:13.5px; color:var(--accent2,var(--accent)); font-weight:600; margin-top:3px;">Rescue Crew Lead</div>
-          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Has never met a swamp he could not turn to glass in a week.</p>
+        <div style="border-top:1px solid rgba(150,230,225,.14); padding:20px 0 24px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.01em; color:var(--foam-white);">Theo Alvarez</div>
+          <div style="font-size:13.5px; color:var(--accent); font-weight:600; margin-top:3px;">Rescue Crew Lead</div>
+          <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.7); margin:10px 0 0;">Has never met a swamp he could not turn to glass in a week.</p>
         </div>
-        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:var(--cta-ink); margin-bottom:16px;">PN</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:var(--foam-white);">Priya Nair</div>
-          <div style="font-size:13.5px; color:var(--accent2,var(--accent)); font-weight:600; margin-top:3px;">Water Chemist</div>
-          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Writes the dosing playbook every tech carries on the truck.</p>
+        <div style="border-top:1px solid rgba(150,230,225,.14); padding:20px 0 24px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.01em; color:var(--foam-white);">Priya Nair</div>
+          <div style="font-size:13.5px; color:var(--accent); font-weight:600; margin-top:3px;">Water Chemist</div>
+          <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.7); margin:10px 0 0;">Writes the dosing playbook every tech carries on the truck.</p>
         </div>
-        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:var(--cta-ink); margin-bottom:16px;">SO</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:var(--foam-white);">Sam Okafor</div>
-          <div style="font-size:13.5px; color:var(--accent2,var(--accent)); font-weight:600; margin-top:3px;">Equipment Tech</div>
-          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">Hears a failing pump before it fails. Usually right.</p>
+        <div style="border-top:1px solid rgba(150,230,225,.14); padding:20px 0 24px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.01em; color:var(--foam-white);">Sam Okafor</div>
+          <div style="font-size:13.5px; color:var(--accent); font-weight:600; margin-top:3px;">Equipment Tech</div>
+          <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.7); margin:10px 0 0;">Hears a failing pump before it fails. Usually right.</p>
         </div>
-        <div style="display:flex; flex-direction:column; align-items:flex-start; padding:26px 24px 28px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
-          <div style="width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:var(--cta-ink); margin-bottom:16px;">LC</div>
-          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; color:var(--foam-white);">Lena Cho</div>
-          <div style="font-size:13.5px; color:var(--accent2,var(--accent)); font-weight:600; margin-top:3px;">Client Care</div>
-          <p style="font-size:13.5px; line-height:1.5; color:rgba(224,247,242,.62); margin:12px 0 0;">The human who actually answers when you call.</p>
+        <div style="border-top:1px solid rgba(150,230,225,.14); padding:20px 0 24px;">
+          <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.01em; color:var(--foam-white);">Lena Cho</div>
+          <div style="font-size:13.5px; color:var(--accent); font-weight:600; margin-top:3px;">Client Care</div>
+          <p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.7); margin:10px 0 0;">The human who actually answers when you call.</p>
         </div>
       </div>
     </section>
@@ -222,25 +213,25 @@
     <!-- TRUST -->
     <section data-screen-label="Trust" style="padding-top:clamp(64px,11vh,130px);">
       <div data-reveal style="margin-bottom:clamp(24px,4vh,38px);">
-        <p style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent,var(--accent-2)); font-weight:600; margin:0 0 16px;">Licensed &amp; accountable</p>
-        <h2 style="filter:url(#waterRipple); font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">On paper, not just in person.</h2>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(34px,5.4vw,68px); line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin:0;">On paper, not just in person.</h2>
       </div>
-      <div data-reveal style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-bottom:16px;">
-        <div style="padding:24px 24px 26px; border-radius:18px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+      <!-- credentials: one glass surface, not four identical cards; license line stays fully legible -->
+      <div data-reveal style="padding:clamp(26px,4vw,44px); border-radius:24px; background:rgba(8,34,44,.5); border:1px solid rgba(150,230,225,.18); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:inset 0 1px 0 rgba(255,255,255,.05); display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:26px clamp(24px,3.5vw,44px); margin-bottom:16px;">
+        <div>
           <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; color:var(--foam-white); margin-bottom:6px;">Texas licensed</div>
-          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.66);">Pool service Lic. #TX-PC-2201, in good standing.</div>
+          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.72);">Pool service Lic. #TX-PC-2201, in good standing.</div>
         </div>
-        <div style="padding:24px 24px 26px; border-radius:18px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+        <div>
           <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; color:var(--foam-white); margin-bottom:6px;">Bonded &amp; insured</div>
-          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.66);">$2M general liability on every job we take.</div>
+          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.72);">$2M general liability on every job we take.</div>
         </div>
-        <div style="padding:24px 24px 26px; border-radius:18px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+        <div>
           <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; color:var(--foam-white); margin-bottom:6px;">CPO certified</div>
-          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.66);">A Certified Pool Operator on every single crew.</div>
+          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.72);">A Certified Pool Operator on every single crew.</div>
         </div>
-        <div style="padding:24px 24px 26px; border-radius:18px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16);">
+        <div>
           <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; color:var(--foam-white); margin-bottom:6px;">Background-checked</div>
-          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.66);">Every tech vetted before they touch a gate.</div>
+          <div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.72);">Every tech vetted before they touch a gate.</div>
         </div>
       </div>
       <div data-reveal style="padding:clamp(28px,4vw,44px); border-radius:22px; background:linear-gradient(135deg, rgba(12,52,66,.6), rgba(8,30,38,.48)); border:1px solid rgba(127,227,218,.3); display:flex; flex-wrap:wrap; align-items:center; gap:18px 28px;">
@@ -268,165 +259,102 @@
   </main>
 </div>
 
-<script src="js/config.js"></script>
+<script src="js/config.js?v=2026.07"></script>
 <script>
 (function() {
-  // Set up color palette
-  const root = document.getElementById('root');
-  const accentColor = '#5fd0c8';
-  const accentColor2 = '#7fe3da';
-  root.style.setProperty('--accent', accentColor);
-  root.style.setProperty('--accent2', accentColor2);
+  'use strict';
+  // Tokens come from :root and js/config.js overrides on documentElement — no page-level
+  // palette override here (the old one shadowed per-buyer --accent for the whole page).
 
-  // State
-  const state = {
-    isNarrow: false,
-    menuOpen: false
-  };
+  var state = { isNarrow: false, menuOpen: false };
 
-  // Elements
-  const nav = document.getElementById('nav');
-  const desktopNav = document.getElementById('desktopNav');
-  const menuBtn = document.getElementById('menuBtn');
-  const menuOverlay = document.getElementById('menuOverlay');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const menuLine1 = document.getElementById('menuLine1');
-  const menuLineMid = document.getElementById('menuLineMid');
-  const menuLine3 = document.getElementById('menuLine3');
-  const storySection = document.getElementById('storySection');
+  var nav = document.getElementById('nav');
+  var desktopNav = document.getElementById('desktopNav');
+  var menuBtn = document.getElementById('menuBtn');
+  var menuOverlay = document.getElementById('menuOverlay');
+  var mobileMenu = document.getElementById('mobileMenu');
+  var menuLine1 = document.getElementById('menuLine1');
+  var menuLineMid = document.getElementById('menuLineMid');
+  var menuLine3 = document.getElementById('menuLine3');
+  var mobileMenuLinks = [].slice.call(mobileMenu.querySelectorAll('a'));
 
-  // Media query for narrow viewport
-  const mq = matchMedia('(max-width: 860px)');
-  const updateNarrow = (e) => {
+  function renderNav() {
+    desktopNav.style.display = state.isNarrow ? 'none' : 'flex';
+    menuBtn.style.display = state.isNarrow ? 'flex' : 'none';
+    var open = state.menuOpen && state.isNarrow;
+    menuOverlay.style.display = open ? 'block' : 'none';
+    mobileMenu.style.display = open ? 'flex' : 'none';
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuLine1.style.transform = open ? 'translateY(5.5px) rotate(45deg)' : 'none';
+    menuLineMid.style.opacity = open ? '0' : '1';
+    menuLine3.style.transform = open ? 'translateY(-5.5px) rotate(-45deg)' : 'none';
+  }
+  function openMenu() {
+    state.menuOpen = true;
+    renderNav();
+    if (mobileMenuLinks.length) mobileMenuLinks[0].focus();
+  }
+  function closeMenu(refocus) {
+    state.menuOpen = false;
+    renderNav();
+    if (refocus) menuBtn.focus();
+  }
+
+  // Same collapse breakpoint as index.html's nav
+  var mq = matchMedia('(max-width: 900px)');
+  function onNarrowChange(e) {
     state.isNarrow = e.matches;
-    state.menuOpen = false;
-    updateMenuDisplay();
-    updateNavDisplay();
-    updateStoryDir();
-  };
-  mq.addEventListener('change', updateNarrow);
-  state.isNarrow = mq.matches;
-  updateNavDisplay();
-  updateStoryDir();
-
-  // Menu button click
-  menuBtn.addEventListener('click', () => {
-    state.menuOpen = !state.menuOpen;
-    updateMenuDisplay();
-  });
-
-  // Close menu overlay click
-  menuOverlay.addEventListener('click', () => {
-    state.menuOpen = false;
-    updateMenuDisplay();
-  });
-
-  // Close menu on link click
-  const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-  mobileMenuLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      state.menuOpen = false;
-      updateMenuDisplay();
-    });
-  });
-
-  // Close menu on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && state.menuOpen) {
-      state.menuOpen = false;
-      updateMenuDisplay();
-    }
-  });
-
-  function updateMenuDisplay() {
-    if (state.isNarrow) {
-      menuBtn.style.display = 'flex';
-      desktopNav.style.display = 'none';
-    } else {
-      menuBtn.style.display = 'none';
-      desktopNav.style.display = 'flex';
-      state.menuOpen = false;
-    }
-
-    if (state.menuOpen) {
-      menuOverlay.style.display = 'block';
-      mobileMenu.style.display = 'flex';
-      menuLine1.style.transform = 'translateY(5.5px) rotate(45deg)';
-      menuLineMid.style.opacity = '0';
-      menuLine3.style.transform = 'translateY(-5.5px) rotate(-45deg)';
-      if (mobileMenuLinks.length) {
-        mobileMenuLinks[0].focus();
-      }
-    } else {
-      menuOverlay.style.display = 'none';
-      mobileMenu.style.display = 'none';
-      menuLine1.style.transform = 'none';
-      menuLineMid.style.opacity = '1';
-      menuLine3.style.transform = 'none';
-      if (document.activeElement && mobileMenu.contains(document.activeElement)) {
-        menuBtn.focus();
-      }
-    }
+    if (!state.isNarrow) state.menuOpen = false;
+    renderNav();
   }
+  mq.addEventListener('change', onNarrowChange);
+  onNarrowChange(mq);
 
-  function updateNavDisplay() {
-    if (state.isNarrow) {
-      desktopNav.style.display = 'none';
-      menuBtn.style.display = 'flex';
-    } else {
-      desktopNav.style.display = 'flex';
-      menuBtn.style.display = 'none';
-    }
-  }
+  menuBtn.addEventListener('click', function () { if (state.menuOpen) closeMenu(true); else openMenu(); });
+  menuOverlay.addEventListener('click', function () { closeMenu(true); });
+  mobileMenuLinks.forEach(function (a) {
+    a.addEventListener('click', function () { closeMenu(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && state.menuOpen) closeMenu(true);
+  });
 
-  function updateStoryDir() {
-    if (state.isNarrow) {
-      storySection.style.flexDirection = 'column';
-    } else {
-      storySection.style.flexDirection = 'row';
-    }
-  }
-
-  // Scroll event for nav styling
-  const onScroll = () => {
-    const solid = window.scrollY > 40;
+  // Nav frost-in on scroll — same threshold and surface as index.html
+  function onScroll() {
+    var solid = window.scrollY > 60;
     nav.style.background = solid ? 'rgba(4,20,27,0.72)' : 'rgba(4,20,27,0)';
     nav.style.borderBottomColor = solid ? 'rgba(150,230,225,0.14)' : 'rgba(150,230,225,0)';
     nav.style.backdropFilter = solid ? 'blur(14px) saturate(120%)' : 'none';
     nav.style.webkitBackdropFilter = nav.style.backdropFilter;
-  };
+  }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Reveal animations using IntersectionObserver
-  function initReveal() {
-    const io = new IntersectionObserver((ents) => {
-      ents.forEach((en) => {
+  // Below-fold reveals: CSS (html.rv) owns the hidden state, JS only flips .in.
+  // ponytail: the 1.5s failsafe is the ceiling — content can never be stranded invisible.
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealEls = [].slice.call(document.querySelectorAll('[data-reveal]'));
+  if (!reduce && revealEls.length && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('rv');
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
         if (en.isIntersecting) {
-          en.target.style.opacity = '1';
-          en.target.style.transform = 'none';
+          en.target.classList.add('in');
           io.unobserve(en.target);
         }
       });
-    }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' });
-
-    root.querySelectorAll('[data-reveal]').forEach((el) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(28px)';
-      el.style.transition = 'opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)';
-      el.style.transitionDelay = (el.dataset.delay || 0) + 'ms';
-      el.style.willChange = 'opacity, transform';
+    }, { threshold: 0.05, rootMargin: '0px 0px -4% 0px' });
+    revealEls.forEach(function (el) {
+      var d = Math.min(parseInt(el.getAttribute('data-delay') || '0', 10) || 0, 160);
+      if (d) el.style.transitionDelay = d + 'ms';
       io.observe(el);
     });
+    setTimeout(function () {
+      revealEls.forEach(function (el) {
+        if (!el.classList.contains('in')) el.classList.add('in');
+      });
+    }, 1500);
   }
-
-  requestAnimationFrame(() => initReveal());
-
-  // Clean up
-  window.addEventListener('beforeunload', () => {
-    window.removeEventListener('scroll', onScroll);
-    mq.removeEventListener('change', updateNarrow);
-  });
 })();
 </script>
 
