@@ -139,7 +139,7 @@ whole arc is the cool system winning space from the warm one as you scroll.
 
 ### Tertiary (warm system — "still dirty" and funnel moments only)
 - **Algae Olive** (`#aebd6d`): the hero's opening eyebrow pill and swamp-adjacent texture — the one warm note allowed in the otherwise-cool hero, marking "this is still swamp."
-- **Crawl Gold** (`#f4d13d`): the warning color. Two sanctioned uses: the Star-Wars-style "what grows while you wait" crawl section, and inline form validation/error text (a warning is a warning). Never decorative, never a background, never mixed into cool-section accents beyond those two roles.
+- **Crawl Gold** (`#f4d13d`): the warning color. Two sanctioned uses: the Star-Wars-style "what grows while you wait" crawl section, inline form validation/error text (a warning is a warning), and the chapter-03 Cannonball Gate placard + rope on index (a POOL CLOSED warning being dismantled by clearing water — warm losing to cool is that prop's entire story). Never decorative, never a background, never mixed into cool-section accents beyond those two roles.
 - **Gaelworx Ember** (`#ffb14d`): the animated "ablaze" glow on the Gaelworx wordmark inside the claim-this-site funnel badge. Signals "this is the upsell," nowhere else.
 
 ### Neutral
