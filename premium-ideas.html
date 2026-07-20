@@ -80,6 +80,15 @@
   .gw-ticket-price{ position:relative; overflow:hidden; display:inline-block; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,3vw,32px); line-height:1.15; letter-spacing:-.02em; color:var(--foam-white); }
   .gw-ticket-price-out{ position:absolute; left:0; top:0; animation:gw-price-out .28s cubic-bezier(.23,1,.32,1) forwards; }
   .gw-ticket-price-in{ animation:gw-price-in .28s cubic-bezier(.23,1,.32,1); }
+  /* PayPal's hosted button writes its own item title, price and description into
+     our mount. The ticket already states all three above it, so hide the duplicates
+     and give the button its own seafoam panel: PayPal's UI is drawn for light
+     surfaces, and on our dark card it read as an unfinished box. :has(form) keeps
+     the panel from appearing as an empty rectangle before (or instead of) a render. */
+  .gw-pp-mount:has(form){ background:#e9f7f3; border-radius:14px; padding:12px 14px; color:#0d2b2b; }
+  .gw-pp-mount .item-header,
+  .gw-pp-mount .price-container,
+  .gw-pp-mount .item-description{ display:none !important; }
   @keyframes gw-price-out{ from{ transform:translateY(0); opacity:1; } to{ transform:translateY(-92%); opacity:0; } }
   @keyframes gw-price-in{ from{ transform:translateY(92%); opacity:0; } to{ transform:translateY(0); opacity:1; } }
   .gw-ticket-chip{ display:inline-block; font-family:'Manrope',sans-serif; font-weight:700; font-size:11.5px; letter-spacing:.1em; color:#052026; background:var(--ember); border-radius:999px; padding:6px 12px; }

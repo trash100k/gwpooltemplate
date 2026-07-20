@@ -86,7 +86,13 @@ Prior cold-read critic findings fed into the designer:
 - Teaser confirmed between #claim and #book; deposit ledger renders below the ticket with all four steps; "Every week you wait" gone; payoff first paint reads the full Florida line with Tampa and Orlando visible exactly once each.
 - PayPal: deposit renders (iframe in, fallback hidden, price $499); rapid toggle full-deposit-full settles to a single $3,199 numeral with aria-pressed correct (the mid-animation double numeral is the clone roll in flight, resolves in under a second).
 - premium-ideas: title de-dashed, empty state and not-a-payment microcopy live, pills present, saved-picks restore shows the success panel with the offer rendered.
-- Rendered em dashes on premium-ideas: 2, both data not code: the stored "QA Test — delete me" lead name, and the PayPal deposit item description set in the dashboard ("...build fee — refundable until kickoff"). The latter needs a one-time edit in the PayPal dashboard if the dash ban should extend into the widget.
+- Rendered em dashes on premium-ideas: 2, both data not code: the stored "QA Test — delete me" lead name, and the PayPal deposit item description set in the dashboard ("...build fee — refundable until kickoff"). RESOLVED for the description: the widget's item title, price, and description are now hidden (see below), so the dashboard copy no longer renders. The dashboard text itself is still worth cleaning if it ever surfaces on PayPal's own checkout page.
+
+## PayPal panel cleanup (2026-07-20, after the merge)
+
+PayPal's hosted button writes its own item title, price, and description into our mount, so the ticket was stating the price and the "secures your territory, refundable until kickoff" line twice in a row, once in our type and once in PayPal's. Both pages now hide `.item-header`, `.price-container`, and `.item-description` inside `.gw-pp-mount`, leaving only the button, and give the mount a seafoam-white panel (`#e9f7f3`, 14px radius) because PayPal's UI is drawn for light surfaces and read as an unfinished box on the dark card.
+
+The panel is gated behind `:has(form)` so it never appears as an empty light rectangle before a render, or at all if the render fails and the mailto fallback takes over. If PayPal ever renames those classes the duplicates simply reappear; nothing breaks.
 - Not covered here: true 375px visual pass (background-tab screenshots capture black; structure uses nowrap-ellipsis and flex-wrap, so no overflow expected). Worth one visible-window look before merge.
 
 ## Still open for Zach

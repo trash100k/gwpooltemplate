@@ -109,6 +109,15 @@
   .gw-ticket-sub{ font-size:14.5px; line-height:1.55; color:rgba(234,252,251,.82); margin:0 0 12px; }
   .gw-ticket-scarce{ font-size:14.5px; line-height:1.55; color:rgba(234,252,251,.82); margin-top:12px; }
   .gw-ticket-foot{ font-size:14.5px; line-height:1.55; color:rgba(234,252,251,.82); margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,177,77,.16); }
+  /* PayPal's hosted button writes its own item title, price and description into
+     our mount. The ticket already states all three above it, so hide the duplicates
+     and give the button its own seafoam panel: PayPal's UI is drawn for light
+     surfaces, and on our dark card it read as an unfinished box. :has(form) keeps
+     the panel from appearing as an empty rectangle before (or instead of) a render. */
+  .gw-pp-mount:has(form){ background:#e9f7f3; border-radius:14px; padding:12px 14px; color:#0d2b2b; }
+  .gw-pp-mount .item-header,
+  .gw-pp-mount .price-container,
+  .gw-pp-mount .item-description{ display:none !important; }
   @keyframes gw-price-out{ to{ transform:translateY(-115%); opacity:0; } }
   @keyframes gw-price-in{ from{ transform:translateY(70%); opacity:0; } to{ transform:translateY(0); opacity:1; } }
   @keyframes gw-chip-pop{ from{ transform:scale(.9); opacity:0; } to{ transform:scale(1); opacity:1; } }
@@ -318,20 +327,12 @@
           <span style="width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 12px var(--accent-2);"></span>
           <span style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#dbeef0; font-weight:600;">Only 3 per state · 150 ever</span>
         </div>
-        <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(40px,6vw,72px); line-height:.96; letter-spacing:-.03em; color:var(--foam-white); margin:0 0 20px; text-wrap:balance;">Own the best website in your market. Before your competitor does.</h1>
-        <p style="font-size:clamp(16px,1.5vw,20px); line-height:1.6; color:rgba(236,246,228,.82); margin:0 0 30px; max-width:560px;">In 3 days we build you a premium site around your photos, your story, your pricing, then run it, grow it, and keep it ahead of everyone else on your street. You focus on the water. We keep the phone ringing.</p>
-        <div style="display:flex; flex-wrap:wrap; gap:13px; align-items:center; margin-bottom:22px;">
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,4.6vw,58px); line-height:1.0; letter-spacing:-.03em; color:var(--foam-white); margin:0 0 20px; text-wrap:balance;">Own the best website in your market.</h1>
+        <p style="font-size:clamp(16px,1.5vw,20px); line-height:1.6; color:rgba(236,246,228,.82); margin:0 0 30px; max-width:560px;">Before your competitor does. We build it in 3 days, then run and grow it every week after.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:13px; align-items:center;">
           <a href="#claim" class="gw-cta-hover" style="font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:15px 26px; border-radius:999px; box-shadow:0 14px 34px rgba(30,180,170,.36);">Claim my territory</a>
           <a href="index.html" class="gw-border-hover" style="font-weight:600; font-size:15px; color:var(--foam-bright); background:rgba(10,34,42,.5); border:1px solid rgba(150,230,225,.26); padding:15px 24px; border-radius:999px;">See the live demo →</a>
         </div>
-        <div style="display:flex; align-items:center; gap:10px; font-size:14.5px; color:rgba(214,240,236,.66);">
-          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--foam-white); font-size:16px;">$3,999</span> to build
-          <span style="opacity:.4;">·</span>
-          <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--foam-white); font-size:16px;">$599</span>/mo to run &amp; grow
-        </div>
-        <div style="margin-top:10px; font-size:13px; font-weight:600; color:var(--accent);">The first 10 claims lock this rate for life. Every claim after pays more.</div>
-        <div style="margin-top:8px;"><a href="#territory" class="gw-border-hover" style="display:inline-block; font-size:13.5px; font-weight:600; line-height:1.4; color:rgba(224,247,242,.92); border:1px solid rgba(127,227,218,.35); background:rgba(12,50,58,.4); border-radius:999px; padding:6px 14px;"><span id="gts-hero-fl">Building Florida first.</span></a></div>
-        <div style="margin-top:8px; font-size:13px; color:rgba(214,240,236,.5);">You own the site outright. No lock-in contract. Cancel the growth service anytime.</div>
       </div>
 
       <!-- demo browser preview -->
@@ -360,6 +361,22 @@
         <div style="position:absolute; bottom:-14px; left:50%; transform:translateX(-50%); font-weight:600; font-size:12.5px; color:var(--cta-ink); background:#bff4ee; padding:8px 16px; border-radius:999px; box-shadow:0 10px 26px rgba(0,0,0,.4); white-space:nowrap;">The site you just scrolled, rebuilt as yours →</div>
       </a>
     </section>
+
+    <!-- Offer strip. The price, the founding rate, Florida status and the ownership
+         terms all used to sit in the hero, which left it carrying eight stacked text
+         elements. They say more here, on their own line, and the hero is back to one
+         message: eyebrow, headline, subtext, buttons. #gts-hero-fl still gets its text
+         from openSlots('FL') in the territory script. -->
+    <div style="display:flex; flex-wrap:wrap; align-items:center; gap:12px 20px; padding-top:18px; border-top:1px solid rgba(150,230,225,.14);">
+      <div style="display:flex; align-items:center; gap:10px; font-size:14.5px; color:rgba(214,240,236,.66);">
+        <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--foam-white); font-size:16px;">$3,999</span> to build
+        <span style="opacity:.4;">·</span>
+        <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--foam-white); font-size:16px;">$599</span>/mo to run &amp; grow
+      </div>
+      <div style="font-size:13px; font-weight:600; color:var(--accent);">The first 10 claims lock this rate for life. Every claim after pays more.</div>
+      <a href="#territory" class="gw-border-hover" style="font-size:13.5px; font-weight:600; line-height:1.4; color:rgba(224,247,242,.92); border:1px solid rgba(127,227,218,.35); background:rgba(12,50,58,.4); border-radius:999px; padding:6px 14px;"><span id="gts-hero-fl">Building Florida first.</span></a>
+      <div style="font-size:13px; color:rgba(214,240,236,.5);">You own the site outright. No lock-in contract. Cancel the growth service anytime.</div>
+    </div>
 
     <!-- ============ STAKES ============ -->
     <section style="padding:clamp(54px,9vh,104px) 0;">
