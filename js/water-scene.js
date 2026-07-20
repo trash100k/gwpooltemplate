@@ -4,7 +4,7 @@
  *  any evaluator. Deps pulled at runtime from esm.sh (deps pinned so
  *  react-three-fiber shares one THREE / React instance).
  *
- *  Bridge: window.__POOL = { scroll, scrollVel, mouse:{x,y},
+ *  Bridge: window.__POOL = { scroll, scrollVel, dark, mouse:{x,y},
  *                            ripples:[{x,y,t}], colors:{deep,shallow,foam,sun} }
  * ------------------------------------------------------------------ */
 (function () {
@@ -26,6 +26,7 @@
     'uniform vec3  uMurkDeep, uMurkShallow, uMurkFoam;',
     'uniform vec4  uWeights;', // x: algae blobs, y: specks, z: surface film, w: turbidity haze
     'uniform float uIri;',
+    'uniform float uDark;',
     '#define TAU 6.28318530718',
     '#define ITER 5',
     'float hash21(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }',
@@ -117,6 +118,17 @@
     '  col += uFoam * sheen * 0.22 * mix(0.25, 1.0, cl);',
     '  col += mix(uMurkFoam, uFoam, cl) * rippleLight * mix(0.24, 0.5, cl);',
     '  col += caust * clamp(abs(uScrollVel) * 6.0, 0.0, 1.0) * 0.35 * uFoam * cl;',
+    // star-wars blackout — crush the scene to near-black but keep the sunlight
+    // refractors alive as an iridescent web (before vignette/grain so both still
+    // shape the black frame)
+    '  if (uDark > 0.001) {',
+    '    vec3 iriC = 0.5 + 0.5 * cos(TAU * (caust * 1.6 + vec3(0.0, 0.33, 0.66)));',
+    '    float web = smoothstep(0.5, 1.0, caust);', // only the bright refractor web survives the dark
+    '    vec3 blk = web * iriC * 0.6',
+    '             + col * 0.05',
+    '             + rippleLight * vec3(0.10, 0.12, 0.15);',
+    '    col = mix(col, blk, uDark);',
+    '  }',
     '  float vig = smoothstep(1.35, 0.25, length((uv - 0.5) * vec2(aspect, 1.0)));',
     '  col *= mix(mix(0.62, 0.8, cl), 1.0, vig);',
     '  float g = fract(sin(dot(uv * uRes, vec2(12.9898, 78.233))) * 43758.5453);',
@@ -210,7 +222,8 @@
         uMurkShallow: { value: new THREE.Color('#4a6120') },
         uMurkFoam:  { value: new THREE.Color('#a8b86a') },
         uWeights:   { value: new THREE.Vector4(1, 1, 1, 0) },
-        uIri:       { value: 0 }
+        uIri:       { value: 0 },
+        uDark:      { value: 0 }
       };
 
       var mesh = new THREE.Mesh(
@@ -252,6 +265,7 @@
         u.uScrollVel.value += ((S.scrollVel || 0) - u.uScrollVel.value) * 0.12;
         var clT = (S.clarity == null) ? 1 : S.clarity;
         u.uClarity.value += (clT - u.uClarity.value) * 0.07;
+        u.uDark.value += ((S.dark || 0) - u.uDark.value) * 0.08;
         if (S.mouse) u.uMouse.value.set(S.mouse.x, S.mouse.y);
         if (S.colors) {
           u.uDeep.value.set(S.colors.deep);   u.uShallow.value.set(S.colors.shallow);
@@ -261,7 +275,7 @@
           u.uMurkDeep.value.set(S.murk.deep); u.uMurkShallow.value.set(S.murk.shallow); u.uMurkFoam.value.set(S.murk.foam);
           var mw = S.murk.w || [1, 1, 1, 0];
           u.uWeights.value.set(mw[0], mw[1], mw[2], mw[3]);
-          u.uIri.value = S.murk.iri || 0;
+          u.uIri.value = (S.murk.iri || 0) + u.uDark.value * 0.85;
         }
         var rip = S.ripples || [];
         for (var k = 0; k < 12; k++) {

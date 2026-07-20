@@ -820,7 +820,7 @@
 
   // ---- water bridge ----
   var P = window.__POOL = window.__POOL || {};
-  P.scroll = 0; P.scrollVel = 0; P.now = 0;
+  P.scroll = 0; P.scrollVel = 0; P.now = 0; P.dark = 0;
   P.mouse = { x: 0.5, y: 0.5 };
   P.ripples = P.ripples || [];
   P.clarity = 0.04;
@@ -881,7 +881,7 @@
   var mq = matchMedia('(max-width: 900px)');
   var cfg = null;
   var current = 0, target = 0, last = 0, hijack = false, maxScroll = function () { return 1; };
-  var _plx = [], _debris = [], _bubbles = [], _crawlInit = false;
+  var _plx = [], _debris = [], _bubbles = [], _crawlInit = false, _dk = 0;
   var _raf = 0, _boot = 0, _amb = 0, _revTimer = 0;
 
   // ---- helpers ----
@@ -905,6 +905,8 @@
     var bl = Math.round((pa & 255) + ((pb & 255) - (pa & 255)) * t);
     return 'rgb(' + r + ',' + g + ',' + bl + ')';
   }
+
+  function s5(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * t * (t * (t * 6 - 15) + 10); }
 
   function buildClarity() {
     if (!stage || !track) return;
@@ -1246,6 +1248,17 @@
     P.scrollVel = vel / Math.max(stage.clientHeight, 1);
     if (P.ripples && P.ripples.length) P.ripples = P.ripples.filter(function (r) { return (P.now - r.t) < 6; });
 
+    // ---- star-wars blackout — water dips to black while the crawl owns the screen ----
+    var dark = 0;
+    if (crawlSection && !reduce) {
+      var dbr = crawlSection.getBoundingClientRect();
+      var dvh = stage.clientHeight || 1;
+      var dq = -dbr.top / Math.max(1, dbr.height - dvh); // unclamped: <0 approaching, >1 departed
+      dark = s5((dq + 0.10) / 0.18) * (1 - s5((dq - 0.88) / 0.12));
+    }
+    P.dark = dark;
+    _dk += (dark - _dk) * 0.1;
+
     // ---- clarity morph ----
     var raw = clarityAt(P.scroll);
     // swamp confession: a full-swamp pick murks the whole water for a beat, then it recovers
@@ -1261,8 +1274,8 @@
       if (hudFill) { hudFill.style.height = pct + '%'; hudFill.style.background = col; }
       if (hudWord) hudWord.textContent = pct < 22 ? 'Swamp' : pct < 48 ? 'Murky' : pct < 78 ? 'Clearing' : 'Crystal';
     }
-    if (dirtyOverlay) dirtyOverlay.style.opacity = (1 - cl).toFixed(3);
-    if (waterline) waterline.style.opacity = (1 - cl).toFixed(3);
+    if (dirtyOverlay) dirtyOverlay.style.opacity = ((1 - cl) * (1 - _dk)).toFixed(3);
+    if (waterline) waterline.style.opacity = ((1 - cl) * (1 - _dk)).toFixed(3);
     if (cue) cue.style.opacity = Math.max(0, 1 - current / 320).toFixed(3);
 
     var dOp = 1 - cl, bOp = Math.max(0, (cl - 0.5) / 0.5);
