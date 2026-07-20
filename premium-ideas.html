@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Premium Upgrade Ideas — Gaelworx</title>
+<title>Premium Upgrade Ideas · Gaelworx</title>
 <meta name="description" content="Live, clickable previews of premium upgrades for your pool-service site: color themes, section toggles, and three interior-page style directions.">
 <link rel="icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,24 +44,70 @@
   .pi-chip-btn:hover { border-color: rgba(150,230,225,.4) !important; }
   .pi-style-btn:hover { border-color: rgba(150,230,225,.5) !important; }
   .pi-input:focus { border-color: rgba(127,227,218,.55) !important; }
-  .pi-book-cta{ border-bottom:none; transition:transform .2s ease, box-shadow .2s ease; }
-  .pi-book-cta:hover{ color:#052026; border-bottom:none; transform:translateY(-2px); box-shadow:0 18px 42px rgba(30,180,170,.46), 0 6px 16px rgba(0,0,0,.3); }
+  .pi-book-cta{ border-bottom:none; transition:transform .25s cubic-bezier(.23,1,.32,1), box-shadow .2s ease, opacity .25s ease; }
+  .pi-book-cta:hover{ color:var(--cta-ink); border-bottom:none; transform:translateY(-2px); box-shadow:0 18px 42px rgba(30,180,170,.46), 0 6px 16px rgba(0,0,0,.3); }
   @media (max-width:560px){ .pi-book-cta{ font-size:12.5px !important; padding:12px 16px !important; white-space:normal !important; text-align:center; justify-content:center; max-width:calc(100vw - 28px); left:14px; right:14px !important; } }
   @media (max-width: 1460px) {
     .pi-demos-row, .pi-options-row { flex-direction: column !important; }
     .pi-demo-col, .pi-option-col { width: 100% !important; max-width: 680px; }
     .pi-preview-shell { width: 100% !important; }
   }
+  /* fluid demo internals: no horizontal page scroll at 390px */
+  .pi-price-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; align-items:stretch; }
+  @media (max-width:600px){ .pi-price-grid{ grid-template-columns:1fr; } }
+  /* build-sheet line settle (motion-safe via global reduce rule) */
+  @keyframes pi-stamp{ 0%{ transform:translateY(4px) scale(1.04); filter:brightness(1.6); } 100%{ transform:none; filter:none; } }
+  .pi-stamp{ animation:pi-stamp .38s cubic-bezier(.23,1,.32,1); }
+  /* LOCKED stamp on the build sheet */
+  #sheetLock{ display:none; position:absolute; top:30px; right:26px; z-index:3; transform:rotate(-8deg); padding:8px 16px; border:2px solid var(--accent); border-radius:12px; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:14px; letter-spacing:.26em; text-transform:uppercase; color:var(--accent); background:rgba(4,20,27,.4); }
+  @keyframes pi-stamp-in{ 0%{ transform:rotate(-8deg) scale(1.5); opacity:0; } 62%{ transform:rotate(-8deg) scale(.96); opacity:1; } 100%{ transform:rotate(-8deg) scale(1); opacity:1; } }
+  .pi-stamp-in{ animation:pi-stamp-in .34s cubic-bezier(.23,1,.32,1); }
+  /* ============ THE CLAIM TICKET: checkout block (.gw-ticket*) ============
+     The checkout as a physical territory-claim ticket: ember full border,
+     perforated tear-line, ink stamp, breathing wax seal, price roll. */
+  .gw-ticket-wrap{ position:relative; width:100%; max-width:380px; }
+  .gw-ticket-wrap::before{ content:''; position:absolute; inset:-16px; border-radius:26px; background:radial-gradient(ellipse at 50% 40%, rgba(255,177,77,.09), rgba(255,177,77,0) 72%); filter:blur(18px); pointer-events:none; }
+  .gw-ticket{ position:relative; display:flex; flex-direction:column; gap:12px; padding:18px 18px 16px; border-radius:16px; border:1px solid rgba(255,177,77,.38); background:linear-gradient(165deg,#0c2a34,#071c25); }
+  .gw-ticket-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .gw-ticket-stamp{ display:inline-block; font-family:'Manrope',sans-serif; font-weight:800; font-size:11.5px; letter-spacing:.18em; color:var(--ember); border:1px solid rgba(255,177,77,.45); border-radius:8px; padding:6px 10px 6px 12px; transform:rotate(-2deg); }
+  .gw-ticket-seal{ position:relative; flex:none; width:16px; height:16px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #ffd9a1, var(--ember) 55%, #b96f1e); box-shadow:0 0 10px 2px rgba(255,177,77,.45); animation:gw-seal-breathe 4s ease-in-out infinite; }
+  .gw-ticket-seal-tip{ position:absolute; top:calc(100% + 10px); right:-4px; z-index:6; width:max-content; max-width:210px; font-family:'Manrope',sans-serif; font-weight:600; font-size:14.5px; line-height:1.4; color:rgba(234,252,251,.92); background:#071c25; border:1px solid rgba(255,177,77,.45); border-radius:10px; padding:8px 11px; opacity:0; visibility:hidden; transition:opacity .18s ease-out, visibility .18s ease-out; pointer-events:none; }
+  .gw-ticket-seal:hover .gw-ticket-seal-tip, .gw-ticket-seal:focus .gw-ticket-seal-tip{ opacity:1; visibility:visible; }
+  @keyframes gw-seal-breathe{ 0%,100%{ box-shadow:0 0 8px 1px rgba(255,177,77,.32); } 50%{ box-shadow:0 0 14px 4px rgba(255,177,77,.6); } }
+  .gw-ticket-title{ font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:17px; letter-spacing:-.015em; color:var(--foam-white); }
+  .gw-ticket-pill:active{ transform:translateY(1px); }
+  .gw-ticket-price-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; min-height:38px; }
+  .gw-ticket-price{ position:relative; overflow:hidden; display:inline-block; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,3vw,32px); line-height:1.15; letter-spacing:-.02em; color:var(--foam-white); }
+  .gw-ticket-price-out{ position:absolute; left:0; top:0; animation:gw-price-out .28s cubic-bezier(.23,1,.32,1) forwards; }
+  .gw-ticket-price-in{ animation:gw-price-in .28s cubic-bezier(.23,1,.32,1); }
+  @keyframes gw-price-out{ from{ transform:translateY(0); opacity:1; } to{ transform:translateY(-92%); opacity:0; } }
+  @keyframes gw-price-in{ from{ transform:translateY(92%); opacity:0; } to{ transform:translateY(0); opacity:1; } }
+  .gw-ticket-chip{ display:inline-block; font-family:'Manrope',sans-serif; font-weight:700; font-size:11.5px; letter-spacing:.1em; color:#052026; background:var(--ember); border-radius:999px; padding:6px 12px; }
+  .gw-ticket-chip[hidden]{ display:none; }
+  .gw-ticket-chip-pop{ animation:gw-chip-pop .24s cubic-bezier(.165,.84,.44,1); }
+  @keyframes gw-chip-pop{ from{ transform:scale(.9); opacity:0; } to{ transform:scale(1); opacity:1; } }
+  .gw-ticket-lines{ display:flex; flex-direction:column; gap:4px; }
+  .gw-ticket-line-1{ font-size:14.5px; font-weight:600; line-height:1.5; color:rgba(234,252,251,.92); }
+  .gw-ticket-line-2{ font-size:14.5px; line-height:1.5; color:rgba(234,252,251,.82); }
+  .gw-ticket-line-3{ font-size:14.5px; line-height:1.5; color:rgba(234,252,251,.82); }
+  .gw-ticket-perf{ height:4px; margin:2px 0; background-image:radial-gradient(circle, rgba(255,177,77,.42) 1.5px, rgba(255,177,77,0) 1.6px); background-size:12px 4px; background-position:0 50%; background-repeat:repeat-x; }
+  .gw-ticket-foot{ font-size:14px; line-height:1.5; color:rgba(234,252,251,.78); }
+  @media (prefers-reduced-motion: reduce){
+    .gw-ticket-seal{ animation:none; box-shadow:0 0 10px 2px rgba(255,177,77,.45); }
+    .gw-ticket-price-out{ display:none; animation:none; }
+    .gw-ticket-price-in, .gw-ticket-chip-pop{ animation:none; }
+    .gw-ticket-seal-tip{ transition:none; }
+  }
 </style>
 </head>
 <body>
 <a class="mpc-skip" href="#main">Skip to content</a>
 <noscript>
-  <div style="position:fixed; inset:0; z-index:99999; display:flex; align-items:center; justify-content:center; padding:24px; background:var(--swamp-black); font-family:'Manrope',system-ui,sans-serif;">
+  <div style="position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:24px; background:var(--swamp-black); font-family:'Manrope',system-ui,sans-serif;">
     <div style="max-width:420px; width:100%; text-align:center; padding:34px 30px; border-radius:20px; background:#0c1a12; border:1px solid rgba(127,227,218,.28); box-shadow:0 30px 80px rgba(0,0,0,.6);">
       <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:14px;">JavaScript required</div>
       <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:24px; line-height:1.15; letter-spacing:-.02em; color:var(--foam-bright); margin:0 0 12px;">This page is fully interactive.</h1>
-      <p style="font-size:14.5px; line-height:1.6; color:rgba(234,252,251,.75); margin:0 0 20px;">The live color themes, section toggles, and style demos all run on JavaScript. Turn it on for the full experience — or reach us directly and we'll book you in.</p>
+      <p style="font-size:14.5px; line-height:1.6; color:rgba(234,252,251,.75); margin:0 0 20px;">The live color themes, section toggles, and style demos all run on JavaScript. Turn it on for the full experience, or reach us directly and we'll book you in.</p>
       <p style="font-size:15px; line-height:1.7; color:var(--foam-bright); margin:0;">Call <a href="tel:+15125550143" data-cfg-href="tel" data-cfg="phone" style="color:var(--accent); font-weight:700;">(512) 555-0143</a><br>or email <a href="mailto:care@meridianpools.com" data-cfg-href="mailto" data-cfg="email" style="color:var(--accent); font-weight:700;">care@meridianpools.com</a></p>
     </div>
   </div>
@@ -73,7 +119,7 @@
     <div style="max-width:1000px; margin:0;">
       <div style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin:0 0 14px;">Claiming your territory · step 2 of 3</div>
       <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,5vw,60px); line-height:.98; letter-spacing:-.03em; color:var(--foam-white); margin:0 0 18px; text-wrap:balance;">Make it yours. Right now.</h1>
-      <p style="font-size:17px; line-height:1.62; color:rgba(214,240,236,.76); margin:0; max-width:820px;">Everything on this page is live — <b style="color:var(--foam-bright); font-weight:600;">click the controls and the site actually changes.</b> Pick your direction, your color, and your sections; the page remembers every choice, even if you close the tab. Lock them in, book your call, and your version is on screen when we pick up. About two minutes. No developer.</p>
+      <p style="font-size:17px; line-height:1.62; color:rgba(214,240,236,.76); margin:0; max-width:820px;">Everything on this page is live: <b style="color:var(--foam-bright); font-weight:600;">click the controls and the site actually changes.</b> Pick your direction, your color, and your sections; the page remembers every choice, even if you close the tab. Lock them in, book your call, and your version is on screen when we pick up. About two minutes. No developer.</p>
     </div>
   </section>
 
@@ -84,14 +130,14 @@
     <div style="max-width:940px; margin:0 0 40px;">
       <div style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin:0 0 14px;">Step 1 · Pick your direction</div>
       <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,5vw,60px); line-height:.98; letter-spacing:-.03em; color:var(--foam-white); margin:0 0 18px; text-wrap:balance;">Three levers, three directions.</h2>
-      <p style="font-size:17px; line-height:1.62; color:rgba(214,240,236,.76); margin:0; max-width:760px;">The same slice of <b style="color:var(--foam-bright); font-weight:600;">Pool School</b>, treated three ways to make the inner pages feel richer than flat dark — <b style="color:var(--foam-bright); font-weight:600;">color &amp; shape</b> (<a href="#1a">1a</a>), <b style="color:var(--foam-bright); font-weight:600;">light &amp; motion</b> (<a href="#1b">1b</a>), and <b style="color:var(--foam-bright); font-weight:600;">material &amp; craft</b> (<a href="#1c">1c</a>). Pick one — or mix — and we’ll roll it across Services, Pricing, Our Work, About, Contact and Pool School.</p>
+      <p style="font-size:17px; line-height:1.62; color:rgba(214,240,236,.76); margin:0; max-width:760px;">The same slice of <b style="color:var(--foam-bright); font-weight:600;">Pool School</b>, treated three ways to make the inner pages feel richer than flat dark: <b style="color:var(--foam-bright); font-weight:600;">color &amp; shape</b> (<a href="#1a">1a</a>), <b style="color:var(--foam-bright); font-weight:600;">light &amp; motion</b> (<a href="#1b">1b</a>), and <b style="color:var(--foam-bright); font-weight:600;">material &amp; craft</b> (<a href="#1c">1c</a>). Pick one (or mix) and we’ll roll it across Services, Pricing, Our Work, About, Contact and Pool School.</p>
     </div>
 
     <!-- ===== OPTIONS ROW ===== -->
     <div id="styleRow" class="pi-options-row" style="display:flex; flex-wrap:wrap; gap:48px; align-items:flex-start;">
 
       <!-- ============================================================ 1a · COLOUR & SHAPE ============================================================ -->
-      <div id="1a" class="pi-option-col" style="display:flex; flex-direction:column; gap:20px; width:680px;">
+      <div id="1a" class="pi-option-col" style="display:flex; flex-direction:column; gap:20px; width:min(680px,100%);">
         <header style="display:flex; flex-direction:column; gap:11px;">
           <div style="display:flex; align-items:center; gap:13px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); width:40px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;">1a</span>
@@ -120,19 +166,19 @@
 
             <div style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin:0 0 14px;">The basics</div>
             <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:40px; line-height:.98; letter-spacing:-.028em; color:var(--foam-white); margin:0 0 12px;">Six things to<br />understand.</h2>
-            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.7); margin:0 0 26px; max-width:400px;">The stuff every owner should know — free, no strings.</p>
+            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.7); margin:0 0 26px; max-width:400px;">The stuff every owner should know. Free, no strings.</p>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
               <div style="padding:22px 22px 24px; border-radius:20px; background:rgba(8,32,40,.5); border:1px solid rgba(150,230,225,.16); min-height:186px;">
                 <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:12px;">01</div>
                 <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Why is my pool green?</div>
-                <p style="font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0;">Algae. It blooms the moment chlorine drops and the water warms — one hot weekend is all it takes.</p>
+                <p style="font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0;">Algae. It blooms the moment chlorine drops and the water warms. One hot weekend is all it takes.</p>
               </div>
               <div style="position:relative; overflow:hidden; padding:22px 22px 24px; border-radius:20px; background:linear-gradient(150deg,#16a0a6,#0b6076); border:1px solid rgba(180,255,250,.28); box-shadow:0 22px 54px rgba(12,92,102,.42); min-height:186px;">
                 <div style="position:absolute; top:-30px; right:-20px; width:130px; height:130px; border-radius:50%; background:rgba(255,255,255,.10);"></div>
                 <div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:#04303a; margin-bottom:12px;">02</div>
                 <div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.015em; color:#f0ffff; margin-bottom:8px;">Cloudy, but not green?</div>
-                <p style="position:relative; font-size:13.5px; line-height:1.55; color:rgba(233,255,253,.86); margin:0;">That's chemistry, not algae — usually high pH, or particles too fine for the filter to grab.</p>
+                <p style="position:relative; font-size:13.5px; line-height:1.55; color:rgba(233,255,253,.86); margin:0;">That's chemistry, not algae: usually high pH, or particles too fine for the filter to grab.</p>
               </div>
             </div>
 
@@ -143,11 +189,11 @@
                 <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.02em; color:var(--foam-white); margin:0 0 16px;">Ideal water, by the number.</div>
                 <div style="display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-top:1px solid rgba(150,230,225,.14);">
                   <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; color:var(--foam-white);">pH</span>
-                  <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent);">7.4 – 7.6</span>
+                  <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent);">7.4-7.6</span>
                 </div>
                 <div style="display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-top:1px solid rgba(150,230,225,.14);">
                   <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; color:var(--foam-white);">Free chlorine</span>
-                  <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent);">1 – 3 ppm</span>
+                  <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent);">1-3 ppm</span>
                 </div>
               </div>
             </div>
@@ -161,14 +207,14 @@
       </div>
 
       <!-- ============================================================ 1b · LIGHT & MOTION ============================================================ -->
-      <div id="1b" class="pi-option-col" style="display:flex; flex-direction:column; gap:20px; width:680px;">
+      <div id="1b" class="pi-option-col" style="display:flex; flex-direction:column; gap:20px; width:min(680px,100%);">
         <header style="display:flex; flex-direction:column; gap:11px;">
           <div style="display:flex; align-items:center; gap:13px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); width:40px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;">1b</span>
             <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:24px; letter-spacing:-.02em; color:var(--foam-white); margin:0;">Light &amp; motion</h3>
             <span style="margin-left:auto; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:#8fe6dd; border:1px solid rgba(127,227,218,.35); border-radius:999px; padding:5px 12px;">New idea</span>
           </div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(214,240,236,.7); margin:0;">Shifting water-caustic light and soft god-rays play across each section, a slow sheen travels over cards, and the key card sits in a gentle glowing spotlight. It's literally pool-bottom light — atmospheric and alive.</p>
+          <p style="font-size:14.5px; line-height:1.55; color:rgba(214,240,236,.7); margin:0;">Shifting water-caustic light and soft god-rays play across each section, a slow sheen travels over cards, and the key card sits in a gentle glowing spotlight. It's literally pool-bottom light: atmospheric and alive.</p>
           <button data-style="1b" aria-pressed="false" class="pi-style-btn" style="cursor:pointer; align-self:flex-start; display:flex; align-items:center; gap:9px; font-family:'Manrope',sans-serif; font-weight:700; font-size:12.5px; padding:9px 16px 9px 10px; border-radius:999px; border:1.5px solid rgba(150,230,225,.28); background:rgba(9,32,40,.5); color:rgba(224,247,242,.78); transition:all .25s ease;"><span data-style-dot style="width:17px; height:17px; border-radius:50%; border:1.5px solid rgba(150,230,225,.4); display:flex; align-items:center; justify-content:center; font-size:10px; transition:all .25s ease;"></span>Select Light &amp; Motion</button>
         </header>
 
@@ -188,20 +234,20 @@
 
             <div style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin:0 0 14px;">The basics</div>
             <h2 style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:40px; line-height:.98; letter-spacing:-.028em; color:var(--foam-white); margin:0 0 12px; text-shadow:0 0 34px rgba(127,227,218,.28);">Six things to<br />understand.</h2>
-            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0 0 26px; max-width:400px;">The stuff every owner should know — free, no strings.</p>
+            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0 0 26px; max-width:400px;">The stuff every owner should know. Free, no strings.</p>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
               <div style="position:relative; overflow:hidden; padding:22px 22px 24px; border-radius:20px; background:rgba(8,34,42,.55); border:1px solid rgba(150,230,225,.16); backdrop-filter:blur(8px); min-height:186px;">
                 <div style="position:absolute; top:-20%; bottom:-20%; width:36%; background:linear-gradient(100deg, transparent, rgba(190,244,238,.16), transparent); transform:skewX(-14deg) translateX(-180%); animation:pi-sheen 5.5s ease-in-out infinite;"></div>
                 <div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:12px;">01</div>
                 <div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Why is my pool green?</div>
-                <p style="position:relative; font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0;">Algae. It blooms the moment chlorine drops and the water warms — one hot weekend is all it takes.</p>
+                <p style="position:relative; font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0;">Algae. It blooms the moment chlorine drops and the water warms. One hot weekend is all it takes.</p>
               </div>
               <div style="position:relative; overflow:hidden; padding:22px 22px 24px; border-radius:20px; background:rgba(11,44,54,.62); backdrop-filter:blur(10px); animation:pi-glow 6s ease-in-out infinite; min-height:186px;">
                 <div style="position:absolute; top:-20%; bottom:-20%; width:36%; background:linear-gradient(100deg, transparent, rgba(190,244,238,.22), transparent); transform:skewX(-14deg) translateX(-180%); animation:pi-sheen 5.5s ease-in-out infinite 1.6s;"></div>
                 <div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent); margin-bottom:12px;">02</div>
                 <div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Cloudy, but not green?</div>
-                <p style="position:relative; font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.76); margin:0;">That's chemistry, not algae — usually high pH, or particles too fine for the filter to grab.</p>
+                <p style="position:relative; font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.76); margin:0;">That's chemistry, not algae: usually high pH, or particles too fine for the filter to grab.</p>
               </div>
             </div>
 
@@ -212,11 +258,11 @@
                 <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.02em; color:var(--foam-white); margin:0 0 16px;">Ideal water, by the number.</div>
                 <div style="display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-top:1px solid rgba(150,230,225,.12);">
                   <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; color:var(--foam-white);">pH</span>
-                  <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent); text-shadow:0 0 16px rgba(127,227,218,.5);">7.4 – 7.6</span>
+                  <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent); text-shadow:0 0 16px rgba(127,227,218,.5);">7.4-7.6</span>
                 </div>
                 <div style="display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-top:1px solid rgba(150,230,225,.12);">
                   <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; color:var(--foam-white);">Free chlorine</span>
-                  <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent); text-shadow:0 0 16px rgba(127,227,218,.5);">1 – 3 ppm</span>
+                  <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent); text-shadow:0 0 16px rgba(127,227,218,.5);">1-3 ppm</span>
                 </div>
               </div>
             </div>
@@ -233,14 +279,14 @@
       </div>
 
       <!-- ============================================================ 1c · MATERIAL & CRAFT ============================================================ -->
-      <div id="1c" class="pi-option-col" style="display:flex; flex-direction:column; gap:20px; width:680px;">
+      <div id="1c" class="pi-option-col" style="display:flex; flex-direction:column; gap:20px; width:min(680px,100%);">
         <header style="display:flex; flex-direction:column; gap:11px;">
           <div style="display:flex; align-items:center; gap:13px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); width:40px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;">1c</span>
             <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:24px; letter-spacing:-.02em; color:var(--foam-white); margin:0;">Material &amp; craft</h3>
             <span style="margin-left:auto; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:#8fe6dd; border:1px solid rgba(127,227,218,.35); border-radius:999px; padding:5px 12px;">New idea</span>
           </div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(214,240,236,.7); margin:0;">Same layout, elevated finish: true frosted glass with a bright specular top edge, gradient hairline borders, a whisper of grain, and oversized ghost numerals behind each card. Quiet, tactile, expensive. (Right card shown in its hover state.)</p>
+          <p style="font-size:14.5px; line-height:1.55; color:rgba(214,240,236,.7); margin:0;">Same layout, richer finish: true frosted glass with a bright specular top edge, gradient hairline borders, a touch of grain, and oversized ghost numerals behind each card. Quiet, tactile, expensive. (Right card shown in its hover state.)</p>
           <button data-style="1c" aria-pressed="false" class="pi-style-btn" style="cursor:pointer; align-self:flex-start; display:flex; align-items:center; gap:9px; font-family:'Manrope',sans-serif; font-weight:700; font-size:12.5px; padding:9px 16px 9px 10px; border-radius:999px; border:1.5px solid rgba(150,230,225,.28); background:rgba(9,32,40,.5); color:rgba(224,247,242,.78); transition:all .25s ease;"><span data-style-dot style="width:17px; height:17px; border-radius:50%; border:1.5px solid rgba(150,230,225,.4); display:flex; align-items:center; justify-content:center; font-size:10px; transition:all .25s ease;"></span>Select Material &amp; Craft</button>
         </header>
 
@@ -262,7 +308,7 @@
               <span style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent-2); font-weight:600;">The basics</span>
             </div>
             <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:40px; line-height:.98; letter-spacing:-.028em; color:var(--foam-white); margin:0 0 12px;">Six things to<br />understand.</h2>
-            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.7); margin:0 0 26px; max-width:400px;">The stuff every owner should know — free, no strings.</p>
+            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.7); margin:0 0 26px; max-width:400px;">The stuff every owner should know. Free, no strings.</p>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
               <div style="position:relative; overflow:hidden; border-radius:20px; background:linear-gradient(#0a232c,#0a232c) padding-box, linear-gradient(160deg, rgba(127,227,218,.45), rgba(127,227,218,.04)) border-box; border:1px solid transparent; box-shadow:0 18px 44px rgba(3,16,20,.4), inset 0 1px 0 rgba(255,255,255,.04); min-height:196px;">
@@ -271,7 +317,7 @@
                 <div style="position:relative; padding:22px 22px 24px;">
                   <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:12px;">01</div>
                   <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Why is my pool green?</div>
-                  <p style="font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0;">Algae. It blooms the moment chlorine drops and the water warms — one hot weekend is all it takes.</p>
+                  <p style="font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.72); margin:0;">Algae. It blooms the moment chlorine drops and the water warms. One hot weekend is all it takes.</p>
                 </div>
               </div>
               <div style="position:relative; overflow:hidden; border-radius:20px; background:linear-gradient(#0d2c37,#0d2c37) padding-box, linear-gradient(160deg, rgba(127,227,218,.75), rgba(127,227,218,.08)) border-box; border:1px solid transparent; transform:translateY(-6px); box-shadow:0 30px 66px rgba(6,44,42,.5), inset 0 1px 0 rgba(255,255,255,.06); min-height:196px;">
@@ -280,7 +326,7 @@
                 <div style="position:relative; padding:22px 22px 24px;">
                   <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent); margin-bottom:12px;">02</div>
                   <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Cloudy, but not green?</div>
-                  <p style="font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.74); margin:0;">That's chemistry, not algae — usually high pH, or particles too fine for the filter to grab.</p>
+                  <p style="font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.74); margin:0;">That's chemistry, not algae: usually high pH, or particles too fine for the filter to grab.</p>
                 </div>
               </div>
             </div>
@@ -292,11 +338,11 @@
                 <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.02em; color:var(--foam-white); margin:0 0 16px;">Ideal water, by the number.</div>
                 <div style="display:flex; align-items:baseline; justify-content:space-between; padding:11px 0; border-top:1px solid rgba(150,230,225,.12);">
                   <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; color:var(--foam-white);">pH</span>
-                  <span style="font-variant-numeric:tabular-nums; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent);">7.4 – 7.6</span>
+                  <span style="font-variant-numeric:tabular-nums; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent);">7.4-7.6</span>
                 </div>
                 <div style="display:flex; align-items:baseline; justify-content:space-between; padding:11px 0; border-top:1px solid rgba(150,230,225,.12);">
                   <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; color:var(--foam-white);">Free chlorine</span>
-                  <span style="font-variant-numeric:tabular-nums; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent);">1 – 3 ppm</span>
+                  <span style="font-variant-numeric:tabular-nums; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--accent);">1-3 ppm</span>
                 </div>
               </div>
             </div>
@@ -319,55 +365,57 @@
     <div style="max-width:1000px; margin:0 0 40px;">
       <div style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin:0 0 14px;">Steps 2 &amp; 3 · Theme and sections</div>
       <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,5vw,60px); line-height:.98; letter-spacing:-.03em; color:var(--foam-white); margin:0 0 18px; text-wrap:balance;">Your site, restyled in a click.</h2>
-      <p style="font-size:17px; line-height:1.62; color:rgba(214,240,236,.76); margin:0; max-width:820px;">The whole site reconfigures instantly — <b style="color:var(--foam-bright); font-weight:600;">swap the entire color theme</b> (<a href="#pi-demo-col">2a</a>) and <b style="color:var(--foam-bright); font-weight:600;">switch whole sections on or off</b> (<a href="#2b">2b</a>). These aren’t screenshots — click the controls and the preview actually changes. The same engine runs on every page of your site.</p>
+      <p style="font-size:17px; line-height:1.62; color:rgba(214,240,236,.76); margin:0; max-width:820px;">The whole site reconfigures instantly: <b style="color:var(--foam-bright); font-weight:600;">swap the entire color theme</b> (<a href="#pi-demo-col">2a</a>) and <b style="color:var(--foam-bright); font-weight:600;">switch whole sections on or off</b> (<a href="#2b">2b</a>). These aren’t screenshots. Click the controls and the preview actually changes. The same engine runs on every page of your site.</p>
     </div>
 
     <!-- ===== DEMOS ROW ===== -->
     <div class="pi-demos-row" style="display:flex; flex-wrap:wrap; gap:48px; align-items:flex-start;">
 
       <!-- ================= 2a · COLOUR THEMES ================= -->
-      <div id="pi-demo-col" class="pi-demo-col" style="display:flex; flex-direction:column; gap:20px; width:680px;">
+      <div id="pi-demo-col" class="pi-demo-col" style="display:flex; flex-direction:column; gap:20px; width:min(680px,100%);">
         <header style="display:flex; flex-direction:column; gap:11px;">
           <div style="display:flex; align-items:center; gap:13px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); width:40px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;">2a</span>
             <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:24px; letter-spacing:-.02em; color:var(--foam-white); margin:0;">Color themes</h3>
             <span style="margin-left:auto; display:flex; align-items:center; gap:7px; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:#8fe6dd; border:1px solid rgba(127,227,218,.4); border-radius:999px; padding:5px 12px;"><span style="width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 8px var(--accent-2);"></span>Live · click a swatch</span>
           </div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(214,240,236,.7); margin:0;">Swap the accent system site-wide — headers, buttons, badges, highlights, borders — from one control. Six curated themes here; we can match any brand color exactly. Shown live on the <b style="color:var(--foam-bright); font-weight:600;">Pricing</b> page.</p>
+          <p style="font-size:14.5px; line-height:1.55; color:rgba(214,240,236,.7); margin:0;">Swap the accent system site-wide (headers, buttons, badges, highlights, borders) from one control. Six curated themes here; we can match any brand color exactly. Shown live on the <b style="color:var(--foam-bright); font-weight:600;">Pricing</b> page.</p>
         </header>
 
         <!-- swatch control -->
         <div style="padding:18px 18px 16px; border-radius:18px; background:rgba(7,26,33,.55); border:1px solid rgba(150,230,225,.14);">
           <div id="swatchWrap" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:space-between;">
             <button data-pal="Lagoon" aria-pressed="true" class="pi-swatch-btn" style="cursor:pointer; border:none; padding:0; background:none; display:flex; flex-direction:column; align-items:center; gap:9px; width:96px;"><span style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); box-shadow:0 0 0 1px rgba(150,230,225,.16); transition:transform .25s ease, box-shadow .25s ease;"></span><span style="font-size:11.5px; font-weight:600; color:rgba(224,247,242,.6); transition:color .25s ease;">Lagoon</span></button>
-            <button data-pal="Sapphire" aria-pressed="false" class="pi-swatch-btn" style="cursor:pointer; border:none; padding:0; background:none; display:flex; flex-direction:column; align-items:center; gap:9px; width:96px;"><span style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#8ecbff,#3f7fd6); box-shadow:0 0 0 1px rgba(150,230,225,.16); transition:transform .25s ease, box-shadow .25s ease;"></span><span style="font-size:11.5px; font-weight:600; color:rgba(224,247,242,.6); transition:color .25s ease;">Sapphire</span></button>
+            <button data-pal="Sapphire" aria-pressed="false" class="pi-swatch-btn" style="cursor:pointer; border:none; padding:0; background:none; display:flex; flex-direction:column; align-items:center; gap:9px; width:96px;"><span style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#8ecbff,#5b93e0); box-shadow:0 0 0 1px rgba(150,230,225,.16); transition:transform .25s ease, box-shadow .25s ease;"></span><span style="font-size:11.5px; font-weight:600; color:rgba(224,247,242,.6); transition:color .25s ease;">Sapphire</span></button>
             <button data-pal="Emerald" aria-pressed="false" class="pi-swatch-btn" style="cursor:pointer; border:none; padding:0; background:none; display:flex; flex-direction:column; align-items:center; gap:9px; width:96px;"><span style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#8ff0bf,#22a06b); box-shadow:0 0 0 1px rgba(150,230,225,.16); transition:transform .25s ease, box-shadow .25s ease;"></span><span style="font-size:11.5px; font-weight:600; color:rgba(224,247,242,.6); transition:color .25s ease;">Emerald</span></button>
             <button data-pal="Sunset" aria-pressed="false" class="pi-swatch-btn" style="cursor:pointer; border:none; padding:0; background:none; display:flex; flex-direction:column; align-items:center; gap:9px; width:96px;"><span style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#ffcf8e,#e77a45); box-shadow:0 0 0 1px rgba(150,230,225,.16); transition:transform .25s ease, box-shadow .25s ease;"></span><span style="font-size:11.5px; font-weight:600; color:rgba(224,247,242,.6); transition:color .25s ease;">Sunset</span></button>
             <button data-pal="Copper" aria-pressed="false" class="pi-swatch-btn" style="cursor:pointer; border:none; padding:0; background:none; display:flex; flex-direction:column; align-items:center; gap:9px; width:96px;"><span style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#f1d0a2,#b6763f); box-shadow:0 0 0 1px rgba(150,230,225,.16); transition:transform .25s ease, box-shadow .25s ease;"></span><span style="font-size:11.5px; font-weight:600; color:rgba(224,247,242,.6); transition:color .25s ease;">Copper</span></button>
-            <button data-pal="Grape" aria-pressed="false" class="pi-swatch-btn" style="cursor:pointer; border:none; padding:0; background:none; display:flex; flex-direction:column; align-items:center; gap:9px; width:96px;"><span style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#c9b3ff,#7d5fd6); box-shadow:0 0 0 1px rgba(150,230,225,.16); transition:transform .25s ease, box-shadow .25s ease;"></span><span style="font-size:11.5px; font-weight:600; color:rgba(224,247,242,.6); transition:color .25s ease;">Grape</span></button>
+            <button data-pal="Grape" aria-pressed="false" class="pi-swatch-btn" style="cursor:pointer; border:none; padding:0; background:none; display:flex; flex-direction:column; align-items:center; gap:9px; width:96px;"><span style="width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#c9b3ff,#9579e6); box-shadow:0 0 0 1px rgba(150,230,225,.16); transition:transform .25s ease, box-shadow .25s ease;"></span><span style="font-size:11.5px; font-weight:600; color:rgba(224,247,242,.6); transition:color .25s ease;">Grape</span></button>
           </div>
-          <div style="display:flex; align-items:center; gap:9px; margin-top:16px; padding-top:14px; border-top:1px solid rgba(150,230,225,.12); font-size:12.5px; color:rgba(214,240,236,.55);">
+          <div style="display:flex; align-items:center; flex-wrap:wrap; gap:9px; margin-top:16px; padding-top:14px; border-top:1px solid rgba(150,230,225,.12); font-size:12.5px; color:rgba(214,240,236,.55);">
             <span>Now showing</span>
             <span id="palName" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--foam-white);">Lagoon</span>
             <span style="opacity:.4;">·</span>
             <span id="palHex" style="font-variant-numeric:tabular-nums; color:var(--acc2,var(--accent)); font-weight:600;">#5FD0C8</span>
+            <button id="palReset" style="display:none; cursor:pointer; margin-left:auto; align-items:center; font-family:'Manrope',sans-serif; font-weight:600; font-size:11.5px; color:var(--foam-bright); background:rgba(9,32,40,.55); border:1px solid rgba(150,230,225,.28); border-radius:999px; padding:6px 13px;">Back to Lagoon</button>
           </div>
+          <div style="margin-top:10px; font-size:12px; line-height:1.5; color:rgba(214,240,236,.55);">Notice the buttons and headings around you changing too: <b style="color:var(--foam-bright); font-weight:600;">your whole site reskins from one config line</b>, and this page is wearing your pick right now.</div>
         </div>
 
         <!-- pricing preview -->
-        <div style="position:relative; border-radius:22px; overflow:hidden; border:1px solid rgba(150,230,225,.18); box-shadow:0 40px 100px rgba(0,0,0,.5); background:#061821;">
+        <div id="palFrame" style="position:relative; border-radius:22px; overflow:hidden; border:1px solid rgba(150,230,225,.18); box-shadow:0 40px 100px rgba(0,0,0,.5); background:#061821;">
           <div style="display:flex; align-items:center; gap:7px; padding:11px 14px; background:rgba(6,20,27,.9); border-bottom:1px solid rgba(150,230,225,.12);">
             <span style="width:10px; height:10px; border-radius:50%; background:#f2554e;"></span>
             <span style="width:10px; height:10px; border-radius:50%; background:#f5b83d;"></span>
             <span style="width:10px; height:10px; border-radius:50%; background:#4fc47a;"></span>
-            <span style="margin-left:12px; flex:1; font-size:11px; color:rgba(214,240,236,.6); background:rgba(8,28,34,.7); border-radius:6px; padding:5px 12px;">meridianpoolcare.com/pricing</span>
+            <span id="palUrl" style="margin-left:12px; flex:1; font-size:11px; color:rgba(214,240,236,.6); background:rgba(8,28,34,.7); border-radius:6px; padding:5px 12px;">meridianpoolcare.com/pricing</span>
           </div>
           <div style="position:relative; padding:26px 26px 30px; background:linear-gradient(180deg,#06171f,var(--deep-water)); overflow:hidden;">
             <div style="position:absolute; inset:0; opacity:.18; pointer-events:none; background:radial-gradient(90% 70% at 14% -12%, var(--acc,var(--accent-2)), transparent 55%), radial-gradient(80% 60% at 104% 112%, var(--g2,var(--cta-to)), transparent 60%);"></div>
             <div style="position:relative;">
               <div style="font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--acc,var(--accent-2)); font-weight:600; margin-bottom:10px;">Pricing</div>
               <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:27px; line-height:1.0; letter-spacing:-.025em; color:var(--foam-white); margin-bottom:20px;">Pick your peace of mind.</div>
-              <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; align-items:stretch;">
+              <div class="pi-price-grid">
 
                 <div style="display:flex; flex-direction:column; padding:16px 15px 16px; border-radius:15px; background:rgba(8,34,44,.5); border:1px solid rgba(150,230,225,.18);">
                   <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; color:var(--foam-white);">Essential</div>
@@ -407,21 +455,21 @@
                 </div>
 
               </div>
-              <div style="margin-top:16px; font-size:11.5px; color:rgba(214,240,236,.6);">First clean free with any plan · No contracts · Chemicals included</div>
+              <div style="margin-top:16px; font-size:11.5px; color:rgba(214,240,236,.6);">First clean free with any plan. No contracts. Chemicals included.</div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- ================= 2b · SECTION MODULES ================= -->
-      <div id="2b" class="pi-demo-col" style="display:flex; flex-direction:column; gap:20px; width:680px;">
+      <div id="2b" class="pi-demo-col" style="display:flex; flex-direction:column; gap:20px; width:min(680px,100%);">
         <header style="display:flex; flex-direction:column; gap:11px;">
           <div style="display:flex; align-items:center; gap:13px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); width:40px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;">2b</span>
             <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:24px; letter-spacing:-.02em; color:var(--foam-white); margin:0;">Section modules</h3>
             <span style="margin-left:auto; display:flex; align-items:center; gap:7px; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:#8fe6dd; border:1px solid rgba(127,227,218,.4); border-radius:999px; padding:5px 12px;"><span style="width:7px; height:7px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 8px var(--accent-2);"></span>Live · toggle sections</span>
           </div>
-          <p style="font-size:14.5px; line-height:1.55; color:rgba(214,240,236,.7); margin:0;">Turn whole page sections on or off instantly — no redesign, no developer. Every block is optional, so each page shows exactly what you want. Shown live on the <b style="color:var(--foam-bright); font-weight:600;">Services</b> page.</p>
+          <p style="font-size:14.5px; line-height:1.55; color:rgba(214,240,236,.7); margin:0;">Turn whole page sections on or off instantly. No redesign, no developer. Every block is optional, so each page shows exactly what you want. Shown live on the <b style="color:var(--foam-bright); font-weight:600;">Services</b> page.</p>
         </header>
 
         <!-- chip control -->
@@ -434,16 +482,16 @@
             <button data-mod="faq" aria-pressed="true" class="pi-chip-btn" style="cursor:pointer; display:flex; align-items:center; gap:8px; font-family:'Manrope',sans-serif; font-weight:600; font-size:13px; padding:9px 15px 9px 9px; border-radius:999px; border:1px solid rgba(150,230,225,.2); background:rgba(9,32,40,.55); color:rgba(214,240,236,.72); transition:background .25s ease, color .25s ease, border-color .25s ease;"><span data-dot style="width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; background:rgba(127,227,218,.16); color:var(--accent); transition:background .25s ease, color .25s ease;">✓</span>FAQ</button>
             <button data-mod="guarantee" aria-pressed="true" class="pi-chip-btn" style="cursor:pointer; display:flex; align-items:center; gap:8px; font-family:'Manrope',sans-serif; font-weight:600; font-size:13px; padding:9px 15px 9px 9px; border-radius:999px; border:1px solid rgba(150,230,225,.2); background:rgba(9,32,40,.55); color:rgba(214,240,236,.72); transition:background .25s ease, color .25s ease, border-color .25s ease;"><span data-dot style="width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; background:rgba(127,227,218,.16); color:var(--accent); transition:background .25s ease, color .25s ease;">✓</span>Guarantee</button>
           </div>
-          <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(150,230,225,.12); font-size:12.5px; color:rgba(214,240,236,.55);">Tap a chip to add or remove that section — the page rebuilds instantly.</div>
+          <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(150,230,225,.12); font-size:12.5px; color:rgba(214,240,236,.55);">Tap a chip to add or remove that section. The page rebuilds instantly.</div>
         </div>
 
         <!-- services preview -->
-        <div style="position:relative; border-radius:22px; overflow:hidden; border:1px solid rgba(150,230,225,.18); box-shadow:0 40px 100px rgba(0,0,0,.5); background:#061821;">
+        <div id="modFrame" style="position:relative; border-radius:22px; overflow:hidden; border:1px solid rgba(150,230,225,.18); box-shadow:0 40px 100px rgba(0,0,0,.5); background:#061821;">
           <div style="display:flex; align-items:center; gap:7px; padding:11px 14px; background:rgba(6,20,27,.9); border-bottom:1px solid rgba(150,230,225,.12);">
             <span style="width:10px; height:10px; border-radius:50%; background:#f2554e;"></span>
             <span style="width:10px; height:10px; border-radius:50%; background:#f5b83d;"></span>
             <span style="width:10px; height:10px; border-radius:50%; background:#4fc47a;"></span>
-            <span style="margin-left:12px; flex:1; font-size:11px; color:rgba(214,240,236,.6); background:rgba(8,28,34,.7); border-radius:6px; padding:5px 12px;">meridianpoolcare.com/services</span>
+            <span id="modUrl" style="margin-left:12px; flex:1; font-size:11px; color:rgba(214,240,236,.6); background:rgba(8,28,34,.7); border-radius:6px; padding:5px 12px;">meridianpoolcare.com/services</span>
           </div>
           <div id="modRoot" style="position:relative; padding:24px 24px 28px; background:linear-gradient(180deg,#06171f,var(--deep-water));">
 
@@ -484,19 +532,19 @@
             <div data-block="reviews" data-mh="200" data-mt="18">
               <div style="font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:rgba(214,240,236,.6); font-weight:600; margin-bottom:11px;">What owners say</div>
               <div style="padding:17px 19px; border-radius:16px; background:linear-gradient(135deg, rgba(12,52,66,.55), rgba(8,30,38,.45)); border:1px solid rgba(127,227,218,.24);">
-                <div style="font-size:14.5px; line-height:1.55; color:var(--foam-bright); font-style:italic;">“Green on Monday, glass by Friday — and they never drained a drop.”</div>
-                <div style="margin-top:10px; font-size:12px; color:rgba(214,240,236,.6);">— Dana R., Lakeway</div>
+                <div style="font-size:14.5px; line-height:1.55; color:var(--foam-bright); font-style:italic;">“Green on Monday, glass by Friday, and they never drained a drop.”</div>
+                <div style="margin-top:10px; font-size:12px; color:rgba(214,240,236,.6);">Dana R., Lakeway</div>
               </div>
             </div>
 
             <div data-block="faq" data-mh="240" data-mt="18">
               <div style="font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:rgba(214,240,236,.6); font-weight:600; margin-bottom:4px;">Good to know</div>
-              <div style="padding:11px 0; border-top:1px solid rgba(150,230,225,.12);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:13.5px; color:var(--foam-white); margin-bottom:3px;">Are chemicals included?</div><div style="font-size:12px; line-height:1.45; color:rgba(224,247,242,.62);">Yes — chlorine, acid, shock, all of it, logged every visit.</div></div>
-              <div style="padding:11px 0; border-top:1px solid rgba(150,230,225,.12);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:13.5px; color:var(--foam-white); margin-bottom:3px;">Do I need a contract?</div><div style="font-size:12px; line-height:1.45; color:rgba(224,247,242,.62);">No. Month-to-month — skip or cancel anytime.</div></div>
+              <div style="padding:11px 0; border-top:1px solid rgba(150,230,225,.12);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:13.5px; color:var(--foam-white); margin-bottom:3px;">Are chemicals included?</div><div style="font-size:12px; line-height:1.45; color:rgba(224,247,242,.62);">Yes: chlorine, acid, shock, all of it, logged every visit.</div></div>
+              <div style="padding:11px 0; border-top:1px solid rgba(150,230,225,.12);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:13.5px; color:var(--foam-white); margin-bottom:3px;">Do I need a contract?</div><div style="font-size:12px; line-height:1.45; color:rgba(224,247,242,.62);">No. Month-to-month, skip or cancel anytime.</div></div>
             </div>
 
             <div data-block="guarantee" data-mh="150" data-mt="18">
-              <div style="display:flex; align-items:center; gap:13px; padding:15px 18px; border-radius:16px; border:1px dashed rgba(127,227,218,.4); background:rgba(12,50,58,.3);"><span style="flex:none; width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--cta-ink); font-size:15px;">✓</span><div style="font-size:12.5px; line-height:1.45; color:rgba(233,255,253,.85);"><b style="color:var(--foam-white);">No-drain guarantee.</b> Green-to-clean in 3–5 days, or the rescue is free.</div></div>
+              <div style="display:flex; align-items:center; gap:13px; padding:15px 18px; border-radius:16px; border:1px dashed rgba(127,227,218,.4); background:rgba(12,50,58,.3);"><span style="flex:none; width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--cta-ink); font-size:15px;">✓</span><div style="font-size:12.5px; line-height:1.45; color:rgba(233,255,253,.85);"><b style="color:var(--foam-white);">No-drain guarantee.</b> Green-to-clean in 3-5 days, or the rescue is free.</div></div>
             </div>
 
           </div>
@@ -511,21 +559,22 @@
     <div style="max-width:1000px; margin:0 0 40px;">
       <div style="font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin:0 0 14px;">Ready when you are</div>
       <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,5vw,60px); line-height:.98; letter-spacing:-.03em; color:var(--foam-white); margin:0 0 18px; text-wrap:balance;">Lock in your picks.</h2>
-      <p style="font-size:17px; line-height:1.62; color:rgba(214,240,236,.76); margin:0; max-width:760px;">Your direction (<a href="#1a">1a</a>, <a href="#1b">1b</a>, <a href="#1c">1c</a>), color theme (<a href="#pi-demo-col">2a</a>), and sections (<a href="#2b">2b</a>) are already saved below — and they keep saving as you click around, even if you close the tab. Lock them in, then book your call: we’ll have your version on screen when we pick up.</p>
+      <p style="font-size:17px; line-height:1.62; color:rgba(214,240,236,.76); margin:0; max-width:760px;">Your direction (<a href="#1a">1a</a>, <a href="#1b">1b</a>, <a href="#1c">1c</a>), color theme (<a href="#pi-demo-col">2a</a>), and sections (<a href="#2b">2b</a>) are already saved below, and they keep saving as you click around, even if you close the tab. Lock them in, then book your call: we’ll have your version on screen when we pick up.</p>
     </div>
 
     <div style="display:flex; flex-wrap:wrap; border-radius:28px; overflow:hidden; border:1px solid rgba(150,230,225,.18); box-shadow:0 40px 100px rgba(0,0,0,.5); background:#061821;">
 
-      <!-- summary column -->
-      <div style="flex:1 1 380px; padding:40px 40px 36px; background:linear-gradient(160deg, rgba(12,50,60,.55), rgba(6,24,31,.42)); display:flex; flex-direction:column; gap:24px;">
-        <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:#8fe6dd;">Your picks so far</div>
+      <!-- summary column · the build sheet -->
+      <div style="position:relative; flex:1 1 380px; padding:40px 40px 36px; background:linear-gradient(160deg, rgba(12,50,60,.55), rgba(6,24,31,.42)); display:flex; flex-direction:column; gap:24px;">
+        <div id="sheetLock" aria-hidden="true">Locked</div>
+        <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:#8fe6dd;">Your build sheet</div>
 
         <div style="display:flex; flex-direction:column; gap:18px;">
           <div style="display:flex; align-items:center; gap:15px;">
             <span style="flex:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); width:36px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center;">1</span>
             <div>
               <div style="font-size:11px; color:rgba(214,240,236,.55); margin-bottom:2px;">Style direction</div>
-              <div id="summaryStyle" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:16px; color:var(--foam-white);">Not picked yet</div>
+              <div id="summaryStyle" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:16px; color:var(--foam-white);">Not picked yet. Skip it and we start you on Color &amp; Shape, the most popular.</div>
             </div>
           </div>
           <div style="display:flex; align-items:center; gap:15px;">
@@ -546,6 +595,8 @@
             </div>
           </div>
         </div>
+
+        <div id="sheetLockNote" style="display:none; align-items:flex-start; gap:10px; padding:13px 16px; border-radius:16px; border:1px solid rgba(150,230,225,.25); background:rgba(8,32,40,.45); font-size:13px; line-height:1.5; color:var(--foam-bright);"><span style="flex:none; color:var(--accent); font-weight:800;">✓</span><span>We build from this exact sheet. Bring it to your call.</span></div>
 
         <div style="margin-top:auto; padding-top:22px; border-top:1px solid rgba(150,230,225,.14);">
           <div style="font-size:11px; color:rgba(214,240,236,.55); margin-bottom:9px;">Prefer to talk it through?</div>
@@ -569,13 +620,44 @@
           <textarea id="messageInput" placeholder="Anything else we should know? (optional)" rows="3" maxlength="1000" class="pi-input" style="width:100%; resize:vertical; font-family:'Manrope',sans-serif; font-size:14.5px; line-height:1.5; color:var(--foam-white); background:rgba(8,28,36,.6); border:1px solid rgba(150,230,225,.2); border-radius:12px; padding:13px 15px; outline:none;"></textarea>
           <div id="formError" style="display:none; font-size:12.5px; color:#ff9b8f;"></div>
           <button id="submitPicksBtn" style="cursor:pointer; margin-top:5px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); border:none; padding:15px; border-radius:999px; box-shadow:0 14px 34px rgba(30,180,170,.32);">Lock in my picks →</button>
-          <div style="font-size:11.5px; line-height:1.5; color:rgba(214,240,236,.6); text-align:center;">Saved right here on the page — we'll follow up personally.</div>
+          <div style="font-size:11.5px; line-height:1.5; color:rgba(214,240,236,.6); text-align:center;">This is not a payment and does not claim your territory. It sends your picks to Zach so your version is on screen for your call. We follow up the same day.</div>
         </div>
         <div id="pickSuccess" style="display:none; flex-direction:column; align-items:flex-start; gap:15px;">
           <span style="width:54px; height:54px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--cta-ink); font-weight:800;">✓</span>
           <div id="confirmNameText" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:23px; color:var(--foam-white); overflow-wrap:break-word; word-break:break-word; max-width:100%;">Got it, there.</div>
-          <p style="font-size:14px; line-height:1.55; color:rgba(214,240,236,.72); margin:0;">Picks locked — we’ll have your version on screen for your call. A copy is headed to <span id="confirmContactText" style="color:var(--foam-bright); font-weight:600; overflow-wrap:break-word; word-break:break-word;"></span>.</p>
+          <p style="font-size:14px; line-height:1.55; color:rgba(214,240,236,.72); margin:0;">Picks locked. We’ll have your version on screen for your call. A copy is headed to <span id="confirmContactText" style="color:var(--foam-bright); font-weight:600; overflow-wrap:break-word; word-break:break-word;"></span>.</p>
           <a href="get-this-site.html#book" style="display:inline-block; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:14px 24px; border-radius:999px; box-shadow:0 14px 34px rgba(30,180,170,.32);">Book my territory call →</a>
+          <div style="font-size:14px; color:rgba(234,252,251,.78); margin:4px 0 0;">Or skip the call and secure it now.</div>
+          <!-- THE CLAIM TICKET: the checkout as a territory-claim artifact (compact variant) -->
+          <div class="gw-ticket-wrap">
+            <div class="gw-ticket">
+              <div class="gw-ticket-head">
+                <span class="gw-ticket-stamp">FOUNDING RATE · FIRST 10</span>
+                <span class="gw-ticket-seal" tabindex="0" role="img" aria-label="Founding rate, locked for life."><span class="gw-ticket-seal-tip">Founding rate, locked for life.</span></span>
+              </div>
+              <div class="gw-ticket-title">Claim your territory.</div>
+              <div role="group" aria-label="Choose how to pay" style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button type="button" id="piPillDeposit" class="gw-ticket-pill" aria-pressed="true" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; padding:10px 16px; border-radius:999px; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); color:var(--cta-ink); border:1px solid transparent;">$499 deposit</button>
+                <button type="button" id="piPillFull" class="gw-ticket-pill" aria-pressed="false" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; padding:10px 16px; border-radius:999px; background:rgba(8,28,34,.55); color:rgba(234,252,251,.85); border:1px solid rgba(150,230,225,.25);">$3,199 (save $800)</button>
+              </div>
+              <div class="gw-ticket-price-row">
+                <span class="gw-ticket-price" id="piPriceRoll"><span id="piPriceVal">$499</span></span>
+                <span class="gw-ticket-chip" id="piSaveChip" hidden>SAVE $800</span>
+              </div>
+              <div class="gw-ticket-lines">
+                <div class="gw-ticket-line-1">First 10 operators lock this for life.</div>
+                <div class="gw-ticket-line-2">After that: $4,999 build + $899/mo, minimum.</div>
+                <div class="gw-ticket-line-3">Your picks hold no spot until the deposit lands.</div>
+              </div>
+              <div class="gw-ticket-perf" aria-hidden="true"></div>
+              <div id="pi-pp-offer">
+                <div id="piOfferSubline" style="font-size:14.5px; line-height:1.5; color:rgba(234,252,251,.82); margin:0 0 9px;">Secures your territory. Applied in full to your $3,999 build fee, refundable until kickoff.</div>
+                <a id="pi-pp-offer-fb" class="gw-ticket-fb" href="mailto:forge@gaelworx.com?subject=%24499%20deposit%3A%20secure%20my%20territory" style="display:inline-block; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--ember); border:1px solid rgba(255,177,77,.45); padding:11px 18px; border-radius:999px; margin:0 0 8px;">Pay the $499 deposit →</a>
+                <div class="gw-pp-mount" style="max-width:300px;"></div>
+              </div>
+              <div class="gw-ticket-foot">Want the whole first year at 30% off? Ask about it on your call.</div>
+            </div>
+          </div>
           <button id="editPicksBtn" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:13px; color:#8fe6dd; background:none; border:1px solid rgba(127,227,218,.35); padding:10px 18px; border-radius:999px;">Edit my picks</button>
         </div>
       </div>
@@ -583,27 +665,41 @@
   </section>
 
   <!-- ============================================================ FLOATING RETURN-TO-BOOKING CTA ============================================================ -->
-  <a href="get-this-site.html#book" class="pi-book-cta" style="position:fixed; right:clamp(14px,3vw,28px); bottom:clamp(14px,3vw,28px); z-index:9999; display:flex; align-items:center; gap:8px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; letter-spacing:-.005em; color:#052026; background:linear-gradient(135deg,var(--cta-from,#8ef0e6),var(--cta-to,#37c7bf)); padding:14px 22px; border-radius:999px; box-shadow:0 14px 34px rgba(30,180,170,.38), 0 4px 14px rgba(0,0,0,.28); white-space:nowrap;">Done styling? Book your territory call →</a>
+  <a href="get-this-site.html#book" id="piBookCta" class="pi-book-cta" style="position:fixed; right:clamp(14px,3vw,28px); bottom:clamp(14px,3vw,28px); z-index:60; display:flex; align-items:center; gap:8px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; letter-spacing:-.005em; color:var(--cta-ink,#052026); background:linear-gradient(135deg,var(--cta-from,#8ef0e6),var(--cta-to,#37c7bf)); padding:14px 22px; border-radius:999px; box-shadow:0 14px 34px rgba(30,180,170,.38), 0 4px 14px rgba(0,0,0,.28); white-space:nowrap;">Done styling? Book your territory call →</a>
+  <div id="piLive" class="pi-vh" role="status" aria-live="polite"></div>
 </main>
 <script src="js/config.js?v=2026.07"></script>
 <script src="js/forge-lead.js"></script>
+<script src="js/paypal-offers.js" defer></script>
 <script>
 (function () {
   'use strict';
 
+  // Each palette carries its own cta-ink pairing; every ink clears 4.5:1
+  // against BOTH gradient ends (verified: worst case Copper ink/g2 = 4.97:1).
   var PALS = {
-    Lagoon:   { a:'#5fd0c8', b:'#7fe3da', g1:'#8ef0e6', g2:'#37c7bf', ring:'#7fe3da', hex:'#5FD0C8' },
-    Sapphire: { a:'#5aa9e6', b:'#8fc7f2', g1:'#8ecbff', g2:'#3f7fd6', ring:'#8fc7f2', hex:'#5AA9E6' },
-    Emerald:  { a:'#4fc98a', b:'#86e6b2', g1:'#8ff0bf', g2:'#22a06b', ring:'#86e6b2', hex:'#4FC98A' },
-    Sunset:   { a:'#f0a25e', b:'#f7c68b', g1:'#ffcf8e', g2:'#e77a45', ring:'#f7c68b', hex:'#F0A25E' },
-    Copper:   { a:'#d6a06a', b:'#ecc79a', g1:'#f1d0a2', g2:'#b6763f', ring:'#ecc79a', hex:'#D6A06A' },
-    Grape:    { a:'#a98be6', b:'#c7b3f2', g1:'#c9b3ff', g2:'#7d5fd6', ring:'#c7b3f2', hex:'#A98BE6' }
+    Lagoon:   { a:'#5fd0c8', b:'#7fe3da', g1:'#8ef0e6', g2:'#37c7bf', ink:'#052026', ring:'#7fe3da', hex:'#5FD0C8' },
+    Sapphire: { a:'#5aa9e6', b:'#8fc7f2', g1:'#8ecbff', g2:'#5b93e0', ink:'#061426', ring:'#8fc7f2', hex:'#5AA9E6' },
+    Emerald:  { a:'#4fc98a', b:'#86e6b2', g1:'#8ff0bf', g2:'#22a06b', ink:'#032015', ring:'#86e6b2', hex:'#4FC98A' },
+    Sunset:   { a:'#f0a25e', b:'#f7c68b', g1:'#ffcf8e', g2:'#e77a45', ink:'#261004', ring:'#f7c68b', hex:'#F0A25E' },
+    Copper:   { a:'#d6a06a', b:'#ecc79a', g1:'#f1d0a2', g2:'#b6763f', ink:'#201004', ring:'#ecc79a', hex:'#D6A06A' },
+    Grape:    { a:'#a98be6', b:'#c7b3f2', g1:'#c9b3ff', g2:'#9579e6', ink:'#120b26', ring:'#c7b3f2', hex:'#A98BE6' }
   };
   var MODS = { tiers:true, process:true, addons:false, reviews:true, faq:true, guarantee:true };
   var MOD_LABELS = { tiers:'Services list', process:'How it works', addons:'Add-ons', reviews:'Reviews', faq:'FAQ', guarantee:'Guarantee' };
   var MOD_ORDER = ['tiers','process','addons','reviews','faq','guarantee'];
   var STYLE_LABELS = { '1a':'Color & Shape', '1b':'Light & Motion', '1c':'Material & Craft' };
   var STORAGE_KEY = 'meridianPremiumIdeasPicks_v1';
+  var GW_PICKS_KEY = 'gw-picks'; // read by get-this-site.html for booking prefill
+
+  var motionMq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  function reducedMotion() { return !!(motionMq && motionMq.matches); }
+  var canAnimate = typeof document.createElement('div').animate === 'function';
+
+  function hexToRgba(hex, a) {
+    var h = hex.replace('#', '');
+    return 'rgba(' + parseInt(h.substr(0, 2), 16) + ',' + parseInt(h.substr(2, 2), 16) + ',' + parseInt(h.substr(4, 2), 16) + ',' + a + ')';
+  }
 
   var palRoot = document.getElementById('pi-demo-col');
   var swatchWrap = document.getElementById('swatchWrap');
@@ -626,6 +722,16 @@
   var pickSuccess = document.getElementById('pickSuccess');
   var confirmNameText = document.getElementById('confirmNameText');
   var confirmContactText = document.getElementById('confirmContactText');
+  var palFrame = document.getElementById('palFrame');
+  var palUrl = document.getElementById('palUrl');
+  var modFrame = document.getElementById('modFrame');
+  var modUrl = document.getElementById('modUrl');
+  var palResetBtn = document.getElementById('palReset');
+  var liveEl = document.getElementById('piLive');
+  var sheetLock = document.getElementById('sheetLock');
+  var sheetLockNote = document.getElementById('sheetLockNote');
+  var bookCta = document.getElementById('piBookCta');
+  var bookCtaDefaultLabel = bookCta ? bookCta.textContent : '';
 
   var _mods = Object.assign({}, MODS);
   var _style = null;
@@ -650,12 +756,93 @@
         submitted: !!_submitted
       }));
     } catch (e) {}
+    try {
+      sessionStorage.setItem(GW_PICKS_KEY, JSON.stringify({
+        theme: _paletteName || 'Lagoon',
+        sections: MOD_ORDER.filter(function (k) { return _mods[k] !== false; }).map(function (k) { return MOD_LABELS[k]; }),
+        style: _style ? (STYLE_LABELS[_style] || _style) : null
+      }));
+    } catch (e) {}
   }
 
-  function applyPalette(name) {
+  // ---- response visibility: the demo must be SEEN answering the control ----
+
+  var _liveT = null;
+  function announce(msg) {
+    if (!liveEl) return;
+    liveEl.textContent = '';
+    clearTimeout(_liveT);
+    _liveT = setTimeout(function () { liveEl.textContent = msg; }, 60);
+  }
+
+  function ensureVisible(el) {
+    if (!el) return;
+    var r = el.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+    var denom = Math.min(r.height, vh) || 1;
+    if (visible / denom < 0.4) {
+      try { el.scrollIntoView({ block: 'nearest', behavior: reducedMotion() ? 'auto' : 'smooth' }); }
+      catch (e) { el.scrollIntoView(); }
+    }
+  }
+
+  function flashUrl(span, text) {
+    if (!span) return;
+    if (!span.dataset.orig) span.dataset.orig = span.textContent;
+    span.textContent = text;
+    clearTimeout(span._t);
+    span._t = setTimeout(function () { span.textContent = span.dataset.orig; }, 950);
+  }
+
+  function sweepFrame(frame, p) {
+    if (!frame) return;
+    if (reducedMotion() || !canAnimate) {
+      // motion-safe fallback: recolor is instant; give a brief outline flash
+      frame.style.outline = '2px solid ' + p.ring;
+      frame.style.outlineOffset = '3px';
+      clearTimeout(frame._flashT);
+      frame._flashT = setTimeout(function () { frame.style.outline = ''; frame.style.outlineOffset = ''; }, 450);
+      return;
+    }
+    var old = frame.querySelector('.pi-sweep');
+    if (old) old.remove();
+    var ov = document.createElement('div');
+    ov.className = 'pi-sweep';
+    ov.setAttribute('aria-hidden', 'true');
+    ov.style.cssText = 'position:absolute; inset:0; z-index:5; pointer-events:none; mix-blend-mode:screen; background:linear-gradient(105deg,' + hexToRgba(p.g1, .32) + ',' + hexToRgba(p.g2, .22) + '); clip-path:inset(0 100% 0 0);';
+    frame.appendChild(ov);
+    var wipe = ov.animate(
+      [{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0 0 0)' }],
+      { duration: 450, easing: 'cubic-bezier(0.16,1,0.3,1)', fill: 'forwards' }
+    );
+    wipe.onfinish = function () {
+      var fade = ov.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 260, easing: 'ease-out', fill: 'forwards' });
+      fade.onfinish = function () { ov.remove(); };
+    };
+  }
+
+  function pulseBlock(b) {
+    if (!b || reducedMotion() || !canAnimate) return;
+    var p = PALS[_paletteName] || PALS.Lagoon;
+    b.animate(
+      [{ backgroundColor: 'rgba(0,0,0,0)' }, { backgroundColor: hexToRgba(p.b, .13), offset: .35 }, { backgroundColor: 'rgba(0,0,0,0)' }],
+      { duration: 1100, delay: 320, easing: 'cubic-bezier(.4,0,.2,1)' }
+    );
+  }
+
+  function applyPalette(name, fx) {
     var p = PALS[name];
     if (!p) return;
     _paletteName = name;
+    // The page wears your pick: same mechanism a real deploy's config.js uses.
+    // One set of root tokens reskins every accent on this page.
+    var rootStyle = document.documentElement.style;
+    rootStyle.setProperty('--accent', p.b);
+    rootStyle.setProperty('--accent-2', p.a);
+    rootStyle.setProperty('--cta-from', p.g1);
+    rootStyle.setProperty('--cta-to', p.g2);
+    rootStyle.setProperty('--cta-ink', p.ink);
     if (palRoot) {
       palRoot.style.setProperty('--acc', p.a);
       palRoot.style.setProperty('--acc2', p.b);
@@ -678,7 +865,14 @@
     }
     if (palName) palName.textContent = name;
     if (palHex) palHex.textContent = p.hex;
-    updateSummary();
+    if (palResetBtn) palResetBtn.style.display = name === 'Lagoon' ? 'none' : 'inline-flex';
+    if (fx) {
+      ensureVisible(palFrame);
+      sweepFrame(palFrame, p);
+      flashUrl(palUrl, 'applying ' + name + '…');
+      announce(name + ' applied');
+    }
+    updateSummary(fx ? 'theme' : null);
   }
 
   function setBlock(b, on) {
@@ -691,14 +885,14 @@
 
   function paintChip(c, on) {
     c.setAttribute('aria-pressed', on ? 'true' : 'false');
-    c.style.background = on ? 'linear-gradient(135deg,#8ef0e6,#37c7bf)' : 'rgba(9,32,40,.55)';
-    c.style.color = on ? '#052026' : 'rgba(214,240,236,.72)';
+    c.style.background = on ? 'linear-gradient(135deg,var(--cta-from),var(--cta-to))' : 'rgba(9,32,40,.55)';
+    c.style.color = on ? 'var(--cta-ink)' : 'rgba(214,240,236,.72)';
     c.style.borderColor = on ? 'transparent' : 'rgba(150,230,225,.2)';
     var dot = c.querySelector('[data-dot]');
     if (dot) {
       dot.textContent = on ? '✓' : '+';
       dot.style.background = on ? 'rgba(5,32,38,.22)' : 'rgba(127,227,218,.16)';
-      dot.style.color = on ? '#052026' : '#7fe3da';
+      dot.style.color = on ? 'var(--cta-ink)' : 'var(--accent)';
     }
   }
 
@@ -707,6 +901,7 @@
       var blocks = Array.prototype.slice.call(modRoot.querySelectorAll('[data-block]'));
       blocks.forEach(function (b) {
         b.style.overflow = 'hidden';
+        b.style.borderRadius = '12px';
         setBlock(b, _mods[b.dataset.block] !== false);
       });
       requestAnimationFrame(function () {
@@ -730,7 +925,10 @@
     paintChip(c, next);
     var b = modRoot && modRoot.querySelector('[data-block="' + key + '"]');
     if (b) setBlock(b, next);
-    updateSummary();
+    ensureVisible(modFrame);
+    if (next && b) pulseBlock(b); // land the eye where the section appeared
+    announce(MOD_LABELS[key] + ' section ' + (next ? 'on' : 'off'));
+    updateSummary(key);
   }
 
   function paintStyleButtons() {
@@ -738,15 +936,15 @@
     Array.prototype.forEach.call(styleRow.querySelectorAll('[data-style]'), function (btn) {
       var on = btn.dataset.style === _style;
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      btn.style.background = on ? 'linear-gradient(135deg,#8ef0e6,#37c7bf)' : 'rgba(9,32,40,.5)';
+      btn.style.background = on ? 'linear-gradient(135deg,var(--cta-from),var(--cta-to))' : 'rgba(9,32,40,.5)';
       btn.style.borderColor = on ? 'transparent' : 'rgba(150,230,225,.28)';
-      btn.style.color = on ? '#052026' : 'rgba(224,247,242,.78)';
+      btn.style.color = on ? 'var(--cta-ink)' : 'rgba(224,247,242,.78)';
       var dot = btn.querySelector('[data-style-dot]');
       if (dot) {
         dot.textContent = on ? '✓' : '';
         dot.style.background = on ? 'rgba(5,32,38,.25)' : 'transparent';
         dot.style.borderColor = on ? 'transparent' : 'rgba(150,230,225,.4)';
-        dot.style.color = '#052026';
+        dot.style.color = 'var(--cta-ink)';
       }
     });
   }
@@ -755,26 +953,78 @@
     var key = e.currentTarget.dataset.style;
     _style = key;
     paintStyleButtons();
-    updateSummary();
+    updateSummary('style');
   }
 
-  function updateSummary() {
+  function stampEl(el) {
+    if (!el || reducedMotion()) return;
+    el.classList.remove('pi-stamp');
+    void el.offsetWidth;
+    el.classList.add('pi-stamp');
+  }
+
+  function onSectionKeys() {
+    return MOD_ORDER.filter(function (k) { return _mods[k] !== false; });
+  }
+
+  function updateSummary(changedKey) {
     if (summaryStyleEl) {
-      summaryStyleEl.textContent = _style ? STYLE_LABELS[_style] : 'Not picked yet';
+      summaryStyleEl.textContent = _style ? STYLE_LABELS[_style] : 'Not picked yet. Skip it and we start you on Color & Shape, the most popular.';
+      if (changedKey === 'style') stampEl(summaryStyleEl);
     }
     if (summaryPaletteEl) {
       summaryPaletteEl.textContent = _paletteName || 'Lagoon';
+      if (changedKey === 'theme') stampEl(summaryPaletteEl.parentNode);
     }
     if (summarySwatchEl) {
       var p = PALS[_paletteName || 'Lagoon'];
       summarySwatchEl.style.background = 'linear-gradient(135deg,' + p.g1 + ',' + p.g2 + ')';
     }
     if (summaryModsEl) {
-      var mods = _mods || MODS;
-      var on = MOD_ORDER.filter(function (k) { return mods[k] !== false; }).map(function (k) { return MOD_LABELS[k]; });
-      summaryModsEl.textContent = on.length ? on.join(', ') : 'None selected';
+      // the sheet writes itself: one line per section, on/off, settling as it changes
+      summaryModsEl.innerHTML = MOD_ORDER.map(function (k) {
+        var on = _mods[k] !== false;
+        return '<div data-sheet-row="' + k + '" style="display:flex; align-items:center; gap:9px; padding:3px 0;' + (on ? '' : ' opacity:.45;') + '">'
+          + '<span aria-hidden="true" style="flex:none; width:15px; text-align:center; font-weight:800; color:' + (on ? 'var(--accent)' : 'rgba(214,240,236,.55)') + ';">' + (on ? '✓' : '·') + '</span>'
+          + '<span style="' + (on ? '' : 'text-decoration:line-through; text-decoration-color:rgba(214,240,236,.3);') + '">' + MOD_LABELS[k] + (on ? '' : '<span class="pi-vh"> (off)</span>') + '</span>'
+          + '</div>';
+      }).join('');
+      if (changedKey && MOD_LABELS[changedKey]) stampEl(summaryModsEl.querySelector('[data-sheet-row="' + changedKey + '"]'));
     }
+    updateSubmitState();
     persist();
+  }
+
+  function contactReady() {
+    var email = ((emailInput && emailInput.value) || '').trim();
+    var phone = ((phoneInput && phoneInput.value) || '').trim();
+    return email.indexOf('@') !== -1 || phone.replace(/\D/g, '').length >= 7;
+  }
+
+  var _sending = false;
+  function updateSubmitState() {
+    if (!submitBtn || _sending || _submitted) return;
+    var name = ((nameInput && nameInput.value) || '').trim();
+    var ready = !!name && contactReady();
+    var n = onSectionKeys().length;
+    submitBtn.disabled = !ready;
+    submitBtn.setAttribute('aria-disabled', ready ? 'false' : 'true');
+    submitBtn.textContent = ready
+      ? ('Lock in ' + (_paletteName || 'Lagoon') + ' + ' + n + ' section' + (n === 1 ? '' : 's') + ' →')
+      : 'Add your name + a way to reach you';
+    submitBtn.style.opacity = ready ? '' : '0.55';
+    submitBtn.style.cursor = ready ? 'pointer' : 'default';
+    submitBtn.style.boxShadow = ready ? '' : 'none';
+  }
+
+  function setLocked(on) {
+    if (sheetLock) {
+      sheetLock.style.display = on ? 'block' : 'none';
+      sheetLock.classList.remove('pi-stamp-in');
+      if (on && !reducedMotion()) { void sheetLock.offsetWidth; sheetLock.classList.add('pi-stamp-in'); }
+    }
+    if (sheetLockNote) sheetLockNote.style.display = on ? 'flex' : 'none';
+    if (bookCta) bookCta.textContent = on ? 'Sheet locked. Book your call →' : bookCtaDefaultLabel;
   }
 
   function fillLeadInputs(lead) {
@@ -824,7 +1074,7 @@
     _lead = { name: name, email: email, phone: phone, message: message };
 
     var pendingBtn = submitBtn;
-    var originalLabel = pendingBtn ? pendingBtn.textContent : '';
+    _sending = true;
     if (pendingBtn) {
       pendingBtn.disabled = true;
       pendingBtn.style.opacity = '0.6';
@@ -847,24 +1097,31 @@
       email: _lead.email,
       phone: _lead.phone,
       message: picksText,
+      picks: {
+        theme: _paletteName || 'Lagoon',
+        sections: onSectionKeys().map(function (k) { return MOD_LABELS[k]; }),
+        style: _style ? (STYLE_LABELS[_style] || _style) : null
+      },
       source: 'premium-ideas (picks)',
       formName: 'premium-ideas-picks'
     }) : Promise.resolve();
     p.then(function () {
+      _sending = false;
       _submitted = true;
       if (confirmNameText) confirmNameText.textContent = 'Got it, ' + (_lead.name || 'there') + '.';
       if (confirmContactText) confirmContactText.textContent = _lead.email || _lead.phone || '';
       showSubmitted(true);
+      setLocked(true);
       persist();
+      // Panel was display:none until now. PayPal buttons rendered while hidden
+      // size to 0, so this must run after reveal and in immediate mode.
+      resetOfferToggle();
+      if (window.gaelworxRenderOffers) gaelworxRenderOffers({ deposit: '#pi-pp-offer' }, { immediate: true });
     }).catch(function () {
-      if (pendingBtn) {
-        pendingBtn.disabled = false;
-        pendingBtn.style.opacity = '';
-        pendingBtn.style.cursor = 'pointer';
-        pendingBtn.textContent = originalLabel;
-      }
+      _sending = false;
+      updateSubmitState();
       if (formError) {
-        formError.textContent = 'Something went wrong sending that — please try again in a moment.';
+        formError.textContent = 'Something went wrong sending that. Please try again in a moment.';
         formError.style.display = 'block';
       }
     });
@@ -872,23 +1129,21 @@
 
   function editPicks() {
     _submitted = false;
+    _sending = false;
     showSubmitted(false);
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.style.opacity = '';
-      submitBtn.style.cursor = 'pointer';
-      submitBtn.textContent = submitBtnDefaultLabel;
-    }
-    requestAnimationFrame(function () { fillLeadInputs(_lead); });
+    setLocked(false);
+    fillLeadInputs(_lead);
+    updateSubmitState();
     persist();
   }
 
   // wire up events
   if (swatchWrap) {
     Array.prototype.forEach.call(swatchWrap.querySelectorAll('[data-pal]'), function (btn) {
-      btn.addEventListener('click', function (e) { applyPalette(e.currentTarget.dataset.pal); });
+      btn.addEventListener('click', function (e) { applyPalette(e.currentTarget.dataset.pal, true); });
     });
   }
+  if (palResetBtn) palResetBtn.addEventListener('click', function () { applyPalette('Lagoon', true); });
   if (chipWrap) {
     Array.prototype.forEach.call(chipWrap.querySelectorAll('[data-mod]'), function (btn) {
       btn.addEventListener('click', toggleModule);
@@ -905,10 +1160,122 @@
   if (emailInput) emailInput.addEventListener('input', clearContactHint);
   if (phoneInput) phoneInput.addEventListener('input', clearContactHint);
   var submitBtn = document.getElementById('submitPicksBtn');
-  var submitBtnDefaultLabel = submitBtn ? submitBtn.textContent : '';
   if (submitBtn) submitBtn.addEventListener('click', submitPicks);
+  [nameInput, emailInput, phoneInput].forEach(function (el) {
+    if (el) el.addEventListener('input', updateSubmitState);
+  });
   var editBtn = document.getElementById('editPicksBtn');
   if (editBtn) editBtn.addEventListener('click', editPicks);
+
+  // offer toggle: one PayPal slot, two offers
+  var OFFER_COPY = {
+    deposit: {
+      price: '$499',
+      sub: 'Secures your territory. Applied in full to your $3,999 build fee, refundable until kickoff.',
+      fbHref: 'mailto:forge@gaelworx.com?subject=%24499%20deposit%3A%20secure%20my%20territory',
+      fbText: 'Pay the $499 deposit →'
+    },
+    full: {
+      price: '$3,199',
+      sub: 'Your whole build paid up front: save $800, 20% off the standard $3,999.',
+      fbHref: 'mailto:forge@gaelworx.com?subject=%243%2C199%20build%20paid%20in%20full%3A%20save%20%24800',
+      fbText: 'Pay the $3,199 build in full →'
+    }
+  };
+  var offerPills = {
+    deposit: document.getElementById('piPillDeposit'),
+    full: document.getElementById('piPillFull')
+  };
+  var offerSubline = document.getElementById('piOfferSubline');
+  var offerFb = document.getElementById('pi-pp-offer-fb');
+  // claim-ticket extras (all guarded: the block works without them)
+  var priceRollWrap = document.getElementById('piPriceRoll');
+  var priceVal = document.getElementById('piPriceVal');
+  var saveChip = document.getElementById('piSaveChip');
+  var _offerKey = 'deposit';
+  function prefersStill() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+  // price roll: old numeral slides up/out, new slides in (instant when reduced)
+  function rollPrice(txt, animate) {
+    if (!priceVal || priceVal.textContent === txt) return;
+    if (!animate || !priceRollWrap || prefersStill()) { priceVal.textContent = txt; return; }
+    var old = priceVal.cloneNode(true);
+    old.removeAttribute('id');
+    old.className = 'gw-ticket-price-out';
+    old.setAttribute('aria-hidden', 'true');
+    priceRollWrap.appendChild(old);
+    priceVal.textContent = txt;
+    priceVal.classList.remove('gw-ticket-price-in');
+    void priceVal.offsetWidth;
+    priceVal.classList.add('gw-ticket-price-in');
+    setTimeout(function () {
+      if (old.parentNode) old.parentNode.removeChild(old);
+      priceVal.classList.remove('gw-ticket-price-in');
+    }, 340);
+  }
+  function paintOffer(animate) {
+    Object.keys(offerPills).forEach(function (k) {
+      var b = offerPills[k];
+      if (!b) return;
+      var on = (k === _offerKey);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (on) {
+        b.style.background = 'linear-gradient(135deg,var(--cta-from),var(--cta-to))';
+        b.style.color = 'var(--cta-ink)';
+        b.style.border = '1px solid transparent';
+      } else {
+        b.style.background = 'rgba(8,28,34,.55)';
+        b.style.color = 'rgba(234,252,251,.85)';
+        b.style.border = '1px solid rgba(150,230,225,.25)';
+      }
+    });
+    var copy = OFFER_COPY[_offerKey];
+    if (offerSubline) offerSubline.textContent = copy.sub;
+    if (offerFb) { offerFb.href = copy.fbHref; offerFb.textContent = copy.fbText; }
+    rollPrice(copy.price, animate);
+    if (saveChip) {
+      if (_offerKey === 'full') {
+        if (saveChip.hidden) {
+          saveChip.hidden = false;
+          if (animate && !prefersStill()) {
+            saveChip.classList.remove('gw-ticket-chip-pop');
+            void saveChip.offsetWidth;
+            saveChip.classList.add('gw-ticket-chip-pop');
+          }
+        }
+      } else {
+        saveChip.hidden = true;
+        saveChip.classList.remove('gw-ticket-chip-pop');
+      }
+    }
+  }
+  function selectOffer(key) {
+    if (key === _offerKey || !OFFER_COPY[key]) return;
+    _offerKey = key;
+    paintOffer(true);
+    if (window.gaelworxShowOffer) gaelworxShowOffer('#pi-pp-offer', key);
+  }
+  // submit re-renders the deposit offer, so the toggle must read deposit too
+  function resetOfferToggle() {
+    _offerKey = 'deposit';
+    paintOffer(false);
+  }
+  Object.keys(offerPills).forEach(function (k) {
+    if (offerPills[k]) offerPills[k].addEventListener('click', function () { selectOffer(k); });
+  });
+
+  // keep the floating CTA out of the way of the real submit button
+  var ctaSection = document.getElementById('cta');
+  if (bookCta && ctaSection && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      var vis = entries[entries.length - 1].isIntersecting;
+      bookCta.style.transform = vis ? 'translateY(170%)' : '';
+      bookCta.style.opacity = vis ? '0' : '';
+      bookCta.style.pointerEvents = vis ? 'none' : '';
+      if (vis) bookCta.setAttribute('tabindex', '-1'); else bookCta.removeAttribute('tabindex');
+    }, { threshold: 0 }).observe(ctaSection);
+  }
 
   // init
   var saved = loadPersisted();
@@ -927,6 +1294,12 @@
     if (confirmNameText) confirmNameText.textContent = 'Got it, ' + ((_lead && _lead.name) || 'there') + '.';
     if (confirmContactText) confirmContactText.textContent = (_lead && (_lead.email || _lead.phone)) || '';
     showSubmitted(true);
+    setLocked(true);
+    // This IIFE runs at parse time, before the deferred paypal-offers.js executes;
+    // deferred scripts finish before DOMContentLoaded, so render the offers there.
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.gaelworxRenderOffers) gaelworxRenderOffers({ deposit: '#pi-pp-offer' }, { immediate: true });
+    });
   }
 })();
 </script>
