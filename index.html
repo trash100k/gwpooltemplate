@@ -906,6 +906,8 @@
     return 'rgb(' + r + ',' + g + ',' + bl + ')';
   }
 
+  function s5(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * t * (t * (t * 6 - 15) + 10); }
+
   function buildClarity() {
     if (!stage || !track) return;
     var max = Math.max(1, track.scrollHeight - stage.clientHeight);
@@ -1252,7 +1254,6 @@
       var dbr = crawlSection.getBoundingClientRect();
       var dvh = stage.clientHeight || 1;
       var dq = -dbr.top / Math.max(1, dbr.height - dvh); // unclamped: <0 approaching, >1 departed
-      var s5 = function (t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return t * t * t * (t * (t * 6 - 15) + 10); };
       dark = s5((dq + 0.10) / 0.18) * (1 - s5((dq - 0.88) / 0.12));
     }
     P.dark = dark;
