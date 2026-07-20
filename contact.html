@@ -136,6 +136,7 @@
         </div>
         <h1 class="cn-rise" style="animation-delay:.08s; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,8vw,104px); line-height:.94; letter-spacing:-.03em; color:var(--foam-white); margin:0; text-wrap:balance;">Get your<br />Saturday back.</h1>
         <p class="cn-rise" style="animation-delay:.16s; max-width:620px; margin:26px 0 0; font-size:clamp(17px,1.5vw,21px); line-height:1.6; color:rgba(236,246,228,.82);">Tell us how the water looks and get an instant forecast: days to swim-ready, and what it should run. A real water tech, <em style="font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; font-size:1.08em;">not a call center,</em> confirms it on the first visit, free.</p>
+        <p class="cn-rise" style="animation-delay:.22s; font-size:14.5px; line-height:1.6; color:rgba(214,240,236,.78); margin-top:14px;">Serving <span data-cfg="area">Austin &amp; Hill Country</span>. In a hurry? Call <a class="cn-phone-link" href="tel:+15125550143" data-cfg-href="tel" data-cfg="phone" style="color:var(--accent); font-weight:700;">(512) 555-0143</a> and skip the form.</p>
       </div>
     </section>
 
@@ -417,6 +418,8 @@
   var qWater = qs.get('water'), qIntent = qs.get('intent');
   if (['crystal', 'cloudy', 'green', 'swamp'].indexOf(qWater) !== -1) { condition = qWater; }
   if (['weekly', 'rescue', 'repair', 'question'].indexOf(qIntent) !== -1) { service = qIntent; }
+  // weekly intent without an explicit water state gets the crystal maintenance framing
+  if (qIntent === 'weekly' && ['crystal', 'cloudy', 'green', 'swamp'].indexOf(qWater) === -1) { condition = 'crystal'; }
 
   function wireChipGroup(containerId, getVal, setVal) {
     var chips = Array.prototype.slice.call(document.getElementById(containerId).querySelectorAll('.cn-chip'));
@@ -479,7 +482,7 @@
     swamp:   { from: '#3d4a16', mid: '#5c6b2e' }
   };
   var FORECAST_COPY = {
-    crystal: { lead: 'You’re already there.', turn: 'Let’s keep it that way.', note: 'Weekly care from $149/mo keeps it exactly like this. First clean free.' },
+    crystal: { lead: 'You’re already there.', turn: 'Let’s keep it that way.', note: 'Weekly care from $149/mo, any size pool. First clean free.' },
     cloudy:  { lead: 'A little cloudy is a quick fix.', turn: 'Back to glass in a day or two.', note: 'Estimate — confirmed on the first visit, free. Roll it into a plan and it gets cheaper.' },
     green:   { lead: 'Green is routine for us.', turn: 'This week, not next month.', note: 'Estimate — confirmed on the first visit, free.' },
     swamp:   { lead: 'Full swamp is our favorite starting point.', turn: 'Watch it turn.', note: 'Estimate — confirmed on the first visit, free. No drain, no refill bill.' }
@@ -526,10 +529,23 @@
     tweenDaysTo(f);
   }
 
+  // expectation-true submit label keyed to the service chip
+  var SUBMIT_LABELS = {
+    weekly: 'Book my first visit →',
+    rescue: 'Get my rescue quote →',
+    repair: 'Get my repair quote →',
+    question: 'Send my question →'
+  };
+  function updateSubmitLabel() {
+    var btn = document.querySelector('#cn-form .cn-submit');
+    if (btn && SUBMIT_LABELS[service]) { btn.textContent = SUBMIT_LABELS[service]; }
+  }
+
   wireChipGroup('cn-conditions', function () { return condition; }, function (v) { condition = v; renderForecast(); });
   wireChipGroup('cn-sizes', function () { return poolSize; }, function (v) { poolSize = v; renderForecast(); });
-  wireChipGroup('cn-services', function () { return service; }, function (v) { service = v; });
+  wireChipGroup('cn-services', function () { return service; }, function (v) { service = v; updateSubmitLabel(); });
   renderForecast();
+  updateSubmitLabel();
 
   // ---- booking form → window.meridianSubmitLead ----
   var form = document.getElementById('cn-form');
@@ -585,9 +601,10 @@
       var submittedCopy = document.getElementById('cn-submitted-copy');
       if (submittedCopy) {
         var span = (f.dayMin === f.dayMax) ? (f.dayMin + '-day') : (f.dayMin + '–' + f.dayMax + ' day');
+        var cfgPhone = (window.MERIDIAN_CONFIG && window.MERIDIAN_CONFIG.business && window.MERIDIAN_CONFIG.business.phone) || '(512) 555-0143';
         submittedCopy.textContent = f.monthly
-          ? 'A water tech will call within one business day to lock in your keep-it-crystal plan. Leave the gate unlocked and we’ll handle the rest.'
-          : 'A water tech will call within one business day and confirm your ' + span + ' plan on the first visit, free. Leave the gate unlocked and we’ll handle the rest.';
+          ? 'A water tech will call within one business day to lock in your keep-it-crystal plan. Your first visit includes a walkthrough of your setup, no extra charge. Questions before then? Call ' + cfgPhone + '.'
+          : 'A water tech will call to confirm your ' + span + ' plan, always within one business day and usually much sooner. Need it faster? Call ' + cfgPhone + '. Leave the gate unlocked and we handle the rest.';
       }
       window.setTimeout(function () {
         formPanel.style.display = 'none';

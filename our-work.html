@@ -59,6 +59,8 @@
    no flash; reduced-motion never arms it, so content is simply visible. */
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('rv');
 </script>
+</head>
+<body>
 
 <noscript>
   <div style="position:fixed; inset:0; z-index:80; display:flex; align-items:center; justify-content:center; padding:24px; background:var(--swamp-black); font-family:sans-serif;">
@@ -105,10 +107,10 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentEl
         <a class="pc-menu-link menu-close" href="about.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">About</a>
         <a class="pc-menu-link menu-close" href="pool-school.html" style="display:block; padding:12px 14px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:600; font-size:15px; color:rgba(234,250,246,.82);">Pool School</a>
         <div style="height:1px; background:rgba(150,230,225,.14); margin:6px 4px;"></div>
-        <a class="menu-close" href="contact.html" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Rescue my pool</a>
+        <a class="menu-close" href="contact.html?intent=rescue&amp;water=green" style="display:block; text-align:center; padding:12px; border-radius:12px; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Rescue my pool</a>
       </div>
     </div>
-    <a href="contact.html" class="ow-cta-pill" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 6px 18px rgba(30,180,170,.38);">Rescue my pool</a>
+    <a href="contact.html?intent=rescue&amp;water=green" class="ow-cta-pill" style="flex:none; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:11px 20px; border-radius:999px; box-shadow:0 6px 18px rgba(30,180,170,.38);">Rescue my pool</a>
   </nav>
 
   <!-- ============ CONTENT ============ -->

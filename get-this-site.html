@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Get This Site — a Gaelworx pool-service website</title>
-<meta name="description" content="Own a territory-exclusive, premium pool-service website — live in 3 days, run and grown for you. $3,999 to build, $599/mo, founding rate locked for life. Only 3 businesses per state, 150 ever.">
+<title>Get This Site: a Gaelworx pool-service website</title>
+<meta name="description" content="Own a territory-exclusive, premium pool-service website: live in 3 days, run and grown for you. Built for Florida's year-round season, open to pool companies in all 50 states. $3,999 to build, $599/mo, founding rate locked for life. Only 3 businesses per state, 150 ever.">
 <link rel="icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -33,6 +33,7 @@
   @keyframes gs-dash { to { stroke-dashoffset: -220; } }
   @media (max-width: 820px) {
     .gw-hero, .gw-2col { grid-template-columns: 1fr !important; }
+    .gw-mesh-copy { order: -1 !important; } /* stacked: text first, mesh visual second */
     .gw-navlinks { display: none !important; }
     .gw-nav-cta { font-size: 13px !important; padding: 10px 15px !important; display: none !important; }
     .gw-hamburger { display: flex !important; }
@@ -46,12 +47,152 @@
   .gw-border-hover:hover { border-color: var(--accent-2); }
   .gw-faq-toggle { cursor: pointer; }
   /* [hidden] must beat inline display:flex on these overlays, or they can never be dismissed */
-  #gts-exit-overlay[hidden], #gw-mobile-menu[hidden] { display: none !important; }
+  #gts-exit-overlay[hidden], #gw-mobile-menu[hidden], #gw-return-bar[hidden] { display: none !important; }
   a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .mpc-skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--deep-water);color:var(--foam-bright);padding:12px 18px;border-radius:0 0 10px 0;font-family:'Manrope',sans-serif;font-weight:600;font-size:14px;}
   .mpc-skip:focus{left:0;}
   .gw-hamburger:hover{border-color:var(--accent-2);}
   @media (min-width:821px){ .gw-mobile-menu{display:none !important;} }
+  /* ---- territory slot ledger (the dots grown up; teal/foam only) ---- */
+  #gts-slot-ledger{ display:grid; grid-template-columns:1fr; gap:10px; }
+  @media (min-width:700px){ #gts-slot-ledger{ grid-template-columns:repeat(3,1fr); } }
+  .gts-slot{ position:relative; min-height:72px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; text-align:center; padding:14px 10px; }
+  .gts-slot-num{ font-family:'Manrope',sans-serif; font-weight:700; font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
+  .gts-slot-claimed{ background:rgba(8,28,34,.55); border:1px solid rgba(150,230,225,.14); }
+  .gts-slot-claimed .gts-slot-num{ color:rgba(214,240,236,.45); }
+  .gts-slot-stamp{ display:inline-block; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; color:rgba(127,227,218,.55); border:1.5px solid rgba(127,227,218,.3); border-radius:9px; padding:6px 11px 5px; rotate:-2deg; }
+  .gts-slot + .gts-slot .gts-slot-stamp{ rotate:2deg; }
+  .gts-slot-open{ background:linear-gradient(135deg, rgba(142,240,230,.92), rgba(55,199,191,.86)); border:1px solid rgba(180,255,250,.4); color:#052026; }
+  a.gts-slot-open{ text-decoration:none; }
+  .gts-slot-open .gts-slot-num{ color:rgba(5,32,38,.7); }
+  .gts-slot-label{ font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#052026; }
+  .gts-slot-sub{ font-family:'Manrope',sans-serif; font-weight:600; font-size:12px; color:rgba(5,32,38,.78); }
+  @media (prefers-reduced-motion: no-preference){
+    @keyframes gts-slot-breathe{ 0%,100%{ box-shadow:0 0 0 0 rgba(127,227,218,0); } 50%{ box-shadow:0 0 18px 4px rgba(127,227,218,.35); } }
+    a.gts-slot-open{ animation:gts-slot-breathe 3s ease-in-out infinite; }
+  }
+  #gts-state-select{ flex:1 1 200px; min-width:0; font-family:'Manrope',sans-serif; font-weight:600; font-size:14px; color:var(--foam-bright); background:rgba(8,28,34,.75); border:1px solid rgba(150,230,225,.26); border-radius:10px; padding:10px 12px; }
+  /* ---- wordmark ember (funnel signature: warm = funnel, sanctioned on the Gaelworx wordmark only) ---- */
+  @keyframes gw-ablaze { 0% { color:#ff9a3c; text-shadow:0 0 5px rgba(255,150,60,.7), 0 0 12px rgba(255,90,20,.4); } 100% { color:#ffd27a; text-shadow:0 0 9px rgba(255,185,90,.95), 0 0 22px rgba(255,110,30,.6); } }
+  .gw-wordmark-ae{ transition:color .5s ease, text-shadow .5s ease; }
+  nav:hover .gw-wordmark-ae, nav:focus-within .gw-wordmark-ae{ color:var(--ember); text-shadow:0 0 7px rgba(255,150,60,.85), 0 0 16px rgba(255,90,20,.55); animation:gw-ablaze 1.6s ease-in-out infinite alternate; }
+  /* ---- hero URL typewriter cursor ---- */
+  @keyframes gts-caret { 0%,45% { opacity:1; } 50%,100% { opacity:0; } }
+  #gts-url-caret{ display:inline-block; width:1px; height:11px; margin-left:1px; vertical-align:-2px; background:var(--accent); animation:gts-caret 1.1s steps(1) infinite; }
+  /* ---- booking contact pills ---- */
+  .gts-contact-pill{ display:flex; align-items:center; gap:14px; text-decoration:none; padding:15px 22px; border-radius:999px; }
+  .gts-contact-note{ font-size:13px; line-height:1.5; color:rgba(214,240,236,.62); margin:8px 4px 14px; }
+  /* ---- claim ticket (PayPal checkout block): territory claim ticket artifact ---- */
+  .gw-ticket-wrap{ position:relative; }
+  .gw-ticket-wrap::before{ content:""; position:absolute; inset:-14px; border-radius:26px; background:radial-gradient(60% 60% at 50% 40%, rgba(255,177,77,.09), transparent 75%); filter:blur(12px); pointer-events:none; }
+  .gw-ticket{ position:relative; background:linear-gradient(165deg,#0c2a34,#071c25); border:1px solid rgba(255,177,77,.38); border-radius:17px; overflow:hidden; }
+  .gw-ticket-head{ padding:18px 20px 14px; }
+  .gw-ticket-headrow{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:12px; }
+  .gw-ticket-stamp{ display:inline-block; font-size:11.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--ember); border:1px solid rgba(255,177,77,.45); border-radius:7px; padding:5px 9px 4px; transform:rotate(-2deg); }
+  .gw-ticket-seal{ position:relative; flex:none; margin-top:3px; width:16px; height:16px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #ffd27a, #ffb14d 55%, #a34d12 100%); box-shadow:0 0 10px 2px rgba(255,177,77,.45); animation:gw-seal-breathe 4s ease-in-out infinite; cursor:default; }
+  .gw-ticket-seal-cap{ position:absolute; right:0; top:24px; z-index:3; width:max-content; max-width:210px; font-size:14.5px; font-weight:600; line-height:1.4; color:rgba(234,252,251,.92); background:#052026; border:1px solid rgba(255,177,77,.45); border-radius:9px; padding:7px 11px; opacity:0; visibility:hidden; transition:opacity .18s ease, visibility .18s ease; }
+  .gw-ticket-seal:hover .gw-ticket-seal-cap, .gw-ticket-seal:focus .gw-ticket-seal-cap{ opacity:1; visibility:visible; }
+  .gw-ticket-title{ font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:20px; line-height:1.15; letter-spacing:-.015em; color:var(--foam-white); margin:0; }
+  /* perforated tear-line: punched holes via repeating radial-gradient, no images */
+  .gw-ticket-perf{ height:14px; border-top:1px dashed rgba(255,177,77,.28); background:radial-gradient(circle at 8px 7px, #04141b 4px, rgba(4,20,27,0) 4.6px); background-size:24px 14px; background-repeat:repeat-x; }
+  .gw-ticket-body{ padding:14px 20px 18px; }
+  .gw-ticket-pills{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+  .gw-ticket-pills button:active{ transform:translateY(1px); }
+  .gw-ticket-pricerow{ display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px; margin-bottom:10px; }
+  .gw-ticket-price{ position:relative; display:inline-block; overflow:hidden; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,3vw,32px); line-height:1.12; color:var(--foam-white); }
+  .gw-ticket-price-num{ display:inline-block; }
+  .gw-roll-out{ position:absolute; left:0; top:0; animation:gw-price-out .26s cubic-bezier(.22,1,.36,1) forwards; }
+  .gw-roll-in{ animation:gw-price-in .28s cubic-bezier(.22,1,.36,1); }
+  .gw-ticket-anchor{ font-size:14.5px; font-weight:600; color:rgba(234,252,251,.82); text-decoration:line-through; }
+  .gw-ticket-chip{ display:inline-block; font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#052026; background:var(--ember); border-radius:999px; padding:5px 11px 4px; animation:gw-chip-pop .24s cubic-bezier(.22,1,.36,1); }
+  .gw-ticket-chip[hidden]{ display:none; }
+  .gw-ticket-sub{ font-size:14.5px; line-height:1.55; color:rgba(234,252,251,.82); margin:0 0 12px; }
+  .gw-ticket-scarce{ font-size:14.5px; line-height:1.55; color:rgba(234,252,251,.82); margin-top:12px; }
+  .gw-ticket-foot{ font-size:14.5px; line-height:1.55; color:rgba(234,252,251,.82); margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,177,77,.16); }
+  @keyframes gw-price-out{ to{ transform:translateY(-115%); opacity:0; } }
+  @keyframes gw-price-in{ from{ transform:translateY(70%); opacity:0; } to{ transform:translateY(0); opacity:1; } }
+  @keyframes gw-chip-pop{ from{ transform:scale(.9); opacity:0; } to{ transform:scale(1); opacity:1; } }
+  @keyframes gw-seal-breathe{ 0%,100%{ box-shadow:0 0 8px 1px rgba(255,177,77,.35); } 50%{ box-shadow:0 0 14px 4px rgba(255,177,77,.6); } }
+  /* ================================================================
+     DESCENT & CLEAR - scroll-linked depth layers + one-time entry emphasis
+     Z-INDEX MAP: fixed background art (z:0) -> depth spine (z:0, painted
+     after bg) -> bubble field (z:0, painted after spine) -> main/footer
+     (z:1) -> nav (40) -> floating CTA (60) -> exit overlay (80).
+     Every new layer stays at z:0, below all content and far below the
+     nav/CTA/overlay ceiling. Murk + bubbles are pure enhancements: with
+     no scroll-timeline support, or under reduced motion, they are
+     invisible and the page is the CLEAR state it was before this build.
+     No content's visibility depends on any animation here firing.
+     ================================================================ */
+  /* -- 1. WATER DEPTH SPINE: algae murk at the surface, crystal by #claim -- */
+  #gw-depth-spine{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; opacity:0;
+    background:
+      radial-gradient(120% 70% at 50% -6%, rgba(174,189,109,.17), transparent 60%),
+      linear-gradient(180deg, rgba(10,18,8,.52) 0%, rgba(4,20,27,.34) 55%, rgba(127,227,218,.04) 100%); }
+  /* -- 2. DEPTH PARALLAX BUBBLES: 3 fixed layers, scroll-linked rise -- */
+  #gw-bubble-field{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+  .gw-bubble-layer{ position:absolute; left:0; right:0; top:0; height:230%; opacity:0; }
+  .gw-bubble{ position:absolute; border-radius:50%; filter:blur(3px);
+    background:radial-gradient(circle at 38% 32%, rgba(127,227,218,.12), rgba(95,208,200,.05) 55%, transparent 72%); }
+  @supports (animation-timeline: scroll()) {
+    #gw-depth-spine{ animation:gw-murk-clear linear both; animation-timeline:scroll(root); }
+    .gw-bubble-layer{ opacity:1; animation:gw-rise-mid linear both, gw-bubble-fade linear both; animation-timeline:scroll(root); }
+    .gw-bubble-slow{ animation-name:gw-rise-slow, gw-bubble-fade; }
+    .gw-bubble-fast{ animation-name:gw-rise-fast, gw-bubble-fade; }
+  }
+  @keyframes gw-murk-clear{ 0%{ opacity:.55; } 45%{ opacity:.2; } 72%,100%{ opacity:0; } }
+  @keyframes gw-bubble-fade{ 0%{ opacity:1; } 45%{ opacity:.55; } 72%,100%{ opacity:0; } }
+  @keyframes gw-rise-slow{ from{ transform:translateY(0); } to{ transform:translateY(-26vh); } }
+  @keyframes gw-rise-mid{ from{ transform:translateY(0); } to{ transform:translateY(-52vh); } }
+  @keyframes gw-rise-fast{ from{ transform:translateY(0); } to{ transform:translateY(-88vh); } }
+  /* -- 3. WATERLINE EDGES: one-time top-edge shimmer on the four big panels -- */
+  .gw-waterline{ position:relative; overflow:hidden; }
+  .gw-waterline::after{ content:""; position:absolute; top:0; left:0; width:34%; height:2px; border-radius:2px;
+    pointer-events:none; opacity:0; transform:translateX(-120%);
+    background:linear-gradient(90deg, transparent, rgba(127,227,218,.8), transparent); }
+  .gw-waterline.gw-shimmered::after{ animation:gw-waterline-sweep .9s cubic-bezier(.45,0,.2,1) 1 both; }
+  @keyframes gw-waterline-sweep{ 0%{ transform:translateX(-120%); opacity:0; } 12%{ opacity:1; } 82%{ opacity:1; } 100%{ transform:translateX(400%); opacity:0; } }
+  /* -- 4. BORDER-DRAW: one-time teal stroke on comparison + founding card
+        (stroke-dashoffset per the design contract; teal only, ember stays
+        exclusive to the booking ticket) -- */
+  .gw-drawline{ position:relative; }
+  .gw-drawsvg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:0; }
+  .gw-drawsvg rect{ fill:none; stroke:var(--accent-2); stroke-width:1.5; stroke-dasharray:1; stroke-dashoffset:1; width:calc(100% - 3px); height:calc(100% - 3px); }
+  .gw-drawline.gw-drawn .gw-drawsvg{ opacity:.55; }
+  .gw-drawline.gw-drawn .gw-drawsvg rect{ animation:gw-border-draw 1.1s cubic-bezier(.4,0,.2,1) 1 both; }
+  @keyframes gw-border-draw{ from{ stroke-dashoffset:1; } to{ stroke-dashoffset:0; } }
+  /* -- 5. TERRITORY PIN: choreography states exist ONLY when JS stamps
+        .gw-pin-on (wide viewport, motion OK, IO available). Without it the
+        section is exactly the static page: auto height, stamps visible. -- */
+  .gts-terr-stamps{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:20px 0 2px; }
+  .gts-terr-stamp{ display:inline-block; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); border:1.5px solid rgba(127,227,218,.45); border-radius:9px; padding:7px 12px 6px; rotate:-2deg; }
+  .gts-terr-stamp + .gts-terr-stamp{ rotate:2deg; }
+  @media (min-width:900px) and (min-height:640px) and (prefers-reduced-motion: no-preference){
+    #gts-terr-outer.gw-pin-on{ height:190vh; }
+    .gw-pin-on #gts-terr-stage{ position:sticky; top:70px; }
+    .gw-pin-on .gts-slot{ opacity:.38; transition:opacity .3s ease; transition-delay:calc(var(--gw-i, 0) * 120ms); }
+    .gw-pin-on.gts-sweep .gts-slot{ opacity:1; }
+    .gw-pin-on .gts-terr-stamp{ opacity:0; transform:scale(.9); transition:opacity .24s cubic-bezier(.2,.8,.2,1), transform .24s cubic-bezier(.2,.8,.2,1); }
+    .gw-pin-on .gts-terr-stamp + .gts-terr-stamp{ transition-delay:.12s; }
+    .gw-pin-on.gts-stamp .gts-terr-stamp{ opacity:1; transform:scale(1); }
+    .gw-pin-on #gts-board-cta{ transition:filter .45s ease; }
+    .gw-pin-on.gts-glow #gts-board-cta{ filter:drop-shadow(0 0 10px rgba(127,227,218,.35)); }
+  }
+  /* explicit reduced-motion overrides: every new animation lands on the static CLEAR state */
+  @media (prefers-reduced-motion: reduce){
+    #gw-depth-spine, .gw-bubble-layer{ animation:none !important; opacity:0 !important; }
+    .gw-waterline::after{ animation:none !important; opacity:0 !important; }
+    .gw-drawsvg, .gw-drawsvg rect{ animation:none !important; }
+    .gw-drawline.gw-drawn .gw-drawsvg{ opacity:0 !important; }
+    .gts-terr-stamp{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .gts-slot{ opacity:1 !important; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .gw-ticket-seal{ animation:none; box-shadow:0 0 10px 2px rgba(255,177,77,.45); }
+    .gw-roll-out{ display:none; animation:none; }
+    .gw-roll-in, .gw-ticket-chip{ animation:none; }
+    .gw-ticket-pills button:active{ transform:none; }
+  }
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important;}
     [data-reveal]{opacity:1!important;transform:none!important;}
@@ -61,7 +202,7 @@
 <body>
 <a class="mpc-skip" href="#main">Skip to content</a>
 <noscript>
-  <div style="position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; padding:22px; background:linear-gradient(180deg,#07171e 0%,#04121a 56%,#061a20 100%); font-family:'Manrope',system-ui,sans-serif;">
+  <div style="position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:22px; background:linear-gradient(180deg,#07171e 0%,#04121a 56%,#061a20 100%); font-family:'Manrope',system-ui,sans-serif;">
     <div style="max-width:440px; width:100%; text-align:center; border-radius:24px; border:1px solid rgba(127,227,218,.28); background:var(--swamp-black); padding:36px 30px; box-shadow:0 40px 100px rgba(0,0,0,.6);">
       <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:14px;">JavaScript is off</div>
       <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:26px; line-height:1.1; color:var(--foam-bright); margin:0 0 14px;">This site needs JavaScript for the full experience.</h1>
@@ -70,7 +211,16 @@
     </div>
   </div>
 </noscript>
-<div style="position:relative; overflow:hidden;">
+<!-- SCROLL MECHANISM: this wrapper must be overflow:clip, NEVER overflow:hidden.
+     overflow:hidden makes the wrapper a scroll container, which (a) becomes the
+     sticky nav's scrollport (the nav "sticks" to a box that never scrolls, so it
+     scrolled away with the page) and (b) is the nearest scrollable ancestor that
+     scrollIntoView tries to scroll first, which broke programmatic/anchor scrolling
+     in automation and hidden-tab contexts. overflow:clip clips identically but
+     creates no scroll container: the viewport owns all scrolling on this page.
+     Anchor navigation is handled by the anchor-nav module in the inline script
+     (explicit behavior, hidden-tab fallback to instant, hash re-anchor on load). -->
+<div style="position:relative; overflow:clip;">
 
   <!-- ripple displacement for the logo emblem -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -92,12 +242,39 @@
     <img src="assets/knot-copper.webp" alt="" aria-hidden="true" width="1024" height="1024" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(94vw,94vh); height:min(94vw,94vh); object-fit:contain; pointer-events:none; opacity:.55; mix-blend-mode:multiply; filter:url(#logoRipple) saturate(.82) hue-rotate(-12deg);">
   </div>
 
+  <!-- ============ DESCENT & CLEAR: depth spine + parallax bubbles ============
+       Decorative fixed layers, z:0 (below content). Invisible unless the browser
+       supports CSS scroll-driven animation; see the z-index map in the styles. -->
+  <div id="gw-depth-spine" aria-hidden="true"></div>
+  <div id="gw-bubble-field" aria-hidden="true">
+    <div class="gw-bubble-layer gw-bubble-slow">
+      <div class="gw-bubble" style="left:7%; top:18%; width:52px; height:52px; filter:blur(5px);"></div>
+      <div class="gw-bubble" style="left:81%; top:42%; width:64px; height:64px; filter:blur(6px);"></div>
+      <div class="gw-bubble" style="left:24%; top:70%; width:44px; height:44px; filter:blur(5px);"></div>
+      <div class="gw-bubble" style="left:64%; top:90%; width:56px; height:56px; filter:blur(6px);"></div>
+    </div>
+    <div class="gw-bubble-layer">
+      <div class="gw-bubble" style="left:16%; top:26%; width:26px; height:26px;"></div>
+      <div class="gw-bubble" style="left:70%; top:12%; width:20px; height:20px;"></div>
+      <div class="gw-bubble" style="left:44%; top:52%; width:30px; height:30px;"></div>
+      <div class="gw-bubble" style="left:88%; top:66%; width:22px; height:22px;"></div>
+      <div class="gw-bubble" style="left:9%; top:86%; width:26px; height:26px;"></div>
+    </div>
+    <div class="gw-bubble-layer gw-bubble-fast">
+      <div class="gw-bubble" style="left:30%; top:20%; width:11px; height:11px; filter:blur(2px);"></div>
+      <div class="gw-bubble" style="left:58%; top:38%; width:9px; height:9px; filter:blur(2px);"></div>
+      <div class="gw-bubble" style="left:12%; top:56%; width:13px; height:13px; filter:blur(2px);"></div>
+      <div class="gw-bubble" style="left:76%; top:74%; width:10px; height:10px; filter:blur(2px);"></div>
+      <div class="gw-bubble" style="left:40%; top:92%; width:12px; height:12px; filter:blur(2px);"></div>
+    </div>
+  </div>
+
   <!-- ============ NAV ============ -->
   <nav style="position:sticky; top:0; z-index:40; backdrop-filter:blur(14px); background:rgba(5,15,20,.62); border-bottom:1px solid rgba(150,230,225,.12);">
     <div style="max-width:1200px; margin:0 auto; padding:14px clamp(20px,5vw,64px); display:flex; align-items:center; justify-content:space-between; gap:20px;">
       <span style="font-family:'Grenze Gotisch',serif; font-weight:800; text-transform:uppercase; font-size:24px; letter-spacing:.05em; color:var(--foam-white); display:flex; align-items:center; gap:9px;">
         <span style="position:relative; width:10px; height:10px;"><span style="position:absolute; inset:0; border-radius:50%; background:var(--accent-2);"></span><span style="position:absolute; inset:-5px; border-radius:50%; background:var(--accent-2); animation:gs-pulse 2.6s ease-in-out infinite;"></span></span>
-        Gaelworx
+        <span>G<span class="gw-wordmark-ae">ae</span>lworx</span>
       </span>
       <div class="gw-navlinks" style="display:flex; align-items:center; gap:clamp(16px,2.2vw,30px);">
         <a href="#included" class="gw-link-hover-fade" style="font-weight:600; font-size:14px; color:rgba(234,250,246,.78);">What you get</a>
@@ -123,6 +300,15 @@
     </div>
   </nav>
 
+  <!-- RETURNING-VISITOR STRIP: hidden until the inline script near the bottom
+       decides. First visit sets gw-visited and renders nothing; later visits
+       show one line + one CTA unless gw-return-dismissed is set. -->
+  <div id="gw-return-bar" hidden style="position:relative; z-index:1; display:flex; align-items:center; justify-content:center; gap:12px; padding:9px clamp(20px,5vw,64px); background:rgba(8,28,34,.72); border-bottom:1px solid rgba(150,230,225,.16);">
+    <span id="gw-return-text" style="min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:13px; line-height:1.4; color:rgba(234,250,246,.85);"></span>
+    <a id="gw-return-cta" href="#territory" style="flex:none; font-weight:700; font-size:13px; color:var(--accent);"></a>
+    <span id="gw-return-x" role="button" tabindex="0" aria-label="Dismiss" style="flex:none; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:12px; color:rgba(214,240,236,.6); border:1px solid rgba(150,230,225,.18);">✕</span>
+  </div>
+
   <main id="main" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:0 clamp(20px,5vw,64px);">
 
     <!-- ============ HERO ============ -->
@@ -133,7 +319,7 @@
           <span style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#dbeef0; font-weight:600;">Only 3 per state · 150 ever</span>
         </div>
         <h1 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(40px,6vw,72px); line-height:.96; letter-spacing:-.03em; color:var(--foam-white); margin:0 0 20px; text-wrap:balance;">Own the best website in your market. Before your competitor does.</h1>
-        <p style="font-size:clamp(16px,1.5vw,20px); line-height:1.6; color:rgba(236,246,228,.82); margin:0 0 30px; max-width:560px;">In 3 days we build you a premium site around your photos, your story, your pricing — then run it, grow it, and keep it ahead of everyone else on your street. You focus on the water. We keep the phone ringing.</p>
+        <p style="font-size:clamp(16px,1.5vw,20px); line-height:1.6; color:rgba(236,246,228,.82); margin:0 0 30px; max-width:560px;">In 3 days we build you a premium site around your photos, your story, your pricing, then run it, grow it, and keep it ahead of everyone else on your street. You focus on the water. We keep the phone ringing.</p>
         <div style="display:flex; flex-wrap:wrap; gap:13px; align-items:center; margin-bottom:22px;">
           <a href="#claim" class="gw-cta-hover" style="font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:15px 26px; border-radius:999px; box-shadow:0 14px 34px rgba(30,180,170,.36);">Claim my territory</a>
           <a href="index.html" class="gw-border-hover" style="font-weight:600; font-size:15px; color:var(--foam-bright); background:rgba(10,34,42,.5); border:1px solid rgba(150,230,225,.26); padding:15px 24px; border-radius:999px;">See the live demo →</a>
@@ -143,18 +329,19 @@
           <span style="opacity:.4;">·</span>
           <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--foam-white); font-size:16px;">$599</span>/mo to run &amp; grow
         </div>
-        <div style="margin-top:10px; font-size:13px; font-weight:600; color:var(--accent);">Founding rate — locks for life. Pricing rises as territories fill; yours never does.</div>
-        <div style="margin-top:8px; font-size:13px; color:rgba(214,240,236,.5);">You own the site outright · No lock-in contract · Cancel the growth service anytime</div>
+        <div style="margin-top:10px; font-size:13px; font-weight:600; color:var(--accent);">The first 10 claims lock this rate for life. Every claim after pays more.</div>
+        <div style="margin-top:8px;"><a href="#territory" class="gw-border-hover" style="display:inline-block; font-size:13.5px; font-weight:600; line-height:1.4; color:rgba(224,247,242,.92); border:1px solid rgba(127,227,218,.35); background:rgba(12,50,58,.4); border-radius:999px; padding:6px 14px;"><span id="gts-hero-fl">Building Florida first.</span></a></div>
+        <div style="margin-top:8px; font-size:13px; color:rgba(214,240,236,.5);">You own the site outright. No lock-in contract. Cancel the growth service anytime.</div>
       </div>
 
       <!-- demo browser preview -->
       <a href="#claim" style="display:block; position:relative;">
         <div style="position:relative; border-radius:18px; overflow:hidden; border:1px solid rgba(150,230,225,.2); box-shadow:0 40px 100px rgba(0,0,0,.5); background:#061821;">
-          <div style="display:flex; align-items:center; gap:7px; padding:12px 15px; background:rgba(6,20,27,.9); border-bottom:1px solid rgba(150,230,225,.12);">
+          <div aria-hidden="true" style="display:flex; align-items:center; gap:7px; padding:12px 15px; background:rgba(6,20,27,.9); border-bottom:1px solid rgba(150,230,225,.12);">
             <span style="width:11px; height:11px; border-radius:50%; background:#f2554e;"></span>
             <span style="width:11px; height:11px; border-radius:50%; background:#f5b83d;"></span>
             <span style="width:11px; height:11px; border-radius:50%; background:#4fc47a;"></span>
-            <span style="margin-left:12px; flex:1; font-size:11.5px; color:rgba(214,240,236,.5); background:rgba(8,28,34,.7); border-radius:6px; padding:5px 12px;">your-company.com</span>
+            <span style="margin-left:12px; flex:1; font-size:11.5px; color:rgba(214,240,236,.5); background:rgba(8,28,34,.7); border-radius:6px; padding:5px 12px; white-space:nowrap; overflow:hidden;"><span id="gts-url-text">your-company.com</span></span>
           </div>
           <div style="position:relative; height:clamp(300px,32vw,392px); overflow:hidden; background:linear-gradient(180deg,#06171f,var(--deep-water));">
             <div style="position:absolute; inset:-14%; filter:blur(10px); mix-blend-mode:screen; background:radial-gradient(150px 96px at 26% 28%, rgba(127,227,218,.28), transparent 66%), radial-gradient(180px 110px at 70% 42%, rgba(120,228,216,.2), transparent 66%), radial-gradient(150px 100px at 46% 76%, rgba(150,240,231,.18), transparent 66%);"></div>
@@ -170,7 +357,7 @@
             </div>
           </div>
         </div>
-        <div style="position:absolute; bottom:-14px; left:50%; transform:translateX(-50%); font-weight:600; font-size:12.5px; color:var(--cta-ink); background:#bff4ee; padding:8px 16px; border-radius:999px; box-shadow:0 10px 26px rgba(0,0,0,.4); white-space:nowrap;">The site you just scrolled — rebuilt as yours →</div>
+        <div style="position:absolute; bottom:-14px; left:50%; transform:translateX(-50%); font-weight:600; font-size:12.5px; color:var(--cta-ink); background:#bff4ee; padding:8px 16px; border-radius:999px; box-shadow:0 10px 26px rgba(0,0,0,.4); white-space:nowrap;">The site you just scrolled, rebuilt as yours →</div>
       </a>
     </section>
 
@@ -178,13 +365,13 @@
     <section style="padding:clamp(54px,9vh,104px) 0;">
       <div style="max-width:720px; margin:0 auto 44px; text-align:center;">
         <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin-bottom:14px;">The problem</div>
-        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.4vw,52px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0; text-wrap:balance;">Your website is quietly costing you customers.</h2>
-        <p style="font-size:16px; line-height:1.6; color:rgba(236,246,228,.72); margin:16px auto 0; max-width:560px;">In a pool-dense market that can easily mean two or three jobs a month quietly going to the other guy — $500+ apiece, gone before your phone ever rings.</p>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.4vw,52px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0; text-wrap:balance;">Your website is costing you customers.</h2>
+        <p style="font-size:16px; line-height:1.6; color:rgba(236,246,228,.72); margin:16px auto 0; max-width:560px;">In a pool-dense market that can easily mean two or three jobs a month going to the other guy. That's $500+ apiece, gone before your phone ever rings.</p>
       </div>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;">
         <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);">
           <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:34px; color:var(--accent-2); margin-bottom:12px;">Invisible</div>
-          <p style="font-size:15px; line-height:1.6; color:rgba(224,247,242,.72); margin:0;">When someone asks AI “best in town,” you don’t come up. Answer engines can’t read most local sites — so you’re not in the conversation.</p>
+          <p style="font-size:15px; line-height:1.6; color:rgba(224,247,242,.72); margin:0;">When someone asks AI “best in town,” you don’t come up. Answer engines can’t read most local sites, so you’re not in the conversation.</p>
         </div>
         <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);">
           <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:34px; color:var(--accent-2); margin-bottom:12px;">Dated</div>
@@ -205,31 +392,47 @@
         <p style="font-size:17px; line-height:1.6; color:rgba(236,246,228,.76); margin:0; max-width:600px;">This isn’t a file you’re handed and left to figure out. It’s a living site with people behind it every week.</p>
       </div>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(268px,1fr)); gap:16px;">
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">01</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">A premium custom site</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Your photos, your story, your services and pricing — designed to look like the most expensive shop in town.</p></div>
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">01</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">A premium custom site</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Your photos, your story, your services and pricing, designed to look like the most expensive shop in town.</p></div>
         <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">02</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">A real blog engine</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Publish yourself, or we ghost-write posts that pull in local searches and feed the answer engines.</p></div>
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">03</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Weekly performance updates</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Real changes to the live site every week — not a PDF of charts. We tune what converts.</p></div>
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">04</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Monthly plain-English report</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">What’s working, what we changed, and what’s next — in language you’d use, not jargon.</p></div>
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">05</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Optional 3–6 month refresh</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">New season, new look. We refresh the design and content every few months so it never goes stale — your site always feels current.</p></div>
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">06</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Tuned for every kind of search</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Optimized for Google search (SEO), AI answer engines like ChatGPT and Perplexity (AEO), and AI-generated results (GEO) — so you get found however people search.</p></div>
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">07</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Always-on feature scouting</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">We continuously scour the web for what’s working and add the winning features to your site — automatically, no request needed.</p></div>
-        <div style="position:relative; overflow:hidden; padding:26px; border-radius:20px; background:linear-gradient(150deg,#16a0a6,#0b6076); border:1px solid rgba(180,255,250,.28); box-shadow:0 22px 54px rgba(12,92,102,.4);"><div style="position:absolute; top:-30px; right:-20px; width:130px; height:130px; border-radius:50%; background:rgba(255,255,255,.1);"></div><div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:#04303a; margin-bottom:14px;">08</div><div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:#f0ffff; margin-bottom:8px;">Network-powered wins</div><p style="position:relative; font-size:14.5px; line-height:1.58; color:rgba(233,255,253,.88); margin:0;">Your site learns from every site we run. A headline that lifts bookings anywhere on the network rolls onto yours — usually the same week.</p></div>
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">03</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Weekly performance updates</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Real changes to the live site every week, not a PDF of charts. We tune what converts.</p></div>
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">04</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Monthly plain-English report</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">What’s working, what we changed, and what’s next, in language you’d use, not jargon.</p></div>
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">05</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Optional 3-6 month refresh</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">New season, new look. We refresh the design and content every few months so it never goes stale. Your site always feels current.</p></div>
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">06</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Tuned for every kind of search</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">Optimized for Google search (SEO), AI answer engines like ChatGPT and Perplexity (AEO), and AI-generated results (GEO), so you get found however people search.</p></div>
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--accent-2); margin-bottom:14px;">07</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:var(--foam-white); margin-bottom:8px;">Always-on feature scouting</div><p style="font-size:14.5px; line-height:1.58; color:rgba(224,247,242,.72); margin:0;">We continuously scour the web for what’s working and add the winning features to your site automatically. No request needed.</p></div>
+        <div style="position:relative; overflow:hidden; padding:26px; border-radius:20px; background:linear-gradient(150deg,#16a0a6,#0b6076); border:1px solid rgba(180,255,250,.28); box-shadow:0 22px 54px rgba(12,92,102,.4);"><div style="position:absolute; top:-30px; right:-20px; width:130px; height:130px; border-radius:50%; background:rgba(255,255,255,.1);"></div><div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:#04303a; margin-bottom:14px;">08</div><div style="position:relative; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:19px; letter-spacing:-.015em; color:#f0ffff; margin-bottom:8px;">Network-powered wins</div><p style="position:relative; font-size:14.5px; line-height:1.58; color:rgba(233,255,253,.88); margin:0;">Your site learns from every site we run. A headline that lifts bookings anywhere on the network rolls onto yours, usually the same week.</p></div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section style="padding:clamp(54px,9vh,104px) 0;">
+      <div style="max-width:720px; margin:0 0 44px;">
+        <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin-bottom:14px;">How it works</div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.4vw,52px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0; text-wrap:balance;">Live in 3 days. Not 3 weeks.</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px;">
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:44px; line-height:1; color:rgba(127,227,218,.28); margin-bottom:16px;">1</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:17px; color:var(--foam-white); margin-bottom:7px;">Claim your territory</div><p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Check your state’s spots and lock yours in before a competitor does.</p></div>
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:44px; line-height:1; color:rgba(127,227,218,.28); margin-bottom:16px;">2</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:17px; color:var(--foam-white); margin-bottom:7px;">One onboarding call</div><p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">One call. Send photos, pricing, and your story. That’s your whole job, start to finish.</p></div>
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:44px; line-height:1; color:rgba(127,227,218,.28); margin-bottom:16px;">3</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:17px; color:var(--foam-white); margin-bottom:7px;">We build &amp; launch</div><p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Custom copy, your photos, your lead database, and the full search-and-AI setup: three focused days of our team’s work, then you’re live.</p></div>
+        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:44px; line-height:1; color:rgba(127,227,218,.28); margin-bottom:16px;">4</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:17px; color:var(--foam-white); margin-bottom:7px;">We grow it, weekly</div><p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Weekly tweaks, monthly reporting, network wins, and a refresh every few months.</p></div>
       </div>
     </section>
 
     <!-- ============ MESH NETWORK ============ -->
     <section id="network" style="scroll-margin-top:80px; padding:clamp(54px,9vh,104px) 0;">
-      <div style="position:relative; overflow:hidden; border-radius:30px; border:1px solid rgba(127,227,218,.2); background:radial-gradient(120% 90% at 20% 0%, rgba(20,120,120,.24), transparent 60%), linear-gradient(160deg,#0a2634,#061821); padding:clamp(34px,5vw,64px);">
+      <div class="gw-waterline" style="position:relative; overflow:hidden; border-radius:30px; border:1px solid rgba(127,227,218,.2); background:radial-gradient(120% 90% at 20% 0%, rgba(20,120,120,.24), transparent 60%), linear-gradient(160deg,#0a2634,#061821); padding:clamp(34px,5vw,64px);">
         <div class="gw-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,5vw,60px); align-items:center;">
-          <div>
-            <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:14px;">The unfair advantage</div>
-            <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.2vw,50px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 18px; text-wrap:balance;">Your site isn’t alone. It’s on a network.</h2>
-            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 16px; max-width:520px;">A regular agency starts from a guess. One team, dozens of clients, ideas tested on your dime, learnings thrown away when the project ends — and the bill arrives whether it worked or not.</p>
-            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 16px; max-width:520px;">Your site works differently. Every site on the network runs real experiments every week, and every win ships to every member. When a headline lifts bookings in Phoenix, it’s on your site in Austin days later. You get a network’s worth of evidence — not one team’s hunches.</p>
-            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0; max-width:520px;">And because we cap it at <b style="color:var(--foam-bright); font-weight:700;">3 per state — 150 ever</b>, no one on the network is your competitor. Their wins are yours. Your territory is yours alone.</p>
-          </div>
-          <div style="position:relative; height:clamp(300px,32vw,380px);">
+          <!-- seam fix: mesh visual LEFT (matches the panel's top-left glow), text RIGHT;
+               under 820px the .gw-mesh-copy order guard stacks the text first -->
+          <div class="gw-mesh-vis" style="position:relative; height:clamp(300px,32vw,380px);">
             <mesh-net style="display:block;width:100%;height:100%;"></mesh-net>
             <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:78px; height:78px; border-radius:22px; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); box-shadow:0 0 50px rgba(127,227,218,.6), 0 12px 34px rgba(0,0,0,.42); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:13px; color:var(--cta-ink); text-align:center; line-height:1.05; pointer-events:none; z-index:2;">YOUR<br>SITE</div>
+          </div>
+          <div class="gw-mesh-copy">
+            <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:14px;">The unfair advantage</div>
+            <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.2vw,50px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 18px; text-wrap:balance;">Your site isn’t alone. It’s on a network.</h2>
+            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 16px; max-width:520px;">A regular agency starts from a guess. One team, dozens of clients, ideas tested on your dime, learnings thrown away when the project ends, and the bill arrives whether it worked or not.</p>
+            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 16px; max-width:520px;">Your site works differently. Every site on the network runs real experiments every week, and every win ships to every member. When a headline lifts bookings in Phoenix, it’s on your site in Austin days later. You get a network’s worth of evidence, not one team’s hunches.</p>
+            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0; max-width:520px;">And because we cap it at <b style="color:var(--foam-bright); font-weight:700;">3 per state, 150 ever</b>, no one on the network is your competitor. Their wins are yours. Your territory is yours alone.</p>
           </div>
         </div>
         <div style="margin-top:clamp(28px,4vw,44px); padding-top:clamp(24px,3vw,36px); border-top:1px solid rgba(150,230,225,.14);">
@@ -241,7 +444,7 @@
             </div>
             <div style="padding:22px 24px; border-radius:18px; background:rgba(6,20,27,.55); border:1px solid rgba(150,230,225,.14);">
               <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:18px; color:var(--foam-white); margin-bottom:8px;">Big enough to learn</div>
-              <p style="font-size:14.5px; line-height:1.6; color:rgba(224,247,242,.72); margin:0;">150 sites generate enough real traffic to prove what wins with numbers, fast — while staying small enough that every owner still has the founder’s cell. Small enough to care, big enough to learn.</p>
+              <p style="font-size:14.5px; line-height:1.6; color:rgba(224,247,242,.72); margin:0;">150 sites generate enough real traffic to prove what wins with numbers, fast, while staying small enough that every owner still has the founder’s cell.</p>
             </div>
           </div>
         </div>
@@ -254,13 +457,13 @@
         <div>
           <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin-bottom:14px;">Found by AI, not just Google</div>
           <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.2vw,50px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 18px; text-wrap:balance;">Be the name the AI says.</h2>
-          <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0; max-width:520px;">More people are asking ChatGPT and Perplexity for a recommendation than ever. We structure your site so the models can read it, trust it, and name you — and we keep adapting as those models change.</p>
+          <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0; max-width:520px;">More people are asking ChatGPT and Perplexity for a recommendation than ever. We structure your site so the models can read it, trust it, and name you, and we keep adapting as those models change.</p>
         </div>
         <div style="border-radius:22px; border:1px solid rgba(150,230,225,.18); background:rgba(6,20,27,.7); overflow:hidden;">
           <div style="padding:16px 20px; border-bottom:1px solid rgba(150,230,225,.12); font-size:13px; color:rgba(214,240,236,.6);">Someone in your town, just now</div>
           <div style="padding:22px 20px;">
             <div style="display:flex; justify-content:flex-end; margin-bottom:16px;"><span style="max-width:80%; font-size:15px; line-height:1.5; color:var(--foam-white); background:rgba(20,60,72,.7); border:1px solid rgba(150,230,225,.2); padding:12px 16px; border-radius:16px 16px 4px 16px;">Who’s the best pool service near me?</span></div>
-            <div style="display:flex;"><span style="max-width:88%; font-size:15px; line-height:1.55; color:rgba(233,255,253,.9); background:linear-gradient(150deg,rgba(22,160,166,.32),rgba(11,96,118,.3)); border:1px solid rgba(127,227,218,.28); padding:14px 17px; border-radius:16px 16px 16px 4px;">For weekly service and green-to-clean rescues, <b style="color:#bff4ee; font-weight:700;">Meridian Pool Care</b> is the top-rated option in your area — known for fast response and crystal-clear results.</span></div>
+            <div style="display:flex;"><span style="max-width:88%; font-size:15px; line-height:1.55; color:rgba(233,255,253,.9); background:linear-gradient(150deg,rgba(22,160,166,.32),rgba(11,96,118,.3)); border:1px solid rgba(127,227,218,.28); padding:14px 17px; border-radius:16px 16px 16px 4px;">For weekly service and green-to-clean rescues, <b style="color:#bff4ee; font-weight:700;">Meridian Pool Care</b> is the top-rated option in your area, known for fast response and crystal-clear results.</span></div>
           </div>
         </div>
       </div>
@@ -277,20 +480,6 @@
       </div>
     </section>
 
-    <!-- ============ HOW IT WORKS ============ -->
-    <section style="padding:clamp(54px,9vh,104px) 0;">
-      <div style="max-width:720px; margin:0 0 44px;">
-        <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin-bottom:14px;">How it works</div>
-        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.4vw,52px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0; text-wrap:balance;">Live in 3 days. Not 3 weeks.</h2>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px;">
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:44px; line-height:1; color:rgba(127,227,218,.28); margin-bottom:16px;">1</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:17px; color:var(--foam-white); margin-bottom:7px;">Claim your territory</div><p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Check your state’s spots and lock yours in before a competitor does.</p></div>
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:44px; line-height:1; color:rgba(127,227,218,.28); margin-bottom:16px;">2</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:17px; color:var(--foam-white); margin-bottom:7px;">One onboarding call</div><p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">One call. Send photos, pricing, and your story — that’s your whole job, start to finish.</p></div>
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:44px; line-height:1; color:rgba(127,227,218,.28); margin-bottom:16px;">3</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:17px; color:var(--foam-white); margin-bottom:7px;">We build &amp; launch</div><p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Custom copy, your photos, your lead database, and the full search-and-AI setup — three focused days of our team’s work, then you’re live.</p></div>
-        <div style="padding:26px; border-radius:20px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:44px; line-height:1; color:rgba(127,227,218,.28); margin-bottom:16px;">4</div><div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:17px; color:var(--foam-white); margin-bottom:7px;">We grow it, weekly</div><p style="font-size:14px; line-height:1.55; color:rgba(224,247,242,.68); margin:0;">Weekly tweaks, monthly reporting, network wins, and a refresh every few months.</p></div>
-      </div>
-    </section>
-
     <!-- ============ FOUNDER ============ -->
     <section style="padding:clamp(54px,9vh,104px) 0;">
       <div class="gw-2col" style="display:grid; grid-template-columns:.82fr 1.18fr; gap:clamp(28px,4vw,56px); align-items:center;">
@@ -301,7 +490,7 @@
         <div>
           <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin-bottom:14px;">Who’s behind your site</div>
           <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,3.8vw,46px); line-height:1.04; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 18px; text-wrap:balance;">A real person, not a ticket queue.</h2>
-          <p style="font-size:16.5px; line-height:1.64; color:rgba(236,246,228,.8); margin:0 0 16px; max-width:540px;">I started Gaelworx because local businesses kept getting sold cheap templates and then left on their own. Every site we run is one I’d put my own name on — and I do. You get my cell — <a href="tel:+13692121203" style="color:#bff4ee; font-weight:700;">(369) 212-1203</a> — not a support portal.</p>
+          <p style="font-size:16.5px; line-height:1.64; color:rgba(236,246,228,.8); margin:0 0 16px; max-width:540px;">I started Gaelworx because local businesses kept getting sold cheap templates and then left on their own. Every site we run is one I’d put my own name on, and I do. You get my cell, <a href="tel:+13692121203" style="color:#bff4ee; font-weight:700;">(369) 212-1203</a>, not a support portal.</p>
           <p style="font-size:16.5px; line-height:1.64; color:rgba(236,246,228,.8); margin:0 0 24px; max-width:540px;">We only take 3 businesses per state so I can actually stay close to every one of them.</p>
           <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:20px; font-style:italic; color:#bff4ee;">Zach Isaacson</div>
           <div style="font-size:13.5px; color:rgba(214,240,236,.6);">Founder, Gaelworx</div>
@@ -311,7 +500,8 @@
 
     <!-- ============ COMPARISON ============ -->
     <section style="padding:clamp(30px,5vh,60px) 0;">
-      <div style="border-radius:24px; border:1px solid rgba(150,230,225,.16); overflow:hidden; background:rgba(6,20,27,.55);">
+      <div class="gw-drawline" style="border-radius:24px; border:1px solid rgba(150,230,225,.16); overflow:hidden; background:rgba(6,20,27,.55);">
+        <svg class="gw-drawsvg" aria-hidden="true"><rect x="1.5" y="1.5" rx="23" pathLength="1"></rect></svg>
         <div class="gw-cmp-row" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr;">
           <div style="padding:20px 22px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(214,240,236,.55); font-weight:600;">Compare</div>
           <div style="padding:20px 14px; text-align:center; font-family:'Grenze Gotisch',serif; font-weight:700; text-transform:uppercase; letter-spacing:.05em; font-size:17px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to));">Gaelworx</div>
@@ -321,71 +511,81 @@
         <div class="gw-cmp-row" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; border-top:1px solid rgba(150,230,225,.1);">
           <div style="padding:17px 22px; font-size:14.5px; font-weight:600; color:var(--foam-bright);">Premium custom design</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; font-weight:700; color:var(--accent-2); background:rgba(20,120,120,.12);">✓</div>
-          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">—</div>
+          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">✕</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">✓</div>
         </div>
         <div class="gw-cmp-row" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; border-top:1px solid rgba(150,230,225,.1);">
           <div style="padding:17px 22px; font-size:14.5px; font-weight:600; color:var(--foam-bright);">Found by AI (AEO · GEO)</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; font-weight:700; color:var(--accent-2); background:rgba(20,120,120,.12);">✓</div>
-          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">—</div>
+          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">✕</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">~</div>
         </div>
         <div class="gw-cmp-row" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; border-top:1px solid rgba(150,230,225,.1);">
           <div style="padding:17px 22px; font-size:14.5px; font-weight:600; color:var(--foam-bright);">Improved every week</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; font-weight:700; color:var(--accent-2); background:rgba(20,120,120,.12);">✓</div>
-          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">—</div>
+          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">✕</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">~</div>
         </div>
         <div class="gw-cmp-row" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; border-top:1px solid rgba(150,230,225,.1);">
           <div style="padding:17px 22px; font-size:14.5px; font-weight:600; color:var(--foam-bright);">Network-wide optimization</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; font-weight:700; color:var(--accent-2); background:rgba(20,120,120,.12);">✓</div>
-          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">—</div>
-          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">—</div>
+          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">✕</div>
+          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">✕</div>
         </div>
         <div class="gw-cmp-row" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; border-top:1px solid rgba(150,230,225,.1);">
           <div style="padding:17px 22px; font-size:14.5px; font-weight:600; color:var(--foam-bright);">Territory exclusivity</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; font-weight:700; color:var(--accent-2); background:rgba(20,120,120,.12);">✓</div>
-          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">—</div>
-          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">—</div>
+          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">✕</div>
+          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">✕</div>
         </div>
         <div class="gw-cmp-row" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; border-top:1px solid rgba(150,230,225,.1);">
           <div style="padding:17px 22px; font-size:14.5px; font-weight:600; color:var(--foam-bright);">Done entirely for you</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; font-weight:700; color:var(--accent-2); background:rgba(20,120,120,.12);">✓</div>
-          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">—</div>
+          <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">✕</div>
           <div style="padding:17px 14px; text-align:center; font-size:15px; color:rgba(214,240,236,.5);">~</div>
         </div>
         <div class="gw-cmp-row" style="display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; border-top:1px solid rgba(150,230,225,.1);">
           <div style="padding:17px 22px; font-size:14.5px; font-weight:600; color:var(--foam-bright);">What it costs</div>
           <div style="padding:17px 10px; text-align:center; font-size:13px; font-weight:700; color:var(--accent-2); background:rgba(20,120,120,.12); line-height:1.4;">$3,999 + $599/mo</div>
           <div style="padding:17px 10px; text-align:center; font-size:13px; color:rgba(214,240,236,.5); line-height:1.4;">Your weekends, forever</div>
-          <div style="padding:17px 10px; text-align:center; font-size:13px; color:rgba(214,240,236,.5); line-height:1.4;">$8k–15k + $1,000+/mo</div>
+          <div style="padding:17px 10px; text-align:center; font-size:13px; color:rgba(214,240,236,.5); line-height:1.4;">$8k-15k + $1,000+/mo</div>
         </div>
       </div>
     </section>
 
     <!-- ============ TERRITORY / SCARCITY ============ -->
     <section id="territory" style="scroll-margin-top:80px; padding:clamp(54px,9vh,104px) 0;">
+      <!-- THE ONE PIN: #gts-terr-outer grows to 190vh and #gts-terr-stage goes
+           sticky ONLY when JS stamps .gw-pin-on (>=900px wide, motion OK, IO
+           available). Otherwise both divs are inert wrappers and the section
+           renders static at auto height, exactly as before. Native scroll only:
+           sticky stage, no wheel hijack, the slot ledger stays interactive throughout. -->
+      <div id="gts-terr-outer">
+      <div id="gts-terr-stage">
       <div style="max-width:720px; margin:0 auto 40px; text-align:center;">
         <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin-bottom:14px;">Exclusivity</div>
-        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.4vw,52px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 16px; text-wrap:balance;">3 businesses per state. Then we close it.</h2>
-        <p style="font-size:17px; line-height:1.6; color:rgba(236,246,228,.78); margin:0;">We will never build your competitor’s site. When your state’s spots are filled, the territory locks — for good.</p>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.4vw,52px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 16px; text-wrap:balance;">Florida gets 3 of these. Ever.</h2>
+        <!-- keep in sync with TERRITORY.FL -->
+        <p style="font-size:17px; line-height:1.6; color:rgba(236,246,228,.78); margin:0;">Two of Florida's founding slots are already claimed. We will never build your competitor's site: pick any state, and when its 3 are gone it locks for good.</p>
       </div>
-      <div style="max-width:560px; margin:0 auto; border-radius:24px; border:1px solid rgba(127,227,218,.22); background:linear-gradient(160deg,rgba(15,63,85,.55),rgba(8,30,40,.6)); padding:clamp(26px,4vw,38px);">
-        <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:rgba(214,240,236,.6); font-weight:600; margin-bottom:12px;">Check your state</div>
-        <div style="position:relative; margin-bottom:24px;">
-          <select id="gts-state-select" aria-label="Select your state" style="width:100%; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; letter-spacing:-.01em; color:var(--foam-white); background:rgba(6,20,27,.8); border:1px solid rgba(150,230,225,.24); border-radius:14px; padding:15px 44px 15px 18px;">
-          </select>
-          <span style="position:absolute; right:18px; top:50%; transform:translateY(-50%); color:var(--accent); pointer-events:none; font-size:13px;">▼</span>
+      <!-- THE TERRITORY BOARD: pick a state; the whole page threads the pick
+           (payoff line here, #book heading + contact CTAs, exit modal copy).
+           Availability comes from the single TERRITORY demo config in the inline
+           script; the pick persists to sessionStorage 'gw-territory'. -->
+      <div style="max-width:720px; margin:0 auto; border-radius:24px; border:1px solid rgba(127,227,218,.22); background:linear-gradient(160deg,rgba(15,63,85,.55),rgba(8,30,40,.6)); padding:clamp(26px,4vw,38px);">
+        <div id="gts-slot-ledger" role="group" aria-label="Florida founding slots" style="margin-bottom:16px;"></div>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:22px;">
+          <label for="gts-state-select" style="font-size:13px; font-weight:600; letter-spacing:.04em; color:rgba(214,240,236,.72);">Not in Florida?</label>
+          <select id="gts-state-select"></select>
         </div>
-        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;">
-          <span id="gts-left-count" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(38px,6vw,58px); line-height:1; color:var(--foam-white);">1</span>
-          <span id="gts-spots-word" style="font-size:15px; font-weight:600; color:var(--accent);">1 spot open</span>
-        </div>
-        <div id="gts-dots" style="display:flex; gap:10px;"></div>
-        <a href="#book" class="gw-cta-hover" style="display:block; text-align:center; margin-top:24px; font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:15px; border-radius:999px; box-shadow:0 14px 34px rgba(30,180,170,.32);">Claim my territory</a>
+        <p id="gts-payoff" aria-live="polite" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(19px,2.6vw,24px); line-height:1.2; letter-spacing:-.015em; color:var(--foam-white); margin:0 0 14px; min-height:1.2em;">Florida first: pools here run all year. Pick your state to check availability.</p>
+        <div class="gts-terr-stamps" aria-hidden="true"><span class="gts-terr-stamp">3 PER STATE</span><span class="gts-terr-stamp">150 EVER</span></div>
+        <a href="#book" id="gts-board-cta" class="gw-cta-hover" style="display:block; text-align:center; margin-top:24px; font-weight:700; font-size:15px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:15px; border-radius:999px; box-shadow:0 14px 34px rgba(30,180,170,.32);">Claim my territory</a>
         <p style="text-align:center; font-size:12.5px; color:rgba(214,240,236,.5); margin:12px 0 0;">Whoever calls first gets the state. We will never build your competitor's site once it's yours.</p>
       </div>
       <p style="text-align:center; font-size:14.5px; color:rgba(224,247,242,.7); margin:22px auto 0; max-width:480px;">Spot open? The founding price below is yours the moment you claim it.</p>
+      </div>
+      </div>
     </section>
 
     <!-- ============ PRICING / OFFER ============ -->
@@ -394,10 +594,10 @@
         <div style="max-width:760px; margin:0 0 26px;">
           <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin-bottom:14px;">Where the build fee goes</div>
           <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,3.8vw,46px); line-height:1.04; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 12px; text-wrap:balance;">Three days of build. Here’s what actually gets built.</h2>
-          <p style="font-size:16.5px; line-height:1.6; color:rgba(236,246,228,.76); margin:0; max-width:640px;">You’re not buying a template. You’re paying us to stand up your growth machine and wire it into the network — the premium site is the part that comes free.</p>
+          <p style="font-size:16.5px; line-height:1.6; color:rgba(236,246,228,.76); margin:0; max-width:640px;">You’re not buying a template. You’re paying us to stand up your growth machine and wire it into the network. The premium site is the part that comes free.</p>
         </div>
         <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px;">
-          <div style="display:flex; gap:10px; align-items:flex-start; padding:16px 18px; border-radius:14px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span><div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.78);"><b style="color:var(--foam-bright);">Your story, written into every page.</b> Custom copy from one call — not filled-in blanks.</div></div>
+          <div style="display:flex; gap:10px; align-items:flex-start; padding:16px 18px; border-radius:14px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span><div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.78);"><b style="color:var(--foam-bright);">Your story, written into every page.</b> Custom copy from one call, not filled-in blanks.</div></div>
           <div style="display:flex; gap:10px; align-items:flex-start; padding:16px 18px; border-radius:14px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span><div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.78);"><b style="color:var(--foam-bright);">Your photos, brand &amp; pricing.</b> Treated, placed, and made unmistakably yours.</div></div>
           <div style="display:flex; gap:10px; align-items:flex-start; padding:16px 18px; border-radius:14px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span><div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.78);"><b style="color:var(--foam-bright);">A page for every town you serve.</b> Built so Google and AI assistants cite you for those towns.</div></div>
           <div style="display:flex; gap:10px; align-items:flex-start; padding:16px 18px; border-radius:14px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.14);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span><div style="font-size:14px; line-height:1.5; color:rgba(224,247,242,.78);"><b style="color:var(--foam-bright);">Your own private lead database.</b> Provisioned and wired to every form. Your leads, your data, forever.</div></div>
@@ -411,21 +611,21 @@
         <div>
           <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent-2); font-weight:600; margin-bottom:14px;">The offer</div>
           <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(32px,4.6vw,56px); line-height:1.0; letter-spacing:-.028em; color:var(--foam-white); margin:0 0 20px; text-wrap:balance;">One price to build. One to keep winning.</h2>
-          <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 22px; max-width:500px;">An agency quotes $8,000–$15,000 for a site like this — and that buys the site alone. Here, the build fee stands up your whole growth backend, the premium site rides along, and the monthly is the team and the network that keep it winning.</p>
+          <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 22px; max-width:500px;">An agency quotes $8,000-$15,000 for a site like this, and that buys the site alone. Here, the build fee stands up your whole growth backend, the premium site rides along, and the monthly is the team and the network that keep it winning.</p>
           <div style="padding:20px 22px; border-radius:18px; background:rgba(8,28,34,.5); border:1px solid rgba(150,230,225,.16); margin-bottom:16px;">
             <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:17px; color:var(--foam-bright); margin-bottom:6px;">One new customer pays for the whole year.</div>
-            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.7); margin:0;">A weekly-service customer is worth roughly $8,000 over their time with you. One win covers a year of Gaelworx — everything after that is profit you weren’t getting before.</p>
+            <p style="font-size:14.5px; line-height:1.55; color:rgba(224,247,242,.7); margin:0;">A weekly-service customer is worth roughly $8,000 over their time with you. One win covers a year of Gaelworx. Everything after that is profit you weren’t getting before.</p>
           </div>
           <div style="display:flex; align-items:center; gap:12px; padding:16px 20px; border-radius:16px; border:1px dashed rgba(127,227,218,.4); background:rgba(12,50,58,.3);">
             <span style="flex:none; width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--cta-ink);">✓</span>
-            <div style="font-size:14px; line-height:1.5; color:rgba(233,255,253,.85);"><b style="color:var(--foam-white);">90-day promise.</b> More calls and booked jobs in your first 90 days than your old site averaged — tracked in your monthly report — or the monthly fee is free until it happens.</div>
+            <div style="font-size:14px; line-height:1.5; color:rgba(233,255,253,.85);"><b style="color:var(--foam-white);">90-day promise.</b> More calls and booked jobs in your first 90 days than your old site averaged (tracked in your monthly report) or the monthly fee is free until it happens.</div>
           </div>
         </div>
 
-        <div style="position:relative; border-radius:26px; border:1px solid rgba(127,227,218,.3); background:linear-gradient(165deg,rgba(15,63,85,.6),rgba(7,26,34,.7)); padding:clamp(28px,3.5vw,40px); box-shadow:0 40px 100px rgba(0,0,0,.45);">
+        <div class="gw-drawline" style="position:relative; border-radius:26px; border:1px solid rgba(127,227,218,.3); background:linear-gradient(165deg,rgba(15,63,85,.6),rgba(7,26,34,.7)); padding:clamp(28px,3.5vw,40px); box-shadow:0 40px 100px rgba(0,0,0,.45);">
+          <svg class="gw-drawsvg" aria-hidden="true"><rect x="1.5" y="1.5" rx="25" pathLength="1"></rect></svg>
           <div style="position:absolute; top:22px; right:22px; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); border-radius:999px; padding:6px 12px;">3 per state · 150 ever</div>
           <div style="font-family:'Bricolage Grotesque',sans-serif; font-weight:600; font-size:15px; color:var(--accent); margin-bottom:10px;">The founding package</div>
-          <div style="font-size:13px; color:rgba(214,240,236,.55); margin-bottom:16px;">Agency quote for the site alone: $8,000–$15,000</div>
           <div style="display:flex; align-items:flex-end; gap:10px; margin-bottom:6px;">
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(44px,6vw,60px); line-height:.9; color:var(--foam-white);">$3,999</span>
             <span style="font-size:15px; color:rgba(214,240,236,.66); padding-bottom:8px;">to build</span>
@@ -434,31 +634,33 @@
             <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4vw,40px); line-height:.9; color:#bff4ee;">$599</span>
             <span style="font-size:15px; color:rgba(214,240,236,.66); padding-bottom:6px;">/ month to run &amp; grow</span>
           </div>
-          <div style="display:inline-flex; margin-bottom:20px; padding:8px 14px; border-radius:12px; border:1px dashed rgba(127,227,218,.45); background:rgba(12,50,58,.35); font-size:12.5px; line-height:1.45; font-weight:600; color:var(--accent);">Founding rate — locks for life. Pricing rises as territories fill; yours never does.</div>
+          <div style="display:inline-flex; margin-bottom:20px; padding:8px 14px; border-radius:12px; border:1px dashed rgba(127,227,218,.45); background:rgba(12,50,58,.35); font-size:12.5px; line-height:1.45; font-weight:600; color:var(--accent);">Founding rate locks for life. Pricing rises as territories fill; yours never does.</div>
+          <div style="font-size:14.5px; line-height:1.5; color:rgba(233,255,253,.86); margin-bottom:6px;">First 10 lock <b style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--foam-white);">$3,999 + $599/mo</b> for life.</div>
+          <div style="font-size:14.5px; line-height:1.5; color:rgba(233,255,253,.86); margin-bottom:20px;">From customer 11 onward the build is <b style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--foam-white);">$4,999</b> and the service is <b style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--foam-white);">$899/mo</b>.</div>
           <div style="height:1px; background:rgba(150,230,225,.16); margin-bottom:22px;"></div>
           <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:26px;">
-            <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Premium custom site — your brand, story &amp; pricing</div>
-            <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Your own private lead database — your leads, your data</div>
+            <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Premium custom site: your brand, story &amp; pricing</div>
+            <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Your own private lead database: your leads, your data</div>
             <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Blog engine + written content</div>
             <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Weekly improvements + monthly reporting</div>
             <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Tuned for every kind of search + always-on feature scouting</div>
             <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Network wins rolled onto your site + territory exclusivity</div>
-            <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Optional 3–6 month full refresh</div>
+            <div style="display:flex; gap:11px; align-items:flex-start; font-size:14.5px; line-height:1.45; color:rgba(233,255,253,.86);"><span style="flex:none; color:var(--accent-2); font-weight:700;">✓</span>Optional 3-6 month full refresh</div>
           </div>
           <a href="#book" class="gw-cta-hover" style="display:block; text-align:center; font-weight:700; font-size:16px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:17px; border-radius:999px; box-shadow:0 16px 40px rgba(30,180,170,.4);">Claim my territory</a>
-          <div style="text-align:center; margin-top:14px; font-size:12.5px; color:rgba(214,240,236,.55);">You own the site · No lock-in contract · Cancel growth anytime</div>
+          <div style="text-align:center; margin-top:14px; font-size:12.5px; color:rgba(214,240,236,.55);">You own the site. No lock-in contract. Cancel growth anytime.</div>
         </div>
       </div>
     </section>
 
     <!-- ============ ONE-CLICK CUSTOMIZATION (teaser) ============ -->
     <section style="padding:clamp(54px,9vh,104px) 0;">
-      <div style="position:relative; overflow:hidden; border-radius:30px; border:1px solid rgba(127,227,218,.2); background:radial-gradient(120% 90% at 82% 0%, rgba(20,120,120,.22), transparent 60%), linear-gradient(160deg,#0a2634,#061821); padding:clamp(34px,5vw,64px);">
+      <div class="gw-waterline" style="position:relative; overflow:hidden; border-radius:30px; border:1px solid rgba(127,227,218,.2); background:radial-gradient(120% 90% at 82% 0%, rgba(20,120,120,.22), transparent 60%), linear-gradient(160deg,#0a2634,#061821); padding:clamp(34px,5vw,64px);">
         <div class="gw-2col" style="display:grid; grid-template-columns:.95fr 1.05fr; gap:clamp(30px,5vw,60px); align-items:center;">
           <div>
             <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:14px;">Before you book</div>
             <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(30px,4.2vw,50px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 18px; text-wrap:balance;">Make it yours before we even talk.</h2>
-            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 18px; max-width:520px;">Every claim starts here. Swap the palette, flip sections on and off, and shape the site you just scrolled into yours — about two minutes, no developer, no waiting. Do it before your call and we’ll have your version on screen when you pick up the phone.</p>
+            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 18px; max-width:520px;">Two minutes, if you want it. Swap the palette, flip sections on and off, and shape the site you just scrolled into yours. No developer, no waiting. Do it before your call and we’ll have your version on screen when you pick up the phone.</p>
             <a href="premium-ideas.html" class="gw-border-hover" style="display:inline-flex; align-items:center; gap:9px; font-weight:600; font-size:15px; color:var(--foam-bright); background:rgba(10,34,42,.5); border:1px solid rgba(150,230,225,.26); padding:13px 22px; border-radius:999px;">Style my site →</a>
           </div>
 
@@ -495,37 +697,93 @@
 
     <!-- ============ BOOKING ============ -->
     <section id="book" style="scroll-margin-top:80px; padding:clamp(20px,4vh,44px) 0 clamp(54px,9vh,104px);">
-      <div style="border-radius:28px; border:1px solid rgba(127,227,218,.24); background:radial-gradient(120% 90% at 15% 0%, rgba(22,160,166,.22), transparent 60%), linear-gradient(160deg,#0a2634,#061821); padding:clamp(28px,4vw,52px);">
+      <div class="gw-waterline" style="border-radius:28px; border:1px solid rgba(127,227,218,.24); background:radial-gradient(120% 90% at 15% 0%, rgba(22,160,166,.22), transparent 60%), linear-gradient(160deg,#0a2634,#061821); padding:clamp(28px,4vw,52px);">
         <div class="gw-2col" style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,4vw,52px); align-items:center;">
           <div>
             <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:14px;">Book your territory call</div>
-            <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,4vw,48px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 16px; text-wrap:balance;">15 minutes to see if your state’s still open.</h2>
-            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 22px; max-width:460px;">No pitch marathon. We check your territory, walk the demo, and answer anything. If it’s a fit, you claim your spot on the call.</p>
-            <div style="display:flex; flex-direction:column; gap:10px;">
-              <div style="display:flex; gap:11px; align-items:center; font-size:14.5px; color:rgba(233,255,253,.84);"><span style="color:var(--accent-2); font-weight:700;">✓</span>Live territory check for your state</div>
-              <div style="display:flex; gap:11px; align-items:center; font-size:14.5px; color:rgba(233,255,253,.84);"><span style="color:var(--accent-2); font-weight:700;">✓</span>Full walkthrough of a live site</div>
-              <div style="display:flex; gap:11px; align-items:center; font-size:14.5px; color:rgba(233,255,253,.84);"><span style="color:var(--accent-2); font-weight:700;">✓</span>Straight answer on pricing &amp; timeline</div>
-            </div>
-            <p style="margin:18px 0 0; font-size:13.5px; color:rgba(214,240,236,.6);">No contract, no pressure — either way, you own the site. Completely your call.</p>
-            <p style="margin:10px 0 0; font-size:13.5px; color:rgba(214,240,236,.6);">Already styled your version in the customizer? Even better — we’ll walk through your picks on the call.</p>
+            <h2 id="gts-book-heading" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(28px,4vw,48px); line-height:1.02; letter-spacing:-.025em; color:var(--foam-white); margin:0 0 16px; text-wrap:balance;">15 minutes to see if your state’s still open.</h2>
+            <p style="font-size:16.5px; line-height:1.62; color:rgba(236,246,228,.8); margin:0 0 22px; max-width:460px;">No pitch marathon. Here’s the whole call, in order:</p>
+            <ol style="list-style:none; counter-reset:none; display:flex; flex-direction:column; gap:0; margin:0; padding:0; border-radius:16px; border:1px solid rgba(150,230,225,.16); background:rgba(6,20,27,.45); overflow:hidden;">
+              <li style="display:flex; gap:14px; align-items:baseline; padding:14px 18px; font-size:14.5px; line-height:1.5; color:rgba(233,255,253,.84);"><span style="flex:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--accent-2);">1</span><span><b id="gts-ledger-state" style="color:var(--foam-bright);">Territory check.</b> We pull up your state’s slots live, while you’re on the line.</span></li>
+              <li style="display:flex; gap:14px; align-items:baseline; padding:14px 18px; border-top:1px solid rgba(150,230,225,.1); font-size:14.5px; line-height:1.5; color:rgba(233,255,253,.84);"><span style="flex:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--accent-2);">2</span><span><b style="color:var(--foam-bright);">Walkthrough.</b> The live demo, plus your customizer picks if you styled one.</span></li>
+              <li style="display:flex; gap:14px; align-items:baseline; padding:14px 18px; border-top:1px solid rgba(150,230,225,.1); font-size:14.5px; line-height:1.5; color:rgba(233,255,253,.84);"><span style="flex:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--accent-2);">3</span><span><b style="color:var(--foam-bright);">Straight numbers.</b> Pricing and timeline, answered plainly. If it fits, you claim the spot on the call.</span></li>
+            </ol>
+            <p style="margin:18px 0 0; font-size:13.5px; color:rgba(214,240,236,.6);">No contract, no pressure. Either way, you own the site. Completely your call.</p>
+            <p style="margin:10px 0 0; font-size:13.5px; color:rgba(214,240,236,.6);">Already styled your version in the customizer? Even better. We’ll walk through your picks on the call.</p>
           </div>
           <div style="border-radius:20px; background:rgba(6,20,27,.6); border:1px solid rgba(150,230,225,.16); padding:clamp(22px,3vw,30px);">
             <div style="font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:rgba(214,240,236,.6); font-weight:600; margin-bottom:16px;">Talk to a human</div>
-            <a href="tel:+13692121203" class="gw-cta-hover" style="display:flex; align-items:center; gap:14px; text-decoration:none; padding:17px 20px; border-radius:16px; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); box-shadow:0 16px 40px rgba(30,180,170,.34); margin-bottom:12px;">
+            <a id="gts-call-cta" href="tel:+13692121203" class="gw-cta-hover gts-contact-pill" style="background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); box-shadow:0 16px 40px rgba(30,180,170,.34);">
               <span style="flex:none; width:44px; height:44px; border-radius:50%; background:var(--cta-ink); color:var(--cta-from); display:flex; align-items:center; justify-content:center; font-size:20px;">✆</span>
               <span style="display:flex; flex-direction:column; line-height:1.2; min-width:0;">
-                <span style="font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(5,32,38,.72);">Call or text</span>
-                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:var(--cta-ink);">(369) 212-1203</span>
+                <span style="font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(5,32,38,.72);">Call</span>
+                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:21px; color:var(--cta-ink);">(369) 212-1203</span>
               </span>
             </a>
-            <a href="mailto:forge@gaelworx.com" class="gw-border-hover" style="display:flex; align-items:center; gap:14px; text-decoration:none; padding:17px 20px; border-radius:16px; background:rgba(8,28,34,.6); border:1px solid rgba(150,230,225,.22);">
+            <div class="gts-contact-note" id="gts-call-note">15 minutes, usually Zach, no pitch deck.</div>
+            <a id="gts-sms-cta" href="sms:+13692121203" class="gw-border-hover gts-contact-pill" style="background:rgba(8,28,34,.6); border:1px solid rgba(150,230,225,.22);">
+              <span style="flex:none; width:44px; height:44px; border-radius:50%; background:rgba(127,227,218,.14); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:19px;">💬</span>
+              <span style="display:flex; flex-direction:column; line-height:1.2; min-width:0;">
+                <span style="font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(214,240,236,.55);">Text</span>
+                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:18px; color:var(--foam-bright);">(369) 212-1203</span>
+              </span>
+            </a>
+            <div class="gts-contact-note">Good for a quick territory check, no call required.</div>
+            <a id="gts-email-cta" href="mailto:forge@gaelworx.com" class="gw-border-hover gts-contact-pill" style="background:rgba(8,28,34,.6); border:1px solid rgba(150,230,225,.22);">
               <span style="flex:none; width:44px; height:44px; border-radius:50%; background:rgba(127,227,218,.14); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:19px;">✉</span>
               <span style="display:flex; flex-direction:column; line-height:1.2; min-width:0;">
                 <span style="font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(214,240,236,.55);">Email</span>
-                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:18px; color:var(--foam-bright); overflow-wrap:anywhere;">forge@gaelworx.com</span>
+                <span style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:17px; color:var(--foam-bright); overflow-wrap:anywhere;">forge@gaelworx.com</span>
               </span>
             </a>
-            <div style="margin-top:16px; font-size:13px; line-height:1.5; color:rgba(214,240,236,.55); text-align:center;">Straight to the founder — usually a same-day reply.</div>
+            <div class="gts-contact-note" style="margin-bottom:0;">Straight to the founder, usually a same-day reply.</div>
+            <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(150,230,225,.12); font-size:13px; line-height:1.5; color:rgba(214,240,236,.55); text-align:center;">Phones are live 8am-7pm Central. After hours, text or email and you’ll hear back first thing.</div>
+            <div style="margin-top:16px; padding-top:16px; border-top:1px solid rgba(150,230,225,.12);">
+              <div class="gw-ticket-wrap">
+                <div class="gw-ticket">
+                  <div class="gw-ticket-head">
+                    <div class="gw-ticket-headrow">
+                      <span class="gw-ticket-stamp">Founding rate &middot; First 10</span>
+                      <span class="gw-ticket-seal" tabindex="0" role="img" aria-label="Founding rate, locked for life."><span class="gw-ticket-seal-cap" aria-hidden="true">Founding rate, locked for life.</span></span>
+                    </div>
+                    <h3 class="gw-ticket-title">Secure your territory</h3>
+                  </div>
+                  <div class="gw-ticket-perf" aria-hidden="true"></div>
+                  <div class="gw-ticket-body">
+                    <div role="group" aria-label="Choose a payment option" class="gw-ticket-pills">
+                      <button type="button" id="gts-pp-pill-deposit" aria-pressed="true" style="font-family:inherit; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); border:1px solid transparent; padding:10px 18px; border-radius:999px; cursor:pointer;">$499 deposit</button>
+                      <button type="button" id="gts-pp-pill-full" aria-pressed="false" style="font-family:inherit; font-weight:600; font-size:14.5px; color:rgba(234,252,251,.88); background:rgba(8,28,34,.6); border:1px solid rgba(150,230,225,.22); padding:10px 18px; border-radius:999px; cursor:pointer;">$3,199 (save $800)</button>
+                    </div>
+                    <div class="gw-ticket-pricerow">
+                      <span class="gw-ticket-price" id="gts-pp-price"><span class="gw-ticket-price-num">$499</span></span>
+                      <span class="gw-ticket-anchor" id="gts-pp-anchor" hidden>$3,999</span>
+                      <span class="gw-ticket-chip" id="gts-pp-chip" hidden>Save $800</span>
+                    </div>
+                    <div id="gts-pp-offer">
+                      <div id="gts-pp-offer-sub" class="gw-ticket-sub">Secures your territory. Applied in full to your $3,999 build fee, refundable until kickoff.</div>
+                      <a id="gts-pp-offer-fb" href="mailto:forge@gaelworx.com?subject=%24499%20deposit%2C%20secure%20my%20territory" style="display:inline-flex; align-items:center; font-weight:600; font-size:14.5px; color:var(--foam-bright); background:rgba(8,28,34,.6); border:1px solid rgba(255,177,77,.35); padding:11px 20px; border-radius:999px; text-decoration:none;">Request a payment link →</a>
+                      <div class="gw-pp-mount" style="max-width:300px;"></div>
+                    </div>
+                    <div class="gw-ticket-scarce">First 10 operators lock this for life.</div>
+                    <div class="gw-ticket-scarce" style="margin-top:4px;">After that: $4,999 build + $899/mo, minimum.</div>
+                    <div class="gw-ticket-foot">Want the whole first year at 30% off? Ask about it on your call.</div>
+                  </div>
+                </div>
+              </div>
+              <!-- WHAT HAPPENS AFTER THE DEPOSIT LANDS: the deposit-to-live map,
+                   rendered at the decision pixel. Additions only; the ticket,
+                   pills, and paypal-offers.js above are untouched. -->
+              <div style="margin-top:16px; padding:16px 18px; border-radius:14px; border:1px solid rgba(150,230,225,.16); background:rgba(8,28,34,.5);">
+                <div style="font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:10px;">What happens after the deposit lands</div>
+                <div style="display:flex; flex-direction:column; gap:8px; font-size:13px; line-height:1.5; color:rgba(233,255,253,.84);">
+                  <div style="display:flex; gap:10px; align-items:baseline;"><span style="flex:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--accent-2);">1</span><span>The moment your $499 lands, your territory locks and Zach texts you the same day to set your onboarding call.</span></div>
+                  <div style="display:flex; gap:10px; align-items:baseline;"><span style="flex:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--accent-2);">2</span><span>Day 1: the call. Send photos, pricing, your story.</span></div>
+                  <div style="display:flex; gap:10px; align-items:baseline;"><span style="flex:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--accent-2);">3</span><span>Days 2 and 3: we build.</span></div>
+                  <div style="display:flex; gap:10px; align-items:baseline;"><span style="flex:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--accent-2);">4</span><span>Day 3: you are live, and the 90-day promise starts.</span></div>
+                </div>
+                <div style="margin-top:10px; font-size:12.5px; font-weight:600; color:var(--accent);">Refundable until kickoff.</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -541,17 +799,17 @@
 
     <!-- ============ FINAL CTA ============ -->
     <section style="padding:clamp(20px,4vh,40px) 0 clamp(70px,11vh,120px);">
-      <div style="position:relative; overflow:hidden; border-radius:30px; border:1px solid rgba(127,227,218,.26); background:radial-gradient(120% 100% at 50% 0%, rgba(22,160,166,.3), transparent 60%), linear-gradient(160deg,#0b3040,#061821); padding:clamp(40px,6vw,72px); text-align:center;">
+      <div class="gw-waterline" style="position:relative; overflow:hidden; border-radius:30px; border:1px solid rgba(127,227,218,.26); background:radial-gradient(120% 100% at 50% 0%, rgba(22,160,166,.3), transparent 60%), linear-gradient(160deg,#0b3040,#061821); padding:clamp(40px,6vw,72px); text-align:center;">
         <div style="position:absolute; top:-40px; left:-30px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle, rgba(95,208,200,.2), transparent 68%); filter:blur(20px);"></div>
         <div style="position:relative;">
           <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:16px;">Your market has 3 spots</div>
           <h2 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(32px,5vw,64px); line-height:.98; letter-spacing:-.03em; color:var(--foam-white); margin:0 auto 20px; max-width:760px; text-wrap:balance;">This is one of them. Take it before your competitor calls.</h2>
-          <p style="font-size:17px; line-height:1.6; color:rgba(236,246,228,.8); margin:0 auto 32px; max-width:540px;">$3,999 to build. $599/month to stay ahead — locked for life at the founding rate. You own the site. We do the rest.</p>
+          <p style="font-size:17px; line-height:1.6; color:rgba(236,246,228,.8); margin:0 auto 32px; max-width:540px;">$3,999 to build. $599/month to stay ahead, locked for life at the founding rate. You own the site. We do the rest.</p>
+          <p style="font-size:14px; color:rgba(224,247,242,.78); margin:-14px auto 32px; max-width:540px;">You would be one of the first 10. The price never looks like this again.</p>
           <div style="display:flex; flex-wrap:wrap; gap:13px; justify-content:center;">
             <a href="#book" class="gw-cta-hover" style="font-weight:700; font-size:16px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:17px 32px; border-radius:999px; box-shadow:0 16px 40px rgba(30,180,170,.4);">Claim my territory</a>
             <a href="index.html" class="gw-border-hover" style="font-weight:600; font-size:16px; color:var(--foam-bright); background:rgba(10,34,42,.5); border:1px solid rgba(150,230,225,.26); padding:17px 30px; border-radius:999px;">See the live demo →</a>
           </div>
-          <p style="font-size:13px; color:rgba(214,240,236,.6); margin:18px 0 0;">Every week you wait is a week your competitor could take your spot instead.</p>
         </div>
       </div>
     </section>
@@ -561,7 +819,7 @@
   <!-- ============ FOOTER ============ -->
   <footer style="position:relative; z-index:1; border-top:1px solid rgba(150,230,225,.12); padding:36px clamp(20px,5vw,64px); max-width:1200px; margin:0 auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px;">
     <span style="font-family:'Grenze Gotisch',serif; font-weight:700; text-transform:uppercase; letter-spacing:.05em; font-size:19px; color:var(--foam-white); display:flex; align-items:center; gap:8px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 10px var(--accent-2);"></span>Gaelworx</span>
-    <span style="font-size:13px; color:rgba(214,240,236,.6);">Territory-exclusive websites for local businesses · 3 per state · 150 ever</span>
+    <span style="font-size:13px; color:rgba(214,240,236,.6);">Territory-exclusive websites for local businesses · 3 per state, 150 ever</span>
     <a href="#claim" style="font-weight:600; font-size:13.5px; color:var(--accent);">Claim my territory →</a>
   </footer>
 
@@ -570,8 +828,9 @@
     <div style="position:relative; width:100%; max-width:460px; border-radius:26px; border:1px solid rgba(127,227,218,.3); background:linear-gradient(165deg,#0d3345,#07202b); padding:clamp(28px,5vw,40px); box-shadow:0 50px 120px rgba(0,0,0,.6); text-align:center;">
       <span id="gts-exit-close-x" class="gw-faq-toggle" role="button" tabindex="0" aria-label="Close" style="position:absolute; top:16px; right:18px; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(214,240,236,.6); font-size:15px; border:1px solid rgba(150,230,225,.18);">✕</span>
       <div style="font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:14px;">Before you go</div>
-      <h3 style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,4vw,34px); line-height:1.05; letter-spacing:-.02em; color:var(--foam-white); margin:0 0 12px; text-wrap:balance;">Your state still has spots open.</h3>
-      <p style="font-size:15.5px; line-height:1.6; color:rgba(236,246,228,.8); margin:0 0 26px;">It’s 3 businesses per state — 150 ever — and the founding rate locks for life only while spots last. Grab a free 15-minute call before someone in your area does.</p>
+      <h3 id="gts-exit-heading" style="font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,4vw,34px); line-height:1.05; letter-spacing:-.02em; color:var(--foam-white); margin:0 0 12px; text-wrap:balance;">Your state still has spots open.</h3>
+      <p style="font-size:15.5px; line-height:1.6; color:rgba(236,246,228,.8); margin:0 0 26px;">It’s 3 businesses per state, 150 ever, and founding pricing ends after the first 10 claims. Then it is $4,999 + $899/mo.</p>
+      <p style="font-size:13.5px; line-height:1.55; color:rgba(224,247,242,.78); margin:-12px 0 24px;">Grab a free 15-minute call before someone in your area takes the spot.</p>
       <button id="gts-exit-book" style="display:block; width:100%; border:none; cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:16px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); padding:16px; border-radius:999px; box-shadow:0 16px 40px rgba(30,180,170,.4); margin-bottom:12px;">Book my territory call</button>
       <span id="gts-exit-close-text" class="gw-faq-toggle" role="button" tabindex="0" style="display:inline-block; cursor:pointer; font-size:13.5px; color:rgba(214,240,236,.55);">No thanks, I'll risk it</span>
     </div>
@@ -591,6 +850,7 @@
 <script src="js/config.js?v=2026.07"></script>
 <script src="js/water-scene.js" defer></script>
 <script src="js/mesh-net.js" defer></script>
+<script src="js/paypal-offers.js" defer></script>
 <script>
 (function () {
   'use strict';
@@ -598,72 +858,194 @@
   // ---- design-time props (baked-in defaults) ----
   var SPOTS_PER_STATE = 3;
 
-  // ---- state / territory availability ----
-  var availability = { Texas:1, California:2, Florida:0, 'New York':2, Arizona:3, Georgia:1, 'North Carolina':2, Nevada:1, Colorado:3, Washington:2, Ohio:2, Tennessee:1 };
-  var states = Object.keys(availability);
-  var stateSel = 'Texas';
-
-  var selectEl = document.getElementById('gts-state-select');
-  if (selectEl) {
-    states.forEach(function (st) {
-      var opt = document.createElement('option');
-      opt.value = st;
-      opt.textContent = st;
-      opt.style.color = '#0a2026';
-      if (st === stateSel) opt.selected = true;
-      selectEl.appendChild(opt);
-    });
+  // ---- THE TERRITORY BOARD ----
+  // ONE demo config: claimed-count per state (of SPOTS_PER_STATE). Only the
+  // states this page has always claimed as partially/fully taken appear here
+  // (mapped from the old availability object); every other state is fully open.
+  var TERRITORY = { TX:2, CA:1, FL:2, NY:1, GA:2, NC:1, NV:2, WA:1, OH:1, TN:2 };
+  var STATES = [
+    ['AL','Alabama'],['AK','Alaska'],['AZ','Arizona'],['AR','Arkansas'],['CA','California'],
+    ['CO','Colorado'],['CT','Connecticut'],['DE','Delaware'],['FL','Florida'],['GA','Georgia'],
+    ['HI','Hawaii'],['ID','Idaho'],['IL','Illinois'],['IN','Indiana'],['IA','Iowa'],
+    ['KS','Kansas'],['KY','Kentucky'],['LA','Louisiana'],['ME','Maine'],['MD','Maryland'],
+    ['MA','Massachusetts'],['MI','Michigan'],['MN','Minnesota'],['MS','Mississippi'],['MO','Missouri'],
+    ['MT','Montana'],['NE','Nebraska'],['NV','Nevada'],['NH','New Hampshire'],['NJ','New Jersey'],
+    ['NM','New Mexico'],['NY','New York'],['NC','North Carolina'],['ND','North Dakota'],['OH','Ohio'],
+    ['OK','Oklahoma'],['OR','Oregon'],['PA','Pennsylvania'],['RI','Rhode Island'],['SC','South Carolina'],
+    ['SD','South Dakota'],['TN','Tennessee'],['TX','Texas'],['UT','Utah'],['VT','Vermont'],
+    ['VA','Virginia'],['WA','Washington'],['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming']
+  ];
+  function stateName(code) {
+    for (var i = 0; i < STATES.length; i++) if (STATES[i][0] === code) return STATES[i][1];
+    return null;
+  }
+  function openSlots(code) {
+    return Math.max(0, SPOTS_PER_STATE - (TERRITORY[code] || 0));
   }
 
-  var leftCountEl = document.getElementById('gts-left-count');
-  var spotsWordEl = document.getElementById('gts-spots-word');
-  var dotsEl = document.getElementById('gts-dots');
+  // -- pure copy builders (exposed on window.__GTS for node/CDP testing) --
+  function payoffText(name, open) {
+    if (!name) return 'Florida first: pools here run all year. Pick your state to check availability.';
+    var line;
+    if (open <= 0) line = name + ' is closed. All ' + SPOTS_PER_STATE + ' founding slots are claimed. Call about the waitlist.';
+    else if (open === 1) line = name + ': 1 of ' + SPOTS_PER_STATE + ' founding slots left. First come, first locked.';
+    else line = name + ': ' + open + ' of ' + SPOTS_PER_STATE + ' founding slots open. First come, first locked.';
+    // Florida (the default pick) gets the market-knowledge payoff in prose that survives JS
+    if (name === 'Florida') line += ' Tampa and Orlando pools run all year; the calls never stop.';
+    return line;
+  }
+  function bookHeadingText(name, open) {
+    if (!name) return '15 minutes to see if your state’s still open.';
+    if (open <= 0) return '15 minutes to talk about the ' + name + ' waitlist.';
+    return '15 minutes to see if ' + name + ' is still open.';
+  }
+  function exitHeadingText(name, open) {
+    if (!name) return 'Your state still has spots open.';
+    if (open <= 0) return name + ' is closed. Ask about the waitlist.';
+    return name + ' still has ' + open + (open === 1 ? ' founding slot' : ' founding slots') + ' open.';
+  }
+  function picksSummary(raw) {
+    if (!raw) return '';
+    try {
+      var p = JSON.parse(raw);
+      var styleLabels = { '1a': 'Color & Shape', '1b': 'Light & Motion', '1c': 'Material & Craft' };
+      var modLabels = { tiers: 'Services list', process: 'How it works', addons: 'Add-ons', reviews: 'Reviews', faq: 'FAQ', guarantee: 'Guarantee' };
+      var parts = [];
+      if (p.style) parts.push(styleLabels[p.style] || String(p.style));
+      if (p.palette) parts.push(p.palette + ' palette');
+      if (p.mods) {
+        var mods = Object.keys(modLabels).filter(function (k) { return p.mods[k]; }).map(function (k) { return modLabels[k]; });
+        if (mods.length) parts.push(mods.join(', '));
+      }
+      return parts.join(', ');
+    } catch (_) { return ''; }
+  }
+  function buildMailto(name, picks) {
+    var subject = 'Territory call' + (name ? ' for ' + name : '');
+    var lines = ['Hi Zach,', '', 'I run a pool company' + (name ? ' in ' + name : '') + ' and want to check territory availability.'];
+    if (picks) lines.push('', 'My customizer picks: ' + picks);
+    lines.push('', 'Sent from the Get This Site page');
+    return 'mailto:forge@gaelworx.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+  }
+  function buildSms(name) {
+    var msg = 'Hi Zach, checking pool-site territory availability' + (name ? ' for ' + name : '') + '.';
+    // "?&body" survives both iOS and Android sms: URL parsing
+    return 'sms:+13692121203?&body=' + encodeURIComponent(msg);
+  }
+  window.__GTS = { payoffText: payoffText, bookHeadingText: bookHeadingText, exitHeadingText: exitHeadingText, picksSummary: picksSummary, buildMailto: buildMailto, buildSms: buildSms, openSlots: openSlots, TERRITORY: TERRITORY };
 
-  function renderTerritory() {
-    if (!leftCountEl || !spotsWordEl || !dotsEl) return;
-    var left = (availability[stateSel] != null ? availability[stateSel] : SPOTS_PER_STATE);
-    var taken = Math.max(0, SPOTS_PER_STATE - left);
+  // hero Florida badge: same TERRITORY numbers, no new claims
+  (function () {
+    var heroFl = document.getElementById('gts-hero-fl');
+    if (!heroFl) return;
+    var flOpen = openSlots('FL');
+    if (flOpen === 0) heroFl.textContent = 'Building Florida first. Florida is claimed out; ask about the waitlist.';
+    else heroFl.textContent = 'Building Florida first. ' + (flOpen === 1 ? '1 founding slot left.' : flOpen + ' founding slots left.');
+  })();
 
-    leftCountEl.textContent = left;
-    spotsWordEl.textContent = left === 0 ? 'Closed — join the waitlist' : (left === 1 ? '1 spot open' : left + ' spots open');
+  var ledgerEl = document.getElementById('gts-slot-ledger');
+  var selectEl = document.getElementById('gts-state-select');
+  var payoffEl = document.getElementById('gts-payoff');
+  var boardCta = document.getElementById('gts-board-cta');
+  var bookHeadingEl = document.getElementById('gts-book-heading');
+  var ledgerStateEl = document.getElementById('gts-ledger-state');
+  var exitHeadingEl = document.getElementById('gts-exit-heading');
+  var smsCta = document.getElementById('gts-sms-cta');
+  var emailCta = document.getElementById('gts-email-cta');
+  var callNote = document.getElementById('gts-call-note');
+  var picked = null; // USPS code or null
 
-    dotsEl.innerHTML = '';
+  function storedPicks() {
+    var raw = null;
+    try { raw = sessionStorage.getItem('gw-picks'); } catch (_) {}
+    if (!raw) { try { raw = localStorage.getItem('meridianPremiumIdeasPicks_v1'); } catch (_) {} }
+    return picksSummary(raw);
+  }
+
+  // the slot ledger: three founding-slot cards for the picked state.
+  // Claimed cards are anonymous by design; the first open slot is the #book link.
+  function renderSlots(name, open) {
+    if (!ledgerEl) return;
+    ledgerEl.innerHTML = '';
+    ledgerEl.setAttribute('aria-label', (name || 'Florida') + ' founding slots');
+    var taken = SPOTS_PER_STATE - open;
     for (var i = 0; i < SPOTS_PER_STATE; i++) {
-      var open = i >= taken;
-      var span = document.createElement('span');
-      span.textContent = open ? 'Open' : 'Taken';
-      span.style.cssText = [
-        'flex:1 1 0%', 'height:46px', 'border-radius:12px',
-        'display:flex', 'align-items:center', 'justify-content:center',
-        "font-family:'Manrope',sans-serif", 'font-weight:700', 'font-size:11px',
-        'letter-spacing:.12em', 'text-transform:uppercase',
-        'background:' + (open ? 'linear-gradient(135deg, rgba(142,240,230,.92), rgba(55,199,191,.86))' : 'rgba(8,28,34,.55)'),
-        'color:' + (open ? '#052026' : 'rgba(214,240,236,.4)'),
-        'border:' + (open ? '1px solid rgba(180,255,250,.4)' : '1px solid rgba(150,230,225,.14)')
-      ].join(';');
-      dotsEl.appendChild(span);
+      var el, num = '<span class="gts-slot-num">Slot ' + (i + 1) + '</span>';
+      if (i < taken) {
+        el = document.createElement('div');
+        el.className = 'gts-slot gts-slot-claimed';
+        el.setAttribute('aria-label', 'Founding slot ' + (i + 1) + ' of ' + SPOTS_PER_STATE + ': claimed');
+        el.innerHTML = num + '<span class="gts-slot-stamp">Claimed</span>';
+      } else if (i === taken) {
+        el = document.createElement('a');
+        el.setAttribute('href', '#book');
+        el.className = 'gts-slot gts-slot-open gw-cta-hover';
+        el.setAttribute('aria-label', 'Founding slot ' + (i + 1) + ' of ' + SPOTS_PER_STATE + ': open now, founding rate applies');
+        el.innerHTML = num + '<span class="gts-slot-label">Open now</span><span class="gts-slot-sub">Founding rate applies</span>';
+      } else {
+        el = document.createElement('div');
+        el.className = 'gts-slot gts-slot-open';
+        el.setAttribute('aria-label', 'Founding slot ' + (i + 1) + ' of ' + SPOTS_PER_STATE + ': open');
+        el.innerHTML = num + '<span class="gts-slot-label">Open</span>';
+      }
+      el.style.setProperty('--gw-i', String(i));
+      ledgerEl.appendChild(el);
     }
   }
-  renderTerritory();
+
+  // ONE selection, whole page responds: board payoff + slot bars + board CTA,
+  // the #book heading + call ledger + sms/mailto prefills, and the exit modal.
+  function selectState(code, persist) {
+    picked = code || null;
+    var name = picked ? stateName(picked) : null;
+    var open = picked ? openSlots(picked) : SPOTS_PER_STATE;
+    if (selectEl && picked && selectEl.value !== picked) selectEl.value = picked;
+    if (payoffEl) payoffEl.textContent = payoffText(name, open);
+    renderSlots(name, open);
+    if (boardCta) boardCta.textContent = !name ? 'Claim my territory' : (open > 0 ? 'Claim ' + name : 'Ask about the ' + name + ' waitlist');
+    if (bookHeadingEl) bookHeadingEl.textContent = bookHeadingText(name, open);
+    if (ledgerStateEl) ledgerStateEl.textContent = name ? name + ' territory check.' : 'Territory check.';
+    if (exitHeadingEl) exitHeadingEl.textContent = exitHeadingText(name, open);
+    if (callNote) callNote.textContent = '15 minutes, usually Zach, no pitch deck.' + (name ? ' ' + name + ' checked live on the line.' : '');
+    var picks = storedPicks();
+    if (emailCta) emailCta.setAttribute('href', buildMailto(name, picks));
+    if (smsCta) smsCta.setAttribute('href', buildSms(name));
+    if (persist && picked) {
+      try { sessionStorage.setItem('gw-territory', JSON.stringify({ code: picked, name: name, open: open })); } catch (_) {}
+    }
+  }
 
   if (selectEl) {
-    selectEl.addEventListener('change', function (e) {
-      stateSel = e.target.value;
-      renderTerritory();
+    STATES.forEach(function (st) {
+      var code = st[0], name = st[1], open = openSlots(code);
+      var opt = document.createElement('option');
+      opt.value = code;
+      opt.textContent = name + ' (' + (open === 0 ? 'closed' : open + ' of ' + SPOTS_PER_STATE + ' open') + ')';
+      if (code === 'FL') opt.selected = true;
+      selectEl.appendChild(opt);
     });
+    selectEl.addEventListener('change', function () { selectState(selectEl.value, true); });
   }
+
+  // restore a pick made earlier this session (also readable by premium-ideas)
+  (function () {
+    var saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem('gw-territory') || 'null'); } catch (_) {}
+    if (saved && saved.code && stateName(saved.code)) selectState(saved.code, false);
+    else selectState('FL', true); // Florida-first default, wired exactly like a user click
+  })();
 
   // ---- FAQ accordion ----
   var faqData = [
-    { q: 'Why is there a monthly fee?', a: 'The $3,999 stands up your site and your growth backend. The $599/month is what makes it pay — we run it, publish content, run weekly experiments, keep you ranked on Google and named by AI assistants, and roll network-wide wins onto your site. A site that never changes loses. Yours never stops improving. And as a founding member, your rate locks for life — even as pricing rises for later territories.' },
-    { q: 'Isn’t this just a template?', a: 'The design engine is proven across the network — that’s why we can build in 3 days instead of 3 months, and why this doesn’t cost $15,000. But nothing ships until it’s rebuilt around your business: custom copy written from your story, your photos and pricing, a page for every town you serve, your own private lead database wired to every form, analytics and rank tracking stood up, and your site plugged into the network’s learning system. The engine is shared. Your site is yours alone.' },
-    { q: 'If it’s this good, why isn’t it $15,000?', a: 'Because you’re not paying for what agencies make you pay for. An agency rebuilds everything from scratch, once, for one client — and you fund all of it. Our design engine and backend are shared across the network, so your fee buys your build and your integration while the network absorbs the R&D. You’re effectively paying us to build your backend — the premium site comes along free.' },
-    { q: 'Why only 150 sites, ever?', a: 'Two reasons. Scarcity keeps it premium: at 3 per state, your customers never say “I’ve seen this site before” — cookie-cutter vendors sell the same look thousands of times until it means nothing. And 150 is the network’s sweet spot: big enough to prove what wins with real numbers, small enough that every owner still has the founder’s cell.' },
-    { q: 'Do I actually own my website?', a: 'Yes. The site is yours outright from launch — content, domain, everything. The monthly service is the growth engine on top; you can pause it and keep the site as it stands.' },
-    { q: 'What if I want to cancel?', a: 'Cancel the growth service anytime — no lock-in contract. You keep the site. Fair warning: if you leave, your territory and your founding rate reopen for someone else, so most owners hold their spot.' },
+    { q: 'Why is there a monthly fee?', a: 'The $3,999 stands up your site and your growth backend. The $599/month is what makes it pay: we run it, publish content, run weekly experiments, keep you ranked on Google and named by AI assistants, and roll network-wide wins onto your site. A site that never changes loses. Yours never stops improving. And as a founding member, your rate locks for life, even as pricing rises for later territories.' },
+    { q: 'Isn’t this just a template?', a: 'The design engine is proven across the network. That’s why we can build in 3 days instead of 3 months, and why this doesn’t cost $15,000. But nothing ships until it’s rebuilt around your business: custom copy written from your story, your photos and pricing, a page for every town you serve, your own private lead database wired to every form, analytics and rank tracking stood up, and your site plugged into the network’s learning system. The engine is shared. Your site is yours alone.' },
+    { q: 'If it’s this good, why isn’t it $15,000?', a: 'Because you’re not paying for what agencies make you pay for. An agency rebuilds everything from scratch, once, for one client, and you fund all of it. Our design engine and backend are shared across the network, so your fee buys your build and your integration while the network absorbs the R&D. You’re effectively paying us to build your backend. The premium site comes along free.' },
+    { q: 'Why only 150 sites, ever?', a: 'We cap it at 3 per state and 150 total so the look stays rare and the network stays provable. The full reasoning is in the network section above.' },
+    { q: 'Do I actually own my website?', a: 'Yes. The site is yours outright from launch: content, domain, everything. The monthly service is the growth engine on top; you can pause it and keep the site as it stands.' },
+    { q: 'What if I want to cancel?', a: 'Cancel the growth service anytime. No lock-in contract. You keep the site. Fair warning: if you leave, your territory and your founding rate reopen for someone else, so most owners hold their spot.' },
     { q: 'How fast do we launch?', a: 'Live in 3 days from your onboarding call. You send photos, pricing, and your story; we handle design, custom copy, your lead database, and the full search-and-AI setup. Most owners are taking leads from the new site the same week they claim their territory.' },
-    { q: 'What if my territory is already taken?', a: 'Then it’s taken — we cap it at ' + SPOTS_PER_STATE + ' businesses per state and never build a direct competitor inside your market. Check your state above; if it’s open, claim it before someone else does.' },
-    { q: 'What do I actually have to do?', a: 'One call and a camera roll. Send your photos, pricing, and the story of your business; we do the rest — build, launch, lead database, analytics, rank tracking, weekly improvements, and a plain-English update every month. Your job is the pools. Ours is making the phone ring.' }
+    { q: 'What if my territory is already taken?', a: 'Then it’s taken. We cap it at ' + SPOTS_PER_STATE + ' businesses per state and never build a direct competitor inside your market. Check your state above; if it’s open, claim it before someone else does.' },
+    { q: 'What do I actually have to do?', a: 'One call and a camera roll. Send your photos, pricing, and the story of your business; we do the rest: build, launch, lead database, analytics, rank tracking, weekly improvements, and a plain-English update every month. Your job is the pools. Ours is making the phone ring.' }
   ];
   var openFaq = 0;
   var faqListEl = document.getElementById('gts-faq-list');
@@ -686,7 +1068,7 @@
 
       var signSpan = document.createElement('span');
       signSpan.style.cssText = "flex:none; font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:24px; color:#5fd0c8; line-height:1;";
-      signSpan.textContent = open ? '–' : '+';
+      signSpan.textContent = open ? '−' : '+';
 
       header.appendChild(qSpan);
       header.appendChild(signSpan);
@@ -747,7 +1129,12 @@
   }
   function goBook() {
     closeExit();
-    try { window.location.hash = '#book'; } catch (_) {}
+    // route through the anchor-nav module (explicit behavior, hidden-tab safe)
+    if (window.__gtsScrollTo && window.__gtsScrollTo('#book')) {
+      try { history.pushState(null, '', '#book'); } catch (_) {}
+    } else {
+      try { window.location.hash = '#book'; } catch (_) {}
+    }
   }
 
   // Exit-intent is a desktop gesture (cursor leaving the top of the viewport).
@@ -793,6 +1180,94 @@
   if (exitBook) {
     exitBook.addEventListener('click', goBook);
   }
+  // clicking the dimmed backdrop (not the dialog card) also dismisses
+  if (exitOverlay) {
+    exitOverlay.addEventListener('click', function (e) {
+      if (e.target === exitOverlay) closeExit();
+    });
+  }
+
+  // ---- PAY ONLINE (PayPal hosted buttons, lazy + offer toggle) ----
+  var PP_PILL_ON = 'font-family:inherit; font-weight:700; font-size:14.5px; color:var(--cta-ink); background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); border:1px solid transparent; padding:10px 18px; border-radius:999px; cursor:pointer;';
+  var PP_PILL_OFF = 'font-family:inherit; font-weight:600; font-size:14.5px; color:rgba(234,252,251,.88); background:rgba(8,28,34,.6); border:1px solid rgba(150,230,225,.22); padding:10px 18px; border-radius:999px; cursor:pointer;';
+  var PP_PRICES = { deposit: '$499', full: '$3,199' };
+  var PP_OFFERS = {
+    deposit: {
+      sub: 'Secures your territory. Applied in full to your $3,999 build fee, refundable until kickoff.',
+      subject: '%24499%20deposit%2C%20secure%20my%20territory'
+    },
+    full: {
+      sub: 'Your whole build paid up front. Save $800, 20% off the standard $3,999.',
+      subject: '%243%2C199%20build%20paid%20in%20full%2C%20save%20%24800'
+    }
+  };
+  var ppCurrent = 'deposit';
+  function ppSelect(key) {
+    if (key === ppCurrent || !PP_OFFERS[key]) return;
+    ppCurrent = key;
+    ['deposit', 'full'].forEach(function (k) {
+      var pill = document.getElementById('gts-pp-pill-' + k);
+      if (!pill) return;
+      var on = k === key;
+      pill.setAttribute('aria-pressed', on ? 'true' : 'false');
+      pill.style.cssText = on ? PP_PILL_ON : PP_PILL_OFF;
+    });
+    var sub = document.getElementById('gts-pp-offer-sub');
+    if (sub) sub.textContent = PP_OFFERS[key].sub;
+    var fb = document.getElementById('gts-pp-offer-fb');
+    if (fb) fb.href = 'mailto:forge@gaelworx.com?subject=' + PP_OFFERS[key].subject;
+    // claim-ticket delight: price roll + savings chip / struck anchor (all lookups guarded)
+    var priceWrap = document.getElementById('gts-pp-price');
+    if (priceWrap && PP_PRICES[key]) {
+      // defensively clear any clones still animating out from a rapid re-toggle
+      var stale = priceWrap.querySelectorAll('.gw-roll-out');
+      for (var si = 0; si < stale.length; si++) {
+        if (stale[si].parentNode) stale[si].parentNode.removeChild(stale[si]);
+      }
+      // ONE stable in-flow numeral span is the single source of truth
+      var num = priceWrap.querySelector('.gw-ticket-price-num');
+      if (!num) {
+        // first paint edge case: create the stable span
+        num = document.createElement('span');
+        num.className = 'gw-ticket-price-num';
+        priceWrap.appendChild(num);
+      }
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) {
+        // reduced motion: instant swap
+        num.textContent = PP_PRICES[key];
+      } else {
+        // clone the current numeral, animate the clone out, keep the stable span in flow
+        var ghost = num.cloneNode(true);
+        ghost.className = 'gw-roll-out';
+        ghost.setAttribute('aria-hidden', 'true');
+        priceWrap.appendChild(ghost);
+        num.textContent = PP_PRICES[key];
+        num.classList.remove('gw-roll-in');
+        void num.offsetWidth;
+        num.classList.add('gw-roll-in');
+        setTimeout(function () {
+          if (ghost.parentNode) ghost.parentNode.removeChild(ghost);
+          num.classList.remove('gw-roll-in');
+        }, 320);
+      }
+    }
+    var chip = document.getElementById('gts-pp-chip');
+    if (chip) chip.hidden = key !== 'full';
+    var anchor = document.getElementById('gts-pp-anchor');
+    if (anchor) anchor.hidden = key !== 'full';
+    if (window.gaelworxShowOffer) gaelworxShowOffer('#gts-pp-offer', key);
+  }
+  ['deposit', 'full'].forEach(function (k) {
+    var pill = document.getElementById('gts-pp-pill-' + k);
+    if (pill) pill.addEventListener('click', function () { ppSelect(k); });
+  });
+  // Deferred scripts (js/paypal-offers.js) run before DOMContentLoaded, so the
+  // renderer is guaranteed to exist by the time this fires. Default offer stays
+  // lazy (IntersectionObserver); toggling switches to gaelworxShowOffer.
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.gaelworxRenderOffers) gaelworxRenderOffers({ deposit: '#gts-pp-offer' });
+  });
 })();
 </script>
 <script>
@@ -825,6 +1300,233 @@
     if (menu.hidden) return;
     if (e.key === 'Escape' || e.key === 'Esc') closeMenu(true);
   });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  // ---- RETURNING-VISITOR STRIP ----
+  // First visit: silently stamp gw-visited, render nothing. Later visits:
+  // show one line + one CTA (picks variant if the customizer saved picks,
+  // territory variant otherwise) until gw-return-dismissed is set.
+  var bar = document.getElementById('gw-return-bar');
+  if (!bar) return;
+  var visited = null, dismissed = null;
+  try {
+    visited = localStorage.getItem('gw-visited');
+    dismissed = localStorage.getItem('gw-return-dismissed');
+  } catch (_) { return; }
+  if (!visited) {
+    try { localStorage.setItem('gw-visited', '1'); } catch (_) {}
+    return;
+  }
+  if (dismissed) return;
+  var picks = null;
+  try { picks = localStorage.getItem('meridianPremiumIdeasPicks_v1'); } catch (_) {}
+  var text = document.getElementById('gw-return-text');
+  var cta = document.getElementById('gw-return-cta');
+  if (picks) {
+    if (text) text.textContent = 'Welcome back. Your styled site is saved on this device.';
+    if (cta) { cta.textContent = 'Book the call and it is on screen when we pick up.'; cta.setAttribute('href', '#book'); }
+  } else {
+    if (text) text.textContent = 'Welcome back. Pick up where you left off:';
+    if (cta) { cta.textContent = "check your state's open slots."; cta.setAttribute('href', '#territory'); }
+  }
+  bar.hidden = false;
+  function dismiss() {
+    bar.hidden = true;
+    try { localStorage.setItem('gw-return-dismissed', '1'); } catch (_) {}
+  }
+  var x = document.getElementById('gw-return-x');
+  if (x) {
+    x.addEventListener('click', dismiss);
+    x.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); dismiss(); }
+    });
+  }
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  // ---- ANCHOR NAV ----
+  // See the overflow:clip comment on the page wrapper: the viewport owns all
+  // scrolling here. html{scroll-behavior:smooth} alone is fragile (a smooth
+  // scroll animation never runs in a hidden/backgrounded tab and is cancelled
+  // by any competing scroll), so anchor clicks scroll with an EXPLICIT behavior
+  // ('auto' when the tab is hidden or the visitor prefers reduced motion), and
+  // cross-page hash arrivals (premium-ideas.html -> get-this-site.html#book)
+  // re-anchor instantly after load, once late layout (fonts, JS-rendered
+  // sections) has settled. scroll-margin-top on the sections handles the
+  // sticky-nav offset in both paths.
+  function reduced() {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (_) { return false; }
+  }
+  function behaviorNow() { return (reduced() || document.hidden) ? 'auto' : 'smooth'; }
+  function scrollToHash(hash, behavior) {
+    if (!hash || hash === '#') return false;
+    var el = document.getElementById(hash.slice(1));
+    if (!el) return false;
+    el.scrollIntoView({ behavior: behavior || behaviorNow(), block: 'start' });
+    return true;
+  }
+  window.__gtsScrollTo = scrollToHash;
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    if (a.classList.contains('mpc-skip')) return; // skip link keeps native focus handling
+    var hash = a.getAttribute('href');
+    if (scrollToHash(hash, behaviorNow())) {
+      e.preventDefault();
+      try { history.pushState(null, '', hash); } catch (_) {}
+    }
+  });
+  if (location.hash) {
+    // The parse-time native anchor lands before web fonts finish; the Bricolage
+    // swap reflows everything above the target, so re-anchor after load AND
+    // after fonts.ready, but never once the visitor has scrolled on their own.
+    var userMoved = false;
+    var markMoved = function () { userMoved = true; };
+    ['wheel', 'touchmove', 'pointerdown'].forEach(function (ev) {
+      window.addEventListener(ev, markMoved, { passive: true, once: true });
+    });
+    var reanchor = function () {
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        if (userMoved) return;
+        var el = document.getElementById(location.hash.slice(1));
+        if (!el) return;
+        // only correct if the anchor drifted off-target
+        if (Math.abs(el.getBoundingClientRect().top - 80) > 24) scrollToHash(location.hash, 'auto');
+      }); });
+    };
+    if (document.readyState === 'complete') reanchor();
+    else window.addEventListener('load', reanchor);
+    if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+      document.fonts.ready.then(reanchor);
+    }
+  }
+
+  // ---- HERO DOMAIN TYPEWRITER (delight) ----
+  // The demo-browser URL bar types and erases plausible pool-company domains,
+  // ending on (and holding) "your-company.com". Paused while off-viewport or in
+  // a hidden tab; under reduced motion the static markup text stands untouched.
+  (function () {
+    var el = document.getElementById('gts-url-text');
+    if (!el || reduced()) return;
+    var DOMAINS = ['bluewaterpools.com', 'clearcreek-poolcare.com', 'splashcitypoolco.com', 'emeraldpoolpros.com', 'your-company.com'];
+    var caret = document.createElement('span');
+    caret.id = 'gts-url-caret';
+    caret.setAttribute('aria-hidden', 'true');
+    el.parentNode.appendChild(caret);
+    var inView = true;
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) { inView = entries[0].isIntersecting; });
+      io.observe(el.parentNode);
+    }
+    var di = 0, mode = 'erase';
+    function tick() {
+      if (!inView || document.hidden) { setTimeout(tick, 420); return; }
+      var target = DOMAINS[di];
+      if (mode === 'erase') {
+        var cur = el.textContent;
+        if (cur.length) { el.textContent = cur.slice(0, -1); setTimeout(tick, 24); return; }
+        mode = 'type';
+        setTimeout(tick, 300);
+        return;
+      }
+      var len = el.textContent.length;
+      if (len < target.length) {
+        el.textContent = target.slice(0, len + 1);
+        setTimeout(tick, 50 + Math.random() * 38);
+        return;
+      }
+      if (di === DOMAINS.length - 1) { caret.remove(); return; } // hold the final domain
+      di++;
+      mode = 'erase';
+      setTimeout(tick, 1600);
+    }
+    setTimeout(tick, 1000);
+  })();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  // ==================================================================
+  // DESCENT & CLEAR - entry emphasis + territory pin choreography
+  // (a) one-time IO classes: .gw-waterline -> .gw-shimmered (top-edge
+  //     shimmer) and .gw-drawline -> .gw-drawn (teal border draw)
+  // (b) territory pin: section-local progress in a rAF loop that runs
+  //     ONLY while an IntersectionObserver says the section is on screen
+  //     (repo precedent: index.html crawl). No window scroll listener.
+  // ==================================================================
+  function reduced() {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (_) { return false; }
+  }
+
+  // (a) one-time entry emphasis (additive; panels are fully visible without it)
+  if ('IntersectionObserver' in window && !reduced()) {
+    var oneShot = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add(en.target.classList.contains('gw-drawline') ? 'gw-drawn' : 'gw-shimmered');
+        oneShot.unobserve(en.target);
+      });
+    }, { threshold: 0.22 });
+    [].forEach.call(document.querySelectorAll('.gw-waterline, .gw-drawline'), function (el) {
+      oneShot.observe(el);
+    });
+  }
+
+  // (b) territory pin
+  var outer = document.getElementById('gts-terr-outer');
+  var ledger = document.getElementById('gts-slot-ledger');
+  if (!outer || !ledger || !('IntersectionObserver' in window)) return;
+  var mq = null;
+  try { mq = window.matchMedia('(min-width:900px) and (min-height:640px) and (prefers-reduced-motion: no-preference)'); } catch (_) { return; }
+  if (!mq) return;
+
+  // stagger index per slot card is set inline by renderSlots (--gw-i);
+  // CSS transition-delay does the sweep, no per-frame JS touches a card
+
+  var onScreen = false;
+  var rafId = 0;
+  function setStage(q) {
+    outer.classList.toggle('gts-sweep', q > 0.1);
+    outer.classList.toggle('gts-stamp', q > 0.5);
+    outer.classList.toggle('gts-glow', q > 0.78);
+  }
+  function frame() {
+    if (!onScreen || !outer.classList.contains('gw-pin-on')) { rafId = 0; return; }
+    var r = outer.getBoundingClientRect();
+    var vh = window.innerHeight || 1;
+    var q = -r.top / Math.max(1, r.height - vh); // progress through the sticky span
+    q = q < 0 ? 0 : q > 1 ? 1 : q;
+    setStage(q);
+    rafId = requestAnimationFrame(frame);
+  }
+  function ensureLoop() {
+    if (!rafId && onScreen && outer.classList.contains('gw-pin-on')) rafId = requestAnimationFrame(frame);
+  }
+  function applyMode() {
+    var pin = mq.matches;
+    outer.classList.toggle('gw-pin-on', pin);
+    if (!pin) {
+      outer.classList.remove('gts-sweep', 'gts-stamp', 'gts-glow');
+      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    } else {
+      ensureLoop();
+    }
+  }
+  var pio = new IntersectionObserver(function (entries) {
+    onScreen = entries[entries.length - 1].isIntersecting;
+    if (onScreen) ensureLoop();
+  });
+  pio.observe(outer);
+  if (mq.addEventListener) mq.addEventListener('change', applyMode);
+  else if (mq.addListener) mq.addListener(applyMode);
+  applyMode();
 })();
 </script>
 </body>
