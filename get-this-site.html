@@ -231,28 +231,17 @@
      (explicit behavior, hidden-tab fallback to instant, hash re-anchor on load). -->
 <div style="position:relative; overflow:clip;">
 
-  <!-- ripple displacement for the logo emblem -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <filter id="logoRipple" x="-15%" y="-15%" width="130%" height="130%">
-      <!-- Static noise field: animating baseFrequency regenerates the whole
-           fractal-noise tile every keyframe, which makes the coin's edges
-           "boil"/glitch instead of rippling. Keep it fixed and breathe the
-           displacement scale instead — same stable field, smoothly re-sampled. -->
-      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.018" numOctaves="2" seed="7" result="noise"></feTurbulence>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G">
-        <animate attributeName="scale" dur="14s" calcMode="spline" values="6;8.5;5.5;6" keyTimes="0;0.4;0.75;1" keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" repeatCount="indefinite"></animate>
-      </feDisplacementMap>
-    </filter>
-  </svg>
-
   <!-- ============ BACKGROUND ============ -->
   <div style="position:fixed; inset:0; z-index:0; pointer-events:none; background:radial-gradient(120% 80% at 50% -10%, rgba(20,120,120,.24), transparent 55%), radial-gradient(90% 70% at 88% 116%, rgba(10,72,82,.32), transparent 60%), linear-gradient(180deg,#07171e 0%,#04121a 56%,#061a20 100%);">
     <div style="position:absolute; top:6%; left:-6%; width:44vw; height:44vw; max-width:620px; max-height:620px; border-radius:50%; background:radial-gradient(circle, rgba(95,208,200,.15), transparent 68%); filter:blur(22px); animation:gs-floatA 22s ease-in-out infinite;"></div>
     <div style="position:absolute; bottom:0; right:-8%; width:50vw; height:50vw; max-width:700px; max-height:700px; border-radius:50%; background:radial-gradient(circle, rgba(55,199,191,.12), transparent 66%); filter:blur(24px); animation:gs-floatB 27s ease-in-out infinite;"></div>
-    <div style="position:absolute; inset:0; pointer-events:none; opacity:.58; -webkit-mask-image:url(assets/knot-copper.webp); mask-image:url(assets/knot-copper.webp); -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-position:center; mask-position:center; -webkit-mask-size:min(94vw,94vh) min(94vw,94vh); mask-size:min(94vw,94vh) min(94vw,94vh); filter:drop-shadow(0 0 70px rgba(95,208,200,.22));">
-      <water-scene style="display:block;width:100%;height:100%;"></water-scene>
-    </div>
-    <img src="assets/knot-copper.webp" alt="" aria-hidden="true" width="1024" height="1024" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(94vw,94vh); height:min(94vw,94vh); object-fit:contain; pointer-events:none; opacity:.55; mix-blend-mode:multiply; filter:url(#logoRipple) saturate(.82) hue-rotate(-12deg);">
+    <!-- Static copper medallion. The background coin is decorative, so it is
+         rendered as a single still image: no animated SVG displacement filter
+         and no masked WebGL water layer stacked behind it. Both were animating
+         a large, blend-mode'd surface every frame, which glitched/flickered on
+         real GPUs. The teal halo (previously the masked layer's drop-shadow) is
+         carried on the image so the coin keeps its glow. -->
+    <img src="assets/knot-copper.webp" alt="" aria-hidden="true" width="1024" height="1024" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(94vw,94vh); height:min(94vw,94vh); object-fit:contain; pointer-events:none; opacity:.55; mix-blend-mode:multiply; filter:drop-shadow(0 0 70px rgba(95,208,200,.22)) saturate(.82) hue-rotate(-12deg);">
   </div>
 
   <!-- ============ DESCENT & CLEAR: depth spine + parallax bubbles ============
@@ -869,7 +858,6 @@
 </div>
 
 <script src="js/config.js?v=2026.07"></script>
-<script src="js/water-scene.js" defer></script>
 <script src="js/mesh-net.js" defer></script>
 <script src="js/paypal-offers.js" defer></script>
 <script>
