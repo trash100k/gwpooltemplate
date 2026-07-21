@@ -239,9 +239,11 @@
          rendered as a single still image: no animated SVG displacement filter
          and no masked WebGL water layer stacked behind it. Both were animating
          a large, blend-mode'd surface every frame, which glitched/flickered on
-         real GPUs. The teal halo (previously the masked layer's drop-shadow) is
-         carried on the image so the coin keeps its glow. -->
-    <img src="assets/knot-copper.webp" alt="" aria-hidden="true" width="1024" height="1024" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(94vw,94vh); height:min(94vw,94vh); object-fit:contain; pointer-events:none; opacity:.55; mix-blend-mode:multiply; filter:drop-shadow(0 0 70px rgba(95,208,200,.22)) saturate(.82) hue-rotate(-12deg);">
+         real GPUs. No mix-blend-mode: over the dark backdrop `multiply` would
+         crush the copper and the teal halo to near-black; plain alpha blending
+         at opacity .55 keeps the knot subtle while letting the drop-shadow glow
+         actually read. -->
+    <img src="assets/knot-copper.webp" alt="" aria-hidden="true" width="1024" height="1024" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:min(94vw,94vh); height:min(94vw,94vh); object-fit:contain; pointer-events:none; opacity:.36; filter:drop-shadow(0 0 70px rgba(95,208,200,.22)) saturate(.82) hue-rotate(-12deg);">
   </div>
 
   <!-- ============ DESCENT & CLEAR: depth spine + parallax bubbles ============
