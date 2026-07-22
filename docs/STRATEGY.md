@@ -39,8 +39,12 @@ every lesson learned on one site improves the other 149. Smarter, faster, strong
     structure tuned for Google plus AI answer engines (ChatGPT, Perplexity, Gemini, Claude)
   - Google Business Profile posts, review-response drafts, and directory/citation
     consistency, managed weekly
-  - Always-on feature scouting (winning patterns found elsewhere added automatically) and
-    a monthly plain-English report
+  - Always-on feature scouting (winning patterns found elsewhere, reviewed and then added
+    to the site) and a monthly plain-English report
+  - Domain renewal, business email, SSL, and nightly backups, monitored and kept current
+  - An AI chat concierge live on the site 24/7, answering visitor questions and capturing
+    leads outside business hours
+  - Heatmaps and session recordings on every page, feeding the weekly experiment queue
   - Everything above is AI-assisted production with human review before anything ships —
     not a claim that it runs unsupervised.
 
