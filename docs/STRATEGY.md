@@ -30,6 +30,19 @@ every lesson learned on one site improves the other 149. Smarter, faster, strong
   also a live demo generating the next sale.
 - **Premium upsells:** the Premium Ideas catalog is the menu for expansion revenue after
   the initial sale.
+- **The monthly growth service, concretely:** this is what the $599/mo (get-this-site.html)
+  actually buys, and it should stay in sync with that page's copy —
+  - ~30 AI-drafted, locally-targeted blog posts per site per month
+  - A live experiment running every week (headlines, offers, pricing display, rankings,
+    how AI engines describe the business), results rolled network-wide on a win
+  - Technical SEO/AEO/GEO upkeep: schema markup, meta tags, sitemap/robots health, and
+    structure tuned for Google plus AI answer engines (ChatGPT, Perplexity, Gemini, Claude)
+  - Google Business Profile posts, review-response drafts, and directory/citation
+    consistency, managed weekly
+  - Always-on feature scouting (winning patterns found elsewhere added automatically) and
+    a monthly plain-English report
+  - Everything above is AI-assisted production with human review before anything ships —
+    not a claim that it runs unsupervised.
 
 ## 3. Architecture — hub and spoke, isolated by design
 
