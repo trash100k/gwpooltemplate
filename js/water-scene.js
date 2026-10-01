@@ -124,9 +124,12 @@
     '  if (uDark > 0.001) {',
     '    vec3 iriC = 0.5 + 0.5 * cos(TAU * (caust * 1.6 + vec3(0.0, 0.33, 0.66)));',
     '    float web = smoothstep(0.5, 1.0, caust);', // only the bright refractor web survives the dark
-    '    vec3 blk = web * iriC * 0.6',
-    '             + col * 0.05',
-    '             + rippleLight * vec3(0.10, 0.12, 0.15);',
+    // abyssal light: a cold deep-water cyan carries the web; the spectral shift
+    // is a low whisper inside it, not a rainbow
+    '    vec3 webC = vec3(0.30, 0.62, 0.68) * (0.72 + 0.28 * iriC);',
+    '    vec3 blk = web * webC * 0.5',
+    '             + col * 0.04',
+    '             + rippleLight * vec3(0.05, 0.09, 0.11);',
     '    col = mix(col, blk, uDark);',
     '  }',
     '  float vig = smoothstep(1.35, 0.25, length((uv - 0.5) * vec2(aspect, 1.0)));',
@@ -275,7 +278,7 @@
           u.uMurkDeep.value.set(S.murk.deep); u.uMurkShallow.value.set(S.murk.shallow); u.uMurkFoam.value.set(S.murk.foam);
           var mw = S.murk.w || [1, 1, 1, 0];
           u.uWeights.value.set(mw[0], mw[1], mw[2], mw[3]);
-          u.uIri.value = (S.murk.iri || 0) + u.uDark.value * 0.85;
+          u.uIri.value = (S.murk.iri || 0) + u.uDark.value * 0.3;
         }
         var rip = S.ripples || [];
         for (var k = 0; k < 12; k++) {
