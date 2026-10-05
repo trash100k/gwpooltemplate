@@ -18,17 +18,15 @@
   // PAYPAL IDS (from the PayPal dashboard).
   //   clientId       -> Dashboard > Apps & Credentials > Live > Client ID
   //   hostedButtonId -> Pay Buttons > (each saved button) > its hosted button ID
-  // Offers: deposit = $499 deposit | full = $3,199 build paid in full
-  // deposit + full are live. `year` ($7,831 first year up front) is the only
-  // dormant slot — intentionally left 'REPLACE_ME' with no button created;
-  // the pages mention it as plain text only.
+  // Offer: build = the complete $499 one-time website build.
+  // The former hosted button describes a deposit toward an older build price.
+  // Keep checkout disabled until PayPal's saved title/description are updated
+  // and verified. The matching payment-link request stays visible meanwhile.
   // ============================================================================
   window.GAELWORX_PAYPAL = {
     clientId: 'BAAzbDasUmTGydEeKlLoVNfyoRikcl6axio4cBGBC8UPjeWJnZGyDtkKNvDrGE-sJBps1ZbWWkd0i-BqOU',
     offers: {
-      deposit: { hostedButtonId: 'PUMMPADQS4JS2' },
-      full: { hostedButtonId: 'XKBMYEKVVZTD2' },
-      year: { hostedButtonId: 'REPLACE_ME' } // intentionally dormant — text mention only, no button
+      build: { hostedButtonId: 'REPLACE_ME' }
     }
   };
 
@@ -123,7 +121,7 @@
     loadSdk();
   }
 
-  // map: { deposit: '#sel', full: '#sel', year: '#sel' } — any subset.
+  // map: { build: '#sel' }.
   // opts: { immediate: true } renders now (for containers just un-hidden —
   // PayPal buttons rendered into display:none containers size to 0).
   // Default is lazy: one IntersectionObserver renders each offer as it nears

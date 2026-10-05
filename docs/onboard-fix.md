@@ -1,5 +1,7 @@
 # onboard-fix
 
+> Current offer (2026-10-05): $499 for the complete build plus $499/month, with no separate deposit or later build balance. The build payment remains refundable until kickoff. Old checkout prices below are historical QA observations. The old hosted PayPal buttons are disabled in the current site pending matching saved-button metadata.
+
 Findings and fixes from the 6-persona onboarding passes (2026-07-20). Two sides: the Meridian template pages (the product) and the Gaelworx funnel pages (the seller). All work uncommitted until Zach signs off.
 
 ---

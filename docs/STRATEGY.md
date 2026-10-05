@@ -30,7 +30,8 @@ every lesson learned on one site improves the other 149. Smarter, faster, strong
   also a live demo generating the next sale.
 - **Premium upsells:** the Premium Ideas catalog is the menu for expansion revenue after
   the initial sale.
-- **The monthly growth service, concretely:** this is what the $599/mo (get-this-site.html)
+- **The build price:** $499 one time for the complete build, with no separate deposit or later build balance.
+- **The monthly growth service, concretely:** this is what the $499/mo (get-this-site.html)
   actually buys, and it should stay in sync with that page's copy —
   - ~30 AI-drafted, locally-targeted blog posts per site per month
   - A live experiment running every week (headlines, offers, pricing display, rankings,

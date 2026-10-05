@@ -652,30 +652,24 @@
           <div class="gw-ticket-wrap">
             <div class="gw-ticket">
               <div class="gw-ticket-head">
-                <span class="gw-ticket-stamp">FOUNDING RATE · FIRST 10</span>
-                <span class="gw-ticket-seal" tabindex="0" role="img" aria-label="Founding rate, locked for life."><span class="gw-ticket-seal-tip">Founding rate, locked for life.</span></span>
+                <span class="gw-ticket-stamp">COMPLETE WEBSITE BUILD</span>
+                <span class="gw-ticket-seal" tabindex="0" role="img" aria-label="The complete build for $499."><span class="gw-ticket-seal-tip">The complete build for $499.</span></span>
               </div>
               <div class="gw-ticket-title">Claim your territory.</div>
-              <div role="group" aria-label="Choose how to pay" style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button type="button" id="piPillDeposit" class="gw-ticket-pill" aria-pressed="true" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; padding:10px 16px; border-radius:999px; background:linear-gradient(135deg,var(--cta-from),var(--cta-to)); color:var(--cta-ink); border:1px solid transparent;">$499 deposit</button>
-                <button type="button" id="piPillFull" class="gw-ticket-pill" aria-pressed="false" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:700; font-size:14px; padding:10px 16px; border-radius:999px; background:rgba(8,28,34,.55); color:rgba(234,252,251,.85); border:1px solid rgba(150,230,225,.25);">$3,199 (save $800)</button>
-              </div>
               <div class="gw-ticket-price-row">
                 <span class="gw-ticket-price" id="piPriceRoll"><span id="piPriceVal">$499</span></span>
-                <span class="gw-ticket-chip" id="piSaveChip" hidden>SAVE $800</span>
               </div>
               <div class="gw-ticket-lines">
-                <div class="gw-ticket-line-1">First 10 operators lock this for life.</div>
-                <div class="gw-ticket-line-2">After that: $4,999 build + $899/mo, minimum.</div>
-                <div class="gw-ticket-line-3">Your picks hold no spot until the deposit lands.</div>
+                <div class="gw-ticket-line-1">One-time payment for the complete build.</div>
+                <div class="gw-ticket-line-2">Plus $499/month to run &amp; grow.</div>
+                <div class="gw-ticket-line-3">No separate deposit or later build balance. Your picks hold no spot until the build payment lands.</div>
               </div>
               <div class="gw-ticket-perf" aria-hidden="true"></div>
               <div id="pi-pp-offer">
-                <div id="piOfferSubline" style="font-size:14.5px; line-height:1.5; color:rgba(234,252,251,.82); margin:0 0 9px;">Secures your territory. Applied in full to your $3,999 build fee, refundable until kickoff.</div>
-                <a id="pi-pp-offer-fb" class="gw-ticket-fb" href="mailto:forge@gaelworx.com?subject=%24499%20deposit%3A%20secure%20my%20territory" style="display:inline-block; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--ember); border:1px solid rgba(255,177,77,.45); padding:11px 18px; border-radius:999px; margin:0 0 8px;">Pay the $499 deposit →</a>
+                <div id="piOfferSubline" style="font-size:14.5px; line-height:1.5; color:rgba(234,252,251,.82); margin:0 0 9px;">The complete build and your territory for $499. The build payment is refundable until kickoff.</div>
+                <a id="pi-pp-offer-fb" class="gw-ticket-fb" href="mailto:forge@gaelworx.com?subject=%24499%20complete%20build%20payment%20link%20%2B%20%24499%2Fmonth" style="display:inline-block; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; color:var(--ember); border:1px solid rgba(255,177,77,.45); padding:11px 18px; border-radius:999px; margin:0 0 8px;">Request the $499 build payment link →</a>
                 <div class="gw-pp-mount" style="max-width:300px;"></div>
               </div>
-              <div class="gw-ticket-foot">Want the whole first year at 30% off? Ask about it on your call.</div>
             </div>
           </div>
           <button id="editPicksBtn" style="cursor:pointer; font-family:'Manrope',sans-serif; font-weight:600; font-size:13px; color:#8fe6dd; background:none; border:1px solid rgba(127,227,218,.35); padding:10px 18px; border-radius:999px;">Edit my picks</button>
@@ -1135,8 +1129,7 @@
       persist();
       // Panel was display:none until now. PayPal buttons rendered while hidden
       // size to 0, so this must run after reveal and in immediate mode.
-      resetOfferToggle();
-      if (window.gaelworxRenderOffers) gaelworxRenderOffers({ deposit: '#pi-pp-offer' }, { immediate: true });
+      if (window.gaelworxRenderOffers) gaelworxRenderOffers({ build: '#pi-pp-offer' }, { immediate: true });
     }).catch(function () {
       _sending = false;
       updateSubmitState();
@@ -1187,104 +1180,6 @@
   var editBtn = document.getElementById('editPicksBtn');
   if (editBtn) editBtn.addEventListener('click', editPicks);
 
-  // offer toggle: one PayPal slot, two offers
-  var OFFER_COPY = {
-    deposit: {
-      price: '$499',
-      sub: 'Secures your territory. Applied in full to your $3,999 build fee, refundable until kickoff.',
-      fbHref: 'mailto:forge@gaelworx.com?subject=%24499%20deposit%3A%20secure%20my%20territory',
-      fbText: 'Pay the $499 deposit →'
-    },
-    full: {
-      price: '$3,199',
-      sub: 'Your whole build paid up front: save $800, 20% off the standard $3,999.',
-      fbHref: 'mailto:forge@gaelworx.com?subject=%243%2C199%20build%20paid%20in%20full%3A%20save%20%24800',
-      fbText: 'Pay the $3,199 build in full →'
-    }
-  };
-  var offerPills = {
-    deposit: document.getElementById('piPillDeposit'),
-    full: document.getElementById('piPillFull')
-  };
-  var offerSubline = document.getElementById('piOfferSubline');
-  var offerFb = document.getElementById('pi-pp-offer-fb');
-  // claim-ticket extras (all guarded: the block works without them)
-  var priceRollWrap = document.getElementById('piPriceRoll');
-  var priceVal = document.getElementById('piPriceVal');
-  var saveChip = document.getElementById('piSaveChip');
-  var _offerKey = 'deposit';
-  function prefersStill() {
-    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  }
-  // price roll: old numeral slides up/out, new slides in (instant when reduced)
-  function rollPrice(txt, animate) {
-    if (!priceVal || priceVal.textContent === txt) return;
-    if (!animate || !priceRollWrap || prefersStill()) { priceVal.textContent = txt; return; }
-    var old = priceVal.cloneNode(true);
-    old.removeAttribute('id');
-    old.className = 'gw-ticket-price-out';
-    old.setAttribute('aria-hidden', 'true');
-    priceRollWrap.appendChild(old);
-    priceVal.textContent = txt;
-    priceVal.classList.remove('gw-ticket-price-in');
-    void priceVal.offsetWidth;
-    priceVal.classList.add('gw-ticket-price-in');
-    setTimeout(function () {
-      if (old.parentNode) old.parentNode.removeChild(old);
-      priceVal.classList.remove('gw-ticket-price-in');
-    }, 340);
-  }
-  function paintOffer(animate) {
-    Object.keys(offerPills).forEach(function (k) {
-      var b = offerPills[k];
-      if (!b) return;
-      var on = (k === _offerKey);
-      b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      if (on) {
-        b.style.background = 'linear-gradient(135deg,var(--cta-from),var(--cta-to))';
-        b.style.color = 'var(--cta-ink)';
-        b.style.border = '1px solid transparent';
-      } else {
-        b.style.background = 'rgba(8,28,34,.55)';
-        b.style.color = 'rgba(234,252,251,.85)';
-        b.style.border = '1px solid rgba(150,230,225,.25)';
-      }
-    });
-    var copy = OFFER_COPY[_offerKey];
-    if (offerSubline) offerSubline.textContent = copy.sub;
-    if (offerFb) { offerFb.href = copy.fbHref; offerFb.textContent = copy.fbText; }
-    rollPrice(copy.price, animate);
-    if (saveChip) {
-      if (_offerKey === 'full') {
-        if (saveChip.hidden) {
-          saveChip.hidden = false;
-          if (animate && !prefersStill()) {
-            saveChip.classList.remove('gw-ticket-chip-pop');
-            void saveChip.offsetWidth;
-            saveChip.classList.add('gw-ticket-chip-pop');
-          }
-        }
-      } else {
-        saveChip.hidden = true;
-        saveChip.classList.remove('gw-ticket-chip-pop');
-      }
-    }
-  }
-  function selectOffer(key) {
-    if (key === _offerKey || !OFFER_COPY[key]) return;
-    _offerKey = key;
-    paintOffer(true);
-    if (window.gaelworxShowOffer) gaelworxShowOffer('#pi-pp-offer', key);
-  }
-  // submit re-renders the deposit offer, so the toggle must read deposit too
-  function resetOfferToggle() {
-    _offerKey = 'deposit';
-    paintOffer(false);
-  }
-  Object.keys(offerPills).forEach(function (k) {
-    if (offerPills[k]) offerPills[k].addEventListener('click', function () { selectOffer(k); });
-  });
-
   // keep the floating CTA out of the way of the real submit button
   var ctaSection = document.getElementById('cta');
   if (bookCta && ctaSection && 'IntersectionObserver' in window) {
@@ -1318,7 +1213,7 @@
     // This IIFE runs at parse time, before the deferred paypal-offers.js executes;
     // deferred scripts finish before DOMContentLoaded, so render the offers there.
     document.addEventListener('DOMContentLoaded', function () {
-      if (window.gaelworxRenderOffers) gaelworxRenderOffers({ deposit: '#pi-pp-offer' }, { immediate: true });
+      if (window.gaelworxRenderOffers) gaelworxRenderOffers({ build: '#pi-pp-offer' }, { immediate: true });
     });
   }
 })();
