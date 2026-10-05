@@ -19,14 +19,11 @@
   //   clientId       -> Dashboard > Apps & Credentials > Live > Client ID
   //   hostedButtonId -> Pay Buttons > (each saved button) > its hosted button ID
   // Offer: build = the complete $499 one-time website build.
-  // The former hosted button describes a deposit toward an older build price.
-  // Keep checkout disabled until PayPal's saved title/description are updated
-  // and verified. The matching payment-link request stays visible meanwhile.
   // ============================================================================
   window.GAELWORX_PAYPAL = {
     clientId: 'BAAzbDasUmTGydEeKlLoVNfyoRikcl6axio4cBGBC8UPjeWJnZGyDtkKNvDrGE-sJBps1ZbWWkd0i-BqOU',
     offers: {
-      build: { hostedButtonId: 'REPLACE_ME' }
+      build: { hostedButtonId: 'PUMMPADQS4JS2' }
     }
   };
 
