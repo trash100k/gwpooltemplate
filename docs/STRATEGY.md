@@ -30,7 +30,8 @@ every lesson learned on one site improves the other 149. Smarter, faster, strong
   also a live demo generating the next sale.
 - **Premium upsells:** the Premium Ideas catalog is the menu for expansion revenue after
   the initial sale.
-- **The build price:** $499 one time for the complete build, with no separate deposit or later build balance.
+- **Current offer:** $499/month for services, with the premium website included as a bonus and no separate build charge.
+- **Enrollment hold:** inquiries only. Ownership, cancellation, any minimum commitment, guarantees and payment timing must be decided before payments or recurring enrollment open.
 - **The monthly growth service, concretely:** this is what the $499/mo (get-this-site.html)
   actually buys, and it should stay in sync with that page's copy —
   - ~30 AI-drafted, locally-targeted blog posts per site per month
