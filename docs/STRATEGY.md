@@ -1,6 +1,8 @@
 # Gaelworx Fleet Strategy — Meridian Pool Care Template
 
-**One template. 150 deployments. A hub-and-spoke data network that makes every site smarter over time.**
+**Planning document: a website template and proposed operating model for a limited rollout.**
+
+> Current public offer: $499/month for services, with the premium website included as a bonus and no separate build charge. Exact deliverables, quantities, cadence, tools, access and responsibilities require an agreed written scope. The architecture, fleet operations, automation and administrative arrangements below are proposals, not verified current delivery or included commitments. Ownership, cancellation, minimum commitment, guarantees and billing timing remain undecided; payments and enrollment remain disabled.
 
 This document captures the go-to-market and operating strategy for the Meridian Pool Care
 website template in this repository.
@@ -9,19 +11,16 @@ website template in this repository.
 
 ## 1. The play in one paragraph
 
-We sell this website 150 times to independent pool-care companies. Each customer gets a
-fully set-up, personalized deployment of this template **plus their own isolated database
-instance** — their leads, bookings, and analytics live in a database that belongs to their
-site alone. Every site's database syncs summary data up to **our central fleet database**.
-We assess the fleet daily and push micro-tweaks, changes, and periodic bigger refreshes
-back out — per-site or fleet-wide. The result is a mesh network of websites that compounds:
-every lesson learned on one site improves the other 149. Smarter, faster, stronger, better.
+The proposed rollout is limited to 150 independent pool-care companies. The current
+offer is $499/month for services, with a personalized premium website included as a bonus
+and no separate build charge. Exact setup and ongoing work require an agreed written
+scope. Isolated client databases, central summary sync, measurement and shared updates
+are future architecture ideas; this template does not establish that they are provisioned
+or delivered today.
 
 ## 2. Product
 
-- **What the customer buys:** a premium, animated, conversion-focused pool-service website
-  (this repo), set up for them end-to-end — domain, hosting, branding, copy, service areas,
-  pricing, photos — plus ongoing optimization as a service.
+- **What the customer buys:** $499/month services with this premium website included as a bonus, with no separate build charge. Personalization, setup, integrations and ongoing work are defined by the agreed written scope.
 - **The template:** 9 production pages — Home (scroll-driven swamp→crystal water
   experience), Services, Pricing, Our Work, Contact/Booking, About, Pool School, plus the
   Gaelworx funnel pages (Get This Site, Premium Ideas) that market the template itself.
@@ -32,23 +31,9 @@ every lesson learned on one site improves the other 149. Smarter, faster, strong
   the initial sale.
 - **Current offer:** $499/month for services, with the premium website included as a bonus and no separate build charge.
 - **Enrollment hold:** inquiries only. Ownership, cancellation, any minimum commitment, guarantees and payment timing must be decided before payments or recurring enrollment open.
-- **The monthly growth service, concretely:** this is what the $499/mo (get-this-site.html)
-  actually buys, and it should stay in sync with that page's copy —
-  - ~30 AI-drafted, locally-targeted blog posts per site per month
-  - A live experiment running every week (headlines, offers, pricing display, rankings,
-    how AI engines describe the business), results rolled network-wide on a win
-  - Technical SEO/AEO/GEO upkeep: schema markup, meta tags, sitemap/robots health, and
-    structure tuned for Google plus AI answer engines (ChatGPT, Perplexity, Gemini, Claude)
-  - Google Business Profile posts, review-response drafts, and directory/citation
-    consistency, managed weekly
-  - Always-on feature scouting (winning patterns found elsewhere, reviewed and then added
-    to the site) and a monthly plain-English report
-  - Domain renewal, business email, SSL, and nightly backups, monitored and kept current
-  - An AI chat concierge live on the site 24/7, answering visitor questions and capturing
-    leads outside business hours
-  - Heatmaps and session recordings on every page, feeding the weekly experiment queue
-  - Everything above is AI-assisted production with human review before anything ships —
-    not a claim that it runs unsupervised.
+- **Service categories for scope discussion:** website personalization and updates, content support, search visibility review, local profile support, setup coordination, inquiry handling and measurement options.
+- **Scope confirmation:** specify deliverables, quantities, frequency, tools, required access, responsibilities, reviews and exclusions in writing before enrollment. The public offer does not promise 30 posts per month, weekly experiments, a 24/7 concierge, managed backups/security, rankings or automated network rollouts.
+- **Implementation evidence (2026-10-14):** the repository provides a static template, business configuration and an inquiry helper. The separate agency project supports editing, basic SEO artifacts and deployment; domain/email tasks are administrative handoffs. Recurring customer-service delivery has not been verified. The planning sections below do not establish fulfillment of the $499/month service.
 
 ## 3. Architecture — hub and spoke, isolated by design
 
@@ -130,8 +115,9 @@ every lesson learned on one site improves the other 149. Smarter, faster, strong
 
 ## 7. Rollout phases
 
-- **Phase 1 — Foundation (now):** template production-ready (this repo), demo instance
-  live, per-site config + lead pipeline defined (`js/config.js` → site DB instance).
+- **Phase 1 — Proposed foundation:** this repo provides the static template and live
+  demo. Per-site configuration exists, but a real lead destination and any client database
+  must be scoped, provisioned and verified; the homeowner demo forms currently simulate success.
 - **Phase 2 — First 10:** hand-held onboarding, build the provisioning runbook, stand up
   central fleet DB + daily sync, define the metric schema that spokes report.
 - **Phase 3 — Scale to 150:** templatized provisioning (one command per new customer),
