@@ -77,6 +77,31 @@ window.meridianSubmitLead = function (fields) {
   window.meridianApplyConfig = applyConfig;
 })();
 
+/* The repository ships with a fictional Meridian Pool Care configuration so
+   buyers can evaluate the finished template. Keep that distinction explicit
+   on public demo deployments: none of the placeholder reviews, credentials,
+   prices, results, or contact details should be mistaken for Gaelworx proof or
+   a real pool-service company. The banner disappears automatically when a
+   customer deployment replaces TEMPLATE-000 with its own site id. */
+(function () {
+  function injectDemoDisclosure() {
+    var cfg = window.MERIDIAN_CONFIG || {};
+    var page = location.pathname.split('/').pop() || 'index.html';
+    if (cfg.siteId !== 'TEMPLATE-000' || page === 'get-this-site.html' || page === 'premium-ideas.html') return;
+    if (document.getElementById('gw-demo-disclosure')) return;
+
+    var notice = document.createElement('div');
+    notice.id = 'gw-demo-disclosure';
+    notice.setAttribute('role', 'note');
+    notice.setAttribute('aria-label', 'Demo website disclosure');
+    notice.style.cssText = 'position:fixed;inset:0 0 auto 0;z-index:1000;width:100vw;max-width:100%;box-sizing:border-box;padding:8px 12px;background:#ffb14d;color:#1d1206;text-align:center;white-space:normal;overflow-wrap:anywhere;font:700 11.5px/1.35 Manrope,system-ui,sans-serif;letter-spacing:.015em;box-shadow:0 2px 14px rgba(0,0,0,.3)';
+    notice.innerHTML = '<span style="text-transform:uppercase;letter-spacing:.12em">Demo website</span> &middot; Fictional pool-company example. Claims and business details are placeholders. <a href="get-this-site.html" style="color:inherit;text-decoration:underline;text-underline-offset:2px">About Gaelworx</a>';
+    document.body.appendChild(notice);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', injectDemoDisclosure);
+  else injectDemoDisclosure();
+})();
+
 /* Gaelworx "Claim this site" badge — the fleet funnel, carried on every template
    page (DESIGN.md signature component). index.html ships its own richer inline
    badge (content rides the animated #waterRipple filter there), so injection is
